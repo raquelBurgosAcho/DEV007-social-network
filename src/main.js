@@ -1,5 +1,19 @@
 // Este es el punto de entrada de tu aplicacion
 
-import { myFunction } from './lib/index.js';
+import { Home } from './components/Home.js';
 
-myFunction();
+// myFunction();
+
+const routes = {
+    '/': home,
+    '/register': contact,
+    '/login': about
+    
+};
+
+
+
+
+
+//'/contact': contact,
+    //'/about': about
