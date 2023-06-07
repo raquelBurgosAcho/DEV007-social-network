@@ -1,16 +1,12 @@
-import { onNavigate } from "../main.js";
+export const Register = (onNavigate) => {
+  const HomeDiv = document.createElement('div');
+  HomeDiv.textContent = 'Bienvenida al registro';
+  const buttonHome = document.createElement('button');
 
-export const Register = () => {
-    const HomeDiv = document.createElement('div');
-    HomeDiv.textContent = 'Bienvenida al registro';
-    const buttonHome = document.createElement('button');
+  buttonHome.textContent = 'Regresar al Home';
 
-    buttonHome.textContent = 'Regresar al Home';
+  buttonHome.addEventListener('click', () => onNavigate('/')); // renderiza a home
+  HomeDiv.appendChild(buttonHome);
 
-    buttonRegister.addEventListener('click', () => onNavigate('/')); //renderiza a home
-    HomeDiv.appendChild(buttonHome);
-
-    return HomeDiv;
+  return HomeDiv;
 };
-
-//onnavigate cambia la ruta -> ese es el comportamiento de SPA
