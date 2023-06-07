@@ -1,5 +1,13 @@
 // Este es el punto de entrada de tu aplicacion
 
-import { myFunction } from './lib/index.js';
+import { home } from './components/home.js';
+import { register} from './components/resgister.js';
+import { login} from './components/login.js';
 
-myFunction();
+const rootDiv = document.getElementById ('root');
+
+const routes = {
+    '/': home,
+    '/': login,
+    '/': register,
+}
