@@ -4,13 +4,28 @@
 max-width: 5%;
 }
 
-.inputEmail {
+}
+
+/*seccion login--------------------------------------------------*/
+.logindiv{
+display: flex;
+flex-direction: column;
+}
+.input-correo {
 width: 269px;
 height: 55px;
 
+
+font-size: large;
+background: rgba(217, 217, 217, 0.26);
+border-radius: 12px;
+}
+.input-contraseña {
+width: 269px;
+height: 55px;
+
+font-size: large;
 background: rgba(217, 217, 217, 0.26);
 border-radius: 12px;
 }
 
-
-}
