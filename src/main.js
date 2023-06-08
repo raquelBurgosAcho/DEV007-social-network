@@ -1,8 +1,8 @@
 // Este es el punto de entrada de tu aplicacion
 
-import { Home } from './components/home.js';
+import { Home } from './components/Home.js';
 import { Register } from './components/register.js';
-import { Login } from './components/login.js';
+import { Login } from './components/Login.js';
 
 const rootDiv = document.getElementById('root');
 
