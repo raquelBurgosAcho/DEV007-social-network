@@ -1,6 +1,31 @@
 @media only screen and (min-width: 768px) and (max-width: 1400px) {
 
 .containerImgHome {
-    max-width: 5%;
+max-width: 5%;
 }
+
 }
+
+/*seccion login--------------------------------------------------*/
+.logindiv{
+display: flex;
+flex-direction: column;
+}
+.input-correo {
+width: 269px;
+height: 55px;
+
+
+font-size: large;
+background: rgba(217, 217, 217, 0.26);
+border-radius: 12px;
+}
+.input-contraseña {
+width: 269px;
+height: 55px;
+
+font-size: large;
+background: rgba(217, 217, 217, 0.26);
+border-radius: 12px;
+}
+

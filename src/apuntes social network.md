@@ -1,2 +1,0 @@
-# apuntes social network
-
