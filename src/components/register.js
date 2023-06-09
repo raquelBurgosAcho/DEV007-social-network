@@ -1,8 +1,8 @@
 import { crearUsuarioConCorreoYContraseña } from '../lib';
 
 export const Register = (onNavigate) => {
-  const HomeDiv = document.createElement('div');
-  HomeDiv.textContent = 'Bienvenida al registro';
+  const registerDiv = document.createElement('div');
+  registerDiv.textContent = 'Bienvenida al registro';
   const buttonHome = document.createElement('button');
   const errorRegister = document.createElement('h4');
 
@@ -18,45 +18,43 @@ export const Register = (onNavigate) => {
   const nameRegister = document.createElement('input');
   nameRegister.type = 'text';
   nameRegister.placeholder = 'Nombre de Usuario';
+  nameRegister.id = 'name';
 
   const emailRegister = document.createElement('input');
   emailRegister.type = 'email';
   emailRegister.placeholder = 'Email';
+  emailRegister.id = 'email';
 
   const claveRegister = document.createElement('input');
   claveRegister.type = 'password';
-  claveRegister.placeholder = 'contraseña';
+  claveRegister.placeholder = 'Contraseña';
+  claveRegister.id = 'password';
 
   const buttonRegister = document.createElement('button');
-  buttonRegister.textContent = 'Iniciar sesión';
+  buttonRegister.textContent = 'Registrar';
 
   buttonHome.textContent = 'Regresar al Home';
-  HomeDiv.setAttribute('class', 'logindiv');
-  // nameRegister.setAttribute('class', 'input-name');
-  emailRegister.setAttribute('class', 'input-correo');
-  claveRegister.setAttribute('class', 'input-contraseña');
+  registerDiv.setAttribute('class', 'logindiv');
 
-  // nameRegister.setAttribute('id', 'input-name'); //
+  // const registerName = HomeDiv.querySelector('#name');
 
-  emailRegister.setAttribute('id', 'input-correo');
-  claveRegister.setAttribute('id', 'input-contraseña');
+  buttonHome.addEventListener('click', () => onNavigate('/'));
 
-  // const registerName = HomeDiv.querySelector('#input-name'); 
-  const registerEmail = HomeDiv.querySelector('#input-correo');
-  const registerClave = HomeDiv.querySelector('#input-contraseña');
-
-  buttonHome.addEventListener('click', () => onNavigate('/')); // renderiza a home
   buttonRegister.addEventListener('click', (e) => {
     e.preventDefault();
+    const registerEmail = registerDiv.querySelector('#email');
+    const registerClave = registerDiv.querySelector('#password');
+    // console.log(registerEmail.value, registerClave.value);
     crearUsuarioConCorreoYContraseña(registerEmail.value, registerClave.value);
   });
-  HomeDiv.appendChild(buttonHome);
-  HomeDiv.appendChild(errorRegister);
-  HomeDiv.appendChild(formRegister);
-  HomeDiv.appendChild(emailRegister);
-  HomeDiv.appendChild(nameRegister);
-  HomeDiv.appendChild(claveRegister);
-  HomeDiv.appendChild(buttonRegister);
 
-  return HomeDiv;
+  registerDiv.appendChild(buttonHome);
+  registerDiv.appendChild(errorRegister);
+  registerDiv.appendChild(formRegister);
+  registerDiv.appendChild(nameRegister);
+  registerDiv.appendChild(emailRegister);
+  registerDiv.appendChild(claveRegister);
+  registerDiv.appendChild(buttonRegister);
+
+  return registerDiv;
 };

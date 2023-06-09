@@ -21,13 +21,12 @@ export const Login = (onNavigate) => {
   inputEmail.setAttribute('class', 'input-correo');
   inputPassword.setAttribute('class', 'input-contraseña');
 
-  
   buttonHome.addEventListener('click', () => onNavigate('/'));
 
-  /*buttonLogin.addEventListener('click', (e) => {
+  /* buttonLogin.addEventListener('click', (e) => {
     e.preventDefault();
     crearUsuarioConCorreoYContraseña(inputCorreo.value, inputContraseña.value);
-  });*/
+  }); */
 
   loginDiv.appendChild(titleIS);
   loginDiv.appendChild(parrafo);
