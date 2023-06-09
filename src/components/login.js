@@ -21,12 +21,7 @@ export const Login = (onNavigate) => {
   inputEmail.setAttribute('class', 'input-correo');
   inputPassword.setAttribute('class', 'input-contraseña');
 
-  /*inputEmail.setAttribute('id', 'input-email');
-  inputPassword.setAttribute('id', 'input-password');
-
-  const inputCorreo = loginDiv.querySelector('#input-email');
-  const inputContraseña = loginDiv.querySelector('#input-password');*/
-
+  
   buttonHome.addEventListener('click', () => onNavigate('/'));
 
   /*buttonLogin.addEventListener('click', (e) => {
@@ -42,5 +37,5 @@ export const Login = (onNavigate) => {
   loginDiv.appendChild(buttongoogle);
   loginDiv.appendChild(buttonHome);
 
-  return loginDiv;
+  return loginDiv;
 };
