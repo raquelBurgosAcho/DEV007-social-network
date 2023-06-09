@@ -21,18 +21,18 @@ export const Login = (onNavigate) => {
   inputEmail.setAttribute('class', 'input-correo');
   inputPassword.setAttribute('class', 'input-contraseña');
 
-  /*inputEmail.setAttribute('id', 'input-email');
-  inputPassword.setAttribute('id', 'input-password');
+  // inputEmail.setAttribute('id', 'input-email');
+  // inputPassword.setAttribute('id', 'input-password');
 
-  const inputCorreo = loginDiv.querySelector('#input-email');
-  const inputContraseña = loginDiv.querySelector('#input-password');*/
+  // const inputCorreo = loginDiv.querySelector('#input-email');
+  // const inputContraseña = loginDiv.querySelector('#input-password');*/
 
   buttonHome.addEventListener('click', () => onNavigate('/'));
 
-  /*buttonLogin.addEventListener('click', (e) => {
-    e.preventDefault();
-    crearUsuarioConCorreoYContraseña(inputCorreo.value, inputContraseña.value);
-  });*/
+  // buttonLogin.addEventListener('click', (e) => {
+  //   e.preventDefault();
+  //   crearUsuarioConCorreoYContraseña(inputCorreo.value, inputContraseña.value);
+  // });
 
   loginDiv.appendChild(titleIS);
   loginDiv.appendChild(parrafo);
