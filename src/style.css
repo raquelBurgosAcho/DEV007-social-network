@@ -9,6 +9,7 @@
     flex-direction: column;
     flex-wrap: wrap;
     justify-content: center;
+    
 }
 
 .titleFlora {
@@ -60,22 +61,20 @@
 .logindiv{
 display: flex;
 flex-direction: column;
+justify-content: center;
+/* Centrar verticalmente */
+align-items: center;
+/* Centrar horizontalmente */
 }
-.input-correo {
+.input-login{
 width: 269px;
 height: 55px;
+margin: 1%;
 
 
 font-size: large;
 background: rgba(217, 217, 217, 0.26);
 border-radius: 12px;
 }
-.input-contraseña {
-width: 269px;
-height: 55px;
 
-font-size: large;
-background: rgba(217, 217, 217, 0.26);
-border-radius: 12px;
-}
 

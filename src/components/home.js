@@ -14,6 +14,8 @@ export const Home = (onNavigate) => {
   buttonLogin.textContent = 'Iniciar sesión';
 
   imgFlora.setAttribute('class', 'containerImgHome');
+  buttonRegister.setAttribute('class', 'button');
+  buttonLogin.setAttribute('class', 'button');
 
   buttonRegister.addEventListener('click', () => onNavigate('/register'));
   buttonLogin.addEventListener('click', () => onNavigate('/login'));

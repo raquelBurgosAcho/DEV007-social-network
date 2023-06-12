@@ -18,8 +18,11 @@ export const Login = (onNavigate) => {
   buttonHome.textContent = 'Volver a Home';
 
   loginDiv.setAttribute('class', 'logindiv');
-  inputEmail.setAttribute('class', 'input-correo');
-  inputPassword.setAttribute('class', 'input-contraseña');
+  inputEmail.setAttribute('class', 'input-login');
+  inputPassword.setAttribute('class', 'input-login');
+  buttonLogin.setAttribute('class', 'button');
+  buttongoogle.setAttribute('class', 'button');
+  buttonHome.setAttribute('class', 'button');
 
   // inputEmail.setAttribute('id', 'input-email');
   // inputPassword.setAttribute('id', 'input-password');
