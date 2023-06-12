@@ -13,7 +13,13 @@ export const Home = (onNavigate) => {
   buttonRegister.textContent = 'Registrarse';
   buttonLogin.textContent = 'Iniciar sesión';
 
+  HomeDiv.setAttribute('class', 'home-div');
+  titleFlora.setAttribute('class', 'titleFlora');
+  logoFlora.setAttribute('class', 'logoFlora');
   imgFlora.setAttribute('class', 'containerImgHome');
+  titleFlora.setAttribute('class', 'containerImgHome');
+  buttonRegister.setAttribute('class', 'button');
+  buttonLogin.setAttribute('class', 'button');
 
   buttonRegister.addEventListener('click', () => onNavigate('/register'));
   buttonLogin.addEventListener('click', () => onNavigate('/login'));
