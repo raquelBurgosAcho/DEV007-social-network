@@ -46,6 +46,7 @@ export const Register = (onNavigate) => {
     const registerClave = registerDiv.querySelector('#password');
     // console.log(registerEmail.value, registerClave.value);
     crearUsuarioConCorreoYContraseña(registerEmail.value, registerClave.value);
+    onNavigate('/timeline');
   });
 
   registerDiv.appendChild(buttonHome);
@@ -84,3 +85,15 @@ export const Register = (onNavigate) => {
 //   e.preventDefault();
 //   crearUsuarioConCorreoYContraseña(inputCorreo.value, inputContraseña.value);
 // });
+
+// correo invalido
+// registerUser(email,password).then(() => {
+//   onNavigate('/muro');
+//   console.log('¡Bienvenido!');
+// }).catch((error) => {
+//   const errorCode = error.code;
+//   if (errorCode) {
+//     if (errorCode === 'auth/invalid-email') {
+//       console.log('Correo inválido.');
+// }
+// }
