@@ -1,10 +1,15 @@
 import { crearUsuarioConCorreoYContraseña } from '../lib';
 
 export const Register = (onNavigate) => {
+  const titleR = document.createElement('h2');
   const registerDiv = document.createElement('div');
-  registerDiv.textContent = 'Bienvenida al registro';
+  registerDiv.className = 'login-register-div';
   const buttonHome = document.createElement('button');
+  buttonHome.className = 'button';
   const errorRegister = document.createElement('h4');
+
+  titleR.textContent = 'Registrarse';
+  titleR.className = 'titles';
 
   errorRegister.className = 'errorMessage';
   errorRegister.textContent = 'errorMessage';
@@ -12,29 +17,36 @@ export const Register = (onNavigate) => {
   errorRegister.id = 'errorRegister';
 
   const formRegister = document.createElement('form');
-  formRegister.textContent = 'Ingresa los datos con los que deseas iniciar sesión';
   formRegister.id = 'formRegister';
+  formRegister.className = 'login-register-div';
 
   const nameRegister = document.createElement('input');
   nameRegister.type = 'text';
-  nameRegister.placeholder = 'Nombre de Usuario';
+  nameRegister.placeholder = '  Nombre de Usuario';
   nameRegister.id = 'name';
+  nameRegister.className = 'input-data';
 
   const emailRegister = document.createElement('input');
   emailRegister.type = 'email';
-  emailRegister.placeholder = 'Email';
+  emailRegister.placeholder = '  Email';
   emailRegister.id = 'email';
+  emailRegister.className = 'input-data';
 
   const claveRegister = document.createElement('input');
   claveRegister.type = 'password';
-  claveRegister.placeholder = 'Contraseña';
+  claveRegister.placeholder = '  Contraseña';
   claveRegister.id = 'password';
+  claveRegister.className = 'input-data';
 
   const buttonRegister = document.createElement('button');
   buttonRegister.textContent = 'Registrar';
+  buttonRegister.className = 'button';
 
   buttonHome.textContent = 'Regresar al Home';
-  registerDiv.setAttribute('class', 'logindiv');
+
+  const buttonGoogle = document.createElement('button');
+  buttonGoogle.textContent = 'Continuar con Google';
+  buttonGoogle.className = 'button-google';
 
   // const registerName = HomeDiv.querySelector('#name');
 
@@ -49,14 +61,15 @@ export const Register = (onNavigate) => {
     onNavigate('/timeline');
   });
 
-  registerDiv.appendChild(buttonHome);
+  registerDiv.appendChild(titleR);
   registerDiv.appendChild(errorRegister);
   registerDiv.appendChild(formRegister);
   registerDiv.appendChild(nameRegister);
   registerDiv.appendChild(emailRegister);
   registerDiv.appendChild(claveRegister);
   registerDiv.appendChild(buttonRegister);
-
+  registerDiv.appendChild(buttonGoogle);
+  registerDiv.appendChild(buttonHome);
   return registerDiv;
 };
 
