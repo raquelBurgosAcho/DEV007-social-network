@@ -50,17 +50,6 @@ export const Register = (onNavigate) => {
 
   // const registerName = HomeDiv.querySelector('#name');
 
-  buttonHome.addEventListener('click', () => onNavigate('/'));
-
-  buttonRegister.addEventListener('click', (e) => {
-    e.preventDefault();
-    const registerEmail = registerDiv.querySelector('#email');
-    const registerClave = registerDiv.querySelector('#password');
-    // console.log(registerEmail.value, registerClave.value);
-    crearUsuarioConCorreoYContraseña(registerEmail.value, registerClave.value);
-    onNavigate('/timeline');
-  });
-
   registerDiv.appendChild(titleR);
   registerDiv.appendChild(errorRegister);
   registerDiv.appendChild(formRegister);
@@ -70,6 +59,45 @@ export const Register = (onNavigate) => {
   registerDiv.appendChild(buttonRegister);
   registerDiv.appendChild(buttonGoogle);
   registerDiv.appendChild(buttonHome);
+
+  buttonHome.addEventListener('click', () => {
+    onNavigate('/');
+  });
+
+  buttonRegister.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const registerEmail = registerDiv.querySelector('#email');
+    const registerClave = registerDiv.querySelector('#password');
+    // console.log(registerEmail.value, registerClave.value);
+    crearUsuarioConCorreoYContraseña(registerEmail.value, registerClave.value);
+    onNavigate('/login');
+    try {
+      await crearUsuarioConCorreoYContraseña(registerEmail.value, registerClave.value);
+      onNavigate('/feed');
+    } catch (error) {
+      const errorCode = error.code;
+      if (errorCode === 'auth/weak-password') {
+        errorRegister.style.display = 'block';
+        errorRegister.textContent = 'La contraseña debe tener al menos 6 caracteres.';
+      } else if (errorCode === 'auth/network-request-failed.') {
+        errorRegister.style.display = 'block';
+        errorRegister.textContent = 'Los campos no pueden estar vacíos.';
+      } else if (errorCode === 'auth/invalid-email') {
+        errorRegister.style.display = 'block';
+        errorRegister.textContent = 'Email inválido.';
+      } else if (errorCode === 'auth/missing-email') {
+        errorRegister.style.display = 'block';
+        errorRegister.textContent = 'El campo de email no puede estar vacío.';
+      } else if (errorCode === 'auth/email-already-in-use') {
+        errorRegister.style.display = 'block';
+        errorRegister.textContent = 'Email ya está en uso.';
+      } else if (errorCode === 'auth/internal-error') {
+        errorRegister.style.display = 'block';
+        errorRegister.textContent = 'El campo de contraseña no puede estar vacío.';
+      }
+    }
+  });
+
   return registerDiv;
 };
 
@@ -108,5 +136,3 @@ export const Register = (onNavigate) => {
 //   if (errorCode) {
 //     if (errorCode === 'auth/invalid-email') {
 //       console.log('Correo inválido.');
-// }
-// }

@@ -97,3 +97,9 @@ margin: 5px;
     color: #263238;
     text-align: center;
 }
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+  }
