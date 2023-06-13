@@ -9,15 +9,14 @@ export const Home = (onNavigate) => {
   const buttonLogin = document.createElement('button');
 
   titleFlora.textContent = 'Flora';
-  logoFlora.textContent = 'Aprende. Cultiva. Publica';
+  logoFlora.textContent = 'Aprende. Cultiva. Publica.';
   buttonRegister.textContent = 'Registrarse';
   buttonLogin.textContent = 'Iniciar sesión';
 
   HomeDiv.setAttribute('class', 'home-div');
-  titleFlora.setAttribute('class', 'titleFlora');
-  logoFlora.setAttribute('class', 'logoFlora');
-  imgFlora.setAttribute('class', 'containerImgHome');
-  titleFlora.setAttribute('class', 'containerImgHome');
+  titleFlora.setAttribute('class', 'title-flora');
+  logoFlora.setAttribute('class', 'logo-flora');
+  imgFlora.setAttribute('class', 'container-img-home');
   buttonRegister.setAttribute('class', 'button');
   buttonLogin.setAttribute('class', 'button');
 
