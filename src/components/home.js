@@ -9,7 +9,7 @@ export const Home = (onNavigate) => {
   const buttonLogin = document.createElement('button');
 
   titleFlora.textContent = 'Flora';
-  logoFlora.textContent = 'Aprende. Cultiva. Publica';
+  logoFlora.textContent = 'Aprende. Cultiva. Publica.';
   buttonRegister.textContent = 'Registrarse';
   buttonLogin.textContent = 'Iniciar sesión';
 
