@@ -1,19 +1,19 @@
 @media only screen and (min-width: 768px) and (max-width: 1400px) {
-    
 }
 
-.HomeDiv{
-    margin: 0px;
-    padding: 30px;
+/* ---------------------------------------- Vista home ---------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Bitter:wght@200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bitter:wght@200&family=Nunito+Sans:wght@300&display=swap');
+
+.home-div {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: center;
-    
+    justify-content: flex-end;
+    align-items: center;
 }
 
 .titleFlora {
-    font-family: 'Times New Roman', Times, serif;
+    font-family: 'Nunito Sans', sans-serif;;
     font-size: 32px;
     color: #263238;
     text-align: center;
@@ -24,12 +24,17 @@
     color: #263238;
     text-align: center;
     font-size: 13px;
+    row-gap: 50px;
 }
 
 .containerImgHome {
-    max-width: 100%;
+    max-width: 80%;
     align-items: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
+
+/* ---------------------------------------- Botones e inputs ---------------------------------------- */
 
 .button {
     font-family: sans-serif;
@@ -40,41 +45,52 @@
     margin: 5px;
     padding: 15px;
     font-size: 12px;
-    width: 213px;
+    width: 230px;
     height: 44px;
     cursor: pointer;
 }
 
-.button:hover {
-    background-color: #E1EDA5;
-    color:#263238;
-  }
-
-
-
-/* max-width: 5%;
+.button-google {
+    font-family: sans-serif;
+    background: rgba(217, 217, 217, 0.26);
+    color: #263238;
+    border-radius: 25px;
+    border: hidden;
+    margin: 5px;
+    padding: 15px;
+    font-size: 12px;
+    width: 230px;
+    height: 44px;
+    cursor: pointer;
+    background-image: url(../src/images/google-icon.png);
+    background-repeat:no-repeat;
+    background-size: 28px;
+    background-position: 6%;
 }
 
-} */
-
-/*seccion login--------------------------------------------------*/
-.logindiv{
+.login-register-div {
 display: flex;
 flex-direction: column;
-justify-content: center;
-/* Centrar verticalmente */
+justify-content: flex-end;
 align-items: center;
-/* Centrar horizontalmente */
 }
-.input-login{
+
+.input-data {
 width: 269px;
-height: 55px;
-margin: 1%;
+height: 40px;
 
-
-font-size: large;
+font-size: 12px;
 background: rgba(217, 217, 217, 0.26);
+color: gray;
+text-align: center;
+border: hidden;
 border-radius: 12px;
+margin: 5px;
 }
 
-
+.titles {
+    font-family: sans-serif;
+    font-size: 25px;
+    color: #263238;
+    text-align: center;
+}
