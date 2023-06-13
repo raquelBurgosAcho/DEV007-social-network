@@ -2,11 +2,11 @@
 }
 
 /* ---------------------------------------- Vista home ---------------------------------------- */
-/* @import url('https://fonts.googleapis.com/css2?family=Bitter:wght@200&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Bitter:wght@200&family=Nunito+Sans:wght@300&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Bitter:wght@200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bitter:wght@200&family=Nunito+Sans:wght@300&display=swap');
 
 * {
-    font-family: sans-serif;
+    font-family: 'Nunito Sans', sans-serif;
 }
 
 .home-div {
@@ -16,21 +16,20 @@
     align-items: center;
 }
 
-.titleFlora {
+.title-flora {
     font-size: 32px;
     color: #263238;
     text-align: center;
 }
 
-.logoFlora {
-    font-family: 'Nunito Sans', sans-serif;
+.logo-flora {
     color: #263238;
     text-align: center;
     font-size: 13px;
     row-gap: 50px;
 }
 
-.containerImgHome {
+.container-img-home {
     max-width: 80%;
     align-items: center;
     margin-top: 30px;
