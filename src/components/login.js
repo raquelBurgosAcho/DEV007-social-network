@@ -1,3 +1,5 @@
+import { iniciarSesionConUsuarioYContraseña } from '../lib';
+
 export const Login = (onNavigate) => {
   const loginDiv = document.createElement('div');
   const titleIS = document.createElement('h2');
@@ -23,18 +25,19 @@ export const Login = (onNavigate) => {
   buttonHome.setAttribute('class', 'button');
   buttongoogle.setAttribute('class', 'button-google');
 
-  // inputEmail.setAttribute('id', 'input-email');
-  // inputPassword.setAttribute('id', 'input-password');
-
-  // const inputCorreo = loginDiv.querySelector('#input-email');
-  // const inputContraseña = loginDiv.querySelector('#input-password');*/
+  inputEmail.setAttribute('id', 'input-email');
+  inputPassword.setAttribute('id', 'input-password');
 
   buttonHome.addEventListener('click', () => onNavigate('/'));
 
-  // buttonLogin.addEventListener('click', (e) => {
-  //   e.preventDefault();
-  //   crearUsuarioConCorreoYContraseña(inputCorreo.value, inputContraseña.value);
-  // });
+  buttonLogin.addEventListener('click', (e) => {
+    e.preventDefault();
+    const inputCorreo = loginDiv.querySelector('#input-email');
+    const inputContraseña = loginDiv.querySelector('#input-password');
+    iniciarSesionConUsuarioYContraseña(inputCorreo.value, inputContraseña.value);
+    onNavigate('/timeline');
+    alert('¡Bienvenid@!');
+  });
 
   loginDiv.appendChild(titleIS);
   loginDiv.appendChild(inputEmail);
