@@ -20,3 +20,17 @@ export const Timeline = (onNavigate) => {
   postDiv.appendChild(buttonPost);
   return postDiv;
 };
+
+// export const Timeline = (onNavigate) => {
+//   const timelineDiv = document.createElement('div');
+//   timelineDiv.className = 'container-timeline';
+
+//   timelineDiv.innerHTML += `
+//   <header class='title-flora'>
+//   <div class='new-post-container'>
+//     <textarea class='new-post-container-textarea'></textarea>
+//     <button class='new-post-container-button'>Publicar</button>
+//   </div>
+//   <section class='posts'>
+//   </section>
+//   `;
