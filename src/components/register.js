@@ -1,21 +1,22 @@
 import { crearUsuarioConCorreoYContraseña } from '../lib';
 
 export const Register = (onNavigate) => {
-  const titleR = document.createElement('h2');
   const registerDiv = document.createElement('div');
   registerDiv.className = 'login-register-div';
+
   const buttonHome = document.createElement('button');
   buttonHome.className = 'button';
-  const errorRegister = document.createElement('h4');
+  buttonHome.textContent = 'Regresar al Home';
 
+  const titleR = document.createElement('h2');
   titleR.textContent = 'Registrarse';
   titleR.className = 'titles';
 
+  const errorRegister = document.createElement('h4');
   errorRegister.className = 'errorMessage';
-  errorRegister.textContent = 'errorMessage';
   errorRegister.style.display = 'none';
   errorRegister.id = 'errorRegister';
-
+  // crea formulario de registro
   const formRegister = document.createElement('form');
   formRegister.id = 'formRegister';
   formRegister.className = 'login-register-div';
@@ -39,65 +40,66 @@ export const Register = (onNavigate) => {
   claveRegister.className = 'input-data';
 
   const buttonRegister = document.createElement('button');
+  buttonRegister.type = 'submit';
   buttonRegister.textContent = 'Registrar';
   buttonRegister.className = 'button';
 
-  buttonHome.textContent = 'Regresar al Home';
-
-  const buttonGoogle = document.createElement('button');
-  buttonGoogle.textContent = 'Continuar con Google';
-  buttonGoogle.className = 'button-google';
+  // const buttonGoogle = document.createElement('button');
+  // buttonGoogle.textContent = 'Continuar con Google';
+  // buttonGoogle.className = 'button-google';
 
   // const registerName = HomeDiv.querySelector('#name');
 
   registerDiv.appendChild(titleR);
   registerDiv.appendChild(errorRegister);
   registerDiv.appendChild(formRegister);
-  registerDiv.appendChild(nameRegister);
-  registerDiv.appendChild(emailRegister);
-  registerDiv.appendChild(claveRegister);
-  registerDiv.appendChild(buttonRegister);
-  registerDiv.appendChild(buttonGoogle);
   registerDiv.appendChild(buttonHome);
+  // registerDiv.appendChild(nameRegister);
+  // registerDiv.appendChild(emailRegister);
+  // registerDiv.appendChild(claveRegister);
+  // registerDiv.appendChild(buttonRegister);
+  // registerDiv.appendChild(buttonGoogle);
+  // registerDiv.appendChild(buttonHome);
+  formRegister.appendChild(nameRegister);
+  formRegister.appendChild(emailRegister);
+  formRegister.appendChild(claveRegister);
+  formRegister.appendChild(buttonRegister);
 
   buttonHome.addEventListener('click', () => {
     onNavigate('/');
   });
 
-  buttonRegister.addEventListener('click', async (e) => {
+  formRegister.addEventListener('submit', (e) => {
     e.preventDefault();
-    const registerEmail = registerDiv.querySelector('#email');
-    const registerClave = registerDiv.querySelector('#password');
-    // console.log(registerEmail.value, registerClave.value);
-    crearUsuarioConCorreoYContraseña(registerEmail.value, registerClave.value);
-    onNavigate('/login');
-    try {
-      await crearUsuarioConCorreoYContraseña(registerEmail.value, registerClave.value);
-      onNavigate('/feed');
-    } catch (error) {
-      const errorCode = error.code;
-      if (errorCode === 'auth/weak-password') {
-        errorRegister.style.display = 'block';
-        errorRegister.textContent = 'La contraseña debe tener al menos 6 caracteres.';
-      } else if (errorCode === 'auth/network-request-failed.') {
-        errorRegister.style.display = 'block';
-        errorRegister.textContent = 'Los campos no pueden estar vacíos.';
-      } else if (errorCode === 'auth/invalid-email') {
-        errorRegister.style.display = 'block';
-        errorRegister.textContent = 'Email inválido.';
-      } else if (errorCode === 'auth/missing-email') {
-        errorRegister.style.display = 'block';
-        errorRegister.textContent = 'El campo de email no puede estar vacío.';
-      } else if (errorCode === 'auth/email-already-in-use') {
-        errorRegister.style.display = 'block';
-        errorRegister.textContent = 'Email ya está en uso.';
-      } else if (errorCode === 'auth/internal-error') {
-        errorRegister.style.display = 'block';
-        errorRegister.textContent = 'El campo de contraseña no puede estar vacío.';
-      }
-    }
+    crearUsuarioConCorreoYContraseña(emailRegister.value, claveRegister.value, nameRegister.value)
+      .then(() => {
+        onNavigate('/timeline');
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        if (errorCode === 'auth/weak-password') {
+          errorRegister.style.display = 'block';
+          errorRegister.textContent = 'The password must be at least 6 characters.';
+        } else if (errorCode === 'auth/network-request-failed.') {
+          errorRegister.style.display = 'block';
+          errorRegister.textContent = 'Fields cannot be empty.';
+        } else if (errorCode === 'auth/invalid-email') {
+          errorRegister.style.display = 'block';
+          errorRegister.textContent = 'Invalid email.';
+        } else if (errorCode === 'auth/missing-email') {
+          errorRegister.style.display = 'block';
+          errorRegister.textContent = 'Email field cannot be empty.';
+        } else if (errorCode === 'auth/email-already-in-use') {
+          errorRegister.style.display = 'block';
+          errorRegister.textContent = 'Email already in use.';
+        } else if (errorCode === 'auth/invalid-argument') {
+          console.log('Error interno:', error);
+          errorRegister.style.display = 'block';
+          errorRegister.textContent = 'Password field cannot be empty.';
+        }
+        return error;
+      });
   });
-
   return registerDiv;
 };
 
