@@ -1,5 +1,4 @@
 /* eslint-disable max-len */
-/* eslint-disable no-unused-vars */
 import { iniciarSesionConUsuarioYContraseña, iniciarSesionConGoogle } from '../lib';
 
 export const Login = (onNavigate) => {
@@ -54,7 +53,6 @@ export const Login = (onNavigate) => {
       } else {
         const user = await iniciarSesionConUsuarioYContraseña(inputCorreo.value, inputContraseña.value);
         if (user) {
-          console.log('user', user);
           onNavigate('/timeline');
         }
       }
