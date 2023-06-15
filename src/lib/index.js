@@ -1,17 +1,18 @@
+// En este archivo están todas las funciones principales del proyecto
 import { addDoc, collection } from 'firebase/firestore';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth, db, provider } from '../firebase';
 
-export const crearUsuarioConCorreoYContraseña = (email, contraseña) => {
-  return createUserWithEmailAndPassword(auth, email, contraseña);
+export const crearUsuarioConCorreoYContraseña = async (email, contraseña) => {
+  await createUserWithEmailAndPassword(auth, email, contraseña);
 };
 
-export const iniciarSesionConUsuarioYContraseña = (email, contraseña) => {
-  return signInWithEmailAndPassword(auth, email, contraseña);
+export const iniciarSesionConUsuarioYContraseña = async (email, contraseña) => {
+  await signInWithEmailAndPassword(auth, email, contraseña);
 };
 
 export const iniciarSesionConGoogle = () => {
-  return signInWithPopup(auth, provider);
+  signInWithPopup(auth, provider);
 };
 
 export const crearPost = (text) => {
