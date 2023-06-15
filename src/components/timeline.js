@@ -1,5 +1,75 @@
-// import { crearPost } from '../lib';
+import { crearPost } from '../lib';
 
+export const Timeline = (onNavigate) => {
+  const postDiv = document.createElement('div');
+  postDiv.className = 'postDiv';
+
+  const titleFloraTimeline = document.createElement('header');
+  titleFloraTimeline.textContent = 'Flora';
+  titleFloraTimeline.className = 'title-flora';
+
+  const articlePost = document.createElement('article');
+  articlePost.className = 'articleCreatePost';
+
+  const nameUser = document.createElement('h5');
+  nameUser.className = 'nameUser';
+
+  const textArea = document.createElement('textarea');
+  textArea.name = 'textarea';
+  textArea.rows = '10';
+  textArea.cols = '50';
+  textArea.className = 'inpPost';
+  textArea.id = 'inpPost';
+  textArea.placeholder = 'Escribe aquí...';
+
+  const btnCancelPost = document.createElement('button');
+  btnCancelPost.className = 'button';
+  btnCancelPost.textContent = 'Cancelar';
+
+  const newPost = document.createElement('button');
+  newPost.className = 'button';
+  newPost.id = 'new-post';
+  newPost.textContent = 'Publicar';
+
+  const buttonHome = document.createElement('button');
+  buttonHome.textContent = 'Volver a Home';
+  buttonHome.addEventListener('click', () => onNavigate('/'));
+
+  postDiv.appendChild(titleFloraTimeline);
+  articlePost.appendChild(nameUser);
+  articlePost.appendChild(textArea);
+  articlePost.appendChild(btnCancelPost);
+  articlePost.appendChild(newPost);
+  postDiv.appendChild(articlePost);
+  postDiv.appendChild(buttonHome);
+  btnCancelPost.addEventListener('click', () => onNavigate('/timeline'));
+
+  articlePost.querySelector('#new-post').addEventListener('click', () => {
+    const contenidoPost = articlePost.querySelector('#inpPost').value;
+    crearPost(contenidoPost);
+    alert('has publicado!');
+  });
+
+  return postDiv;
+};
+
+// export const Timeline = (onNavigate) => {
+//   const timelineDiv = document.createElement('div');
+//   timelineDiv.className = 'container-timeline';
+//   // --> esto es para asignarle caracteristicas al contenedor flex ppal
+
+//   timelineDiv.innerHTML += `
+//   <header class='title-flora'Flora>
+//    <div class='new-post-container'>
+//     <textarea class='new-post-container-textarea'></textarea>
+//     <button class='button'>Publicar</button>
+//    </div>
+//   <section class='posts'>
+//   </section>
+//   `;
+//   return timelineDiv;
+// };
+// -----------------------------------
 // export const Timeline = (onNavigate) => {
 //   const postDiv = document.createElement('div');
 //   const buttonHome = document.createElement('button');
@@ -20,20 +90,3 @@
 //   postDiv.appendChild(buttonPost);
 //   return postDiv;
 // };
-
-export const Timeline = (onNavigate) => {
-  const timelineDiv = document.createElement('div');
-  timelineDiv.className = 'container-timeline';
-  // --> esto es para asignarle caracteristicas al contenedor flex ppal
-
-  timelineDiv.innerHTML += `
-  <header class='title-flora'Flora>
-   <div class='new-post-container'>
-    <textarea class='new-post-container-textarea'></textarea>
-    <button class='new-post-container-button'>Publicar</button>
-   </div>
-  <section class='posts'>
-  </section>
-  `;
-  return timelineDiv;
-};
