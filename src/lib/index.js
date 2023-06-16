@@ -22,12 +22,8 @@ export const crearPost = async (texto) => {
 };
 
 export const guardarTodosLosPost = () => {
-  const unsubscribe = onSnapshot(collection(db, 'posts'), (querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-      console.log(doc.data());
-    });
-  });
-}
+  onSnapshot(collection(db, 'posts'));
+};
 // import { addDoc, collection, setDoc, doc } from 'firebase/firestore';
 // import { createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider,
 // signInWithPopup } from 'firebase/auth';

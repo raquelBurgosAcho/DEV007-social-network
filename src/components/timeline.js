@@ -38,6 +38,10 @@ export const Timeline = (onNavigate) => {
   const postsContainer = document.createElement('div');
   postsContainer.className = 'posts-container';
 
+  const errorTextoVacio = document.createElement('h4');
+  errorTextoVacio.textContent = '';
+  errorTextoVacio.setAttribute('class', 'error-message');
+
   postDiv.appendChild(titleFloraTimeline);
   articlePost.appendChild(nameUser);
   articlePost.appendChild(textArea);
@@ -45,28 +49,37 @@ export const Timeline = (onNavigate) => {
   articlePost.appendChild(newPost);
   postDiv.appendChild(articlePost);
   articlePost.appendChild(postsContainer);
+  articlePost.appendChild(errorTextoVacio);
   postDiv.appendChild(buttonHome);
 
   btnCancelPost.addEventListener('click', () => onNavigate('/timeline'));
 
+  // ---------------------BOTON PUBLICAR---------------------------------------------------------
+
   articlePost.querySelector('#new-post').addEventListener('click', () => {
     const contenidoPost = articlePost.querySelector('#inpPost').value;
-    crearPost(contenidoPost)
-      .then(() => {
-        articlePost.querySelector('#inpPost').value = ''; // limpiar el text area
-        guardarTodosLosPost();
-      })
-      .then((posts) => {
-        posts.forEach((post) => {
-          // crear un div para cada post
-          const postElement = document.createElement('div');
-          postElement.textContent = post.contenidoPost;
-          // agregar el elemento al contenedor de posts
-          postsContainer.appendChild(postElement);
-        });
-      });
-  });
 
+    if (contenidoPost === '') {
+      errorTextoVacio.textContent = 'Por favor ingresa tu comentario';
+      errorTextoVacio.style.display = 'block';
+    } else {
+      errorTextoVacio.style.display = 'none';
+      articlePost.querySelector('#inpPost').value = ''; // Limpiar el área de texto
+
+      crearPost(contenidoPost)
+        .then(() => {
+          guardarTodosLosPost(); // Devolver la promesa para poder acceder a los posts
+          console.log(guardarTodosLosPost());
+        })
+        .then((posts) => {
+          posts.forEach((post) => {
+            const postElement = document.createElement('div');
+            postElement.textContent = post.contenidoPost;
+            postsContainer.appendChild(postElement);
+          });
+        });
+    }
+  });
   return postDiv;
 };
 
