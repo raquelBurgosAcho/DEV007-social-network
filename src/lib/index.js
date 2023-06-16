@@ -1,5 +1,5 @@
 // En este archivo están todas las funciones principales del proyecto
-import { addDoc, collection, onSnapshot, doc } from 'firebase/firestore';
+import { addDoc, collection, onSnapshot } from 'firebase/firestore';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth, db, provider } from '../firebase';
 
@@ -20,7 +20,6 @@ export const crearPost = async (texto) => {
     contenido: texto,
   });
 };
-
 
 export const guardarTodosLosPost = () => {
   const unsubscribe = onSnapshot(collection(db, 'posts'), (querySnapshot) => {

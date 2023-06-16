@@ -56,7 +56,7 @@ export const Timeline = (onNavigate) => {
         articlePost.querySelector('#inpPost').value = ''; // limpiar el text area
         guardarTodosLosPost();
       })
-      /*.then((posts) => {
+      .then((posts) => {
         posts.forEach((post) => {
           // crear un div para cada post
           const postElement = document.createElement('div');
@@ -64,7 +64,7 @@ export const Timeline = (onNavigate) => {
           // agregar el elemento al contenedor de posts
           postsContainer.appendChild(postElement);
         });
-      });*/
+      });
   });
 
   return postDiv;
