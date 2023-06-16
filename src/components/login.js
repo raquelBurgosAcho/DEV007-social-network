@@ -51,10 +51,8 @@ export const Login = (onNavigate) => {
         errorLogIn.textContent = ('Por favor ingresa tu correo y contraseña');
         errorLogIn.style.display = 'block';
       } else {
-        const user = await iniciarSesionConUsuarioYContraseña(inputCorreo.value, inputContraseña.value);
-        if (user) {
-          onNavigate('/timeline');
-        }
+        await iniciarSesionConUsuarioYContraseña(inputCorreo.value, inputContraseña.value);
+        onNavigate('/timeline');
       }
     } catch (error) {
       if (error.code === 'auth/wrong-password') {
