@@ -1,4 +1,4 @@
-import { crearPost } from '../lib';
+import { crearPost, guardarTodosLosPost } from '../lib';
 
 export const Timeline = (onNavigate) => {
   const postDiv = document.createElement('div');
@@ -35,19 +35,36 @@ export const Timeline = (onNavigate) => {
   buttonHome.textContent = 'Volver a Home';
   buttonHome.addEventListener('click', () => onNavigate('/'));
 
+  const postsContainer = document.createElement('div');
+  postsContainer.className = 'posts-container';
+
   postDiv.appendChild(titleFloraTimeline);
   articlePost.appendChild(nameUser);
   articlePost.appendChild(textArea);
   articlePost.appendChild(btnCancelPost);
   articlePost.appendChild(newPost);
   postDiv.appendChild(articlePost);
+  articlePost.appendChild(postsContainer);
   postDiv.appendChild(buttonHome);
+
   btnCancelPost.addEventListener('click', () => onNavigate('/timeline'));
 
   articlePost.querySelector('#new-post').addEventListener('click', () => {
     const contenidoPost = articlePost.querySelector('#inpPost').value;
-    crearPost(contenidoPost);
-    alert('has publicado!');
+    crearPost(contenidoPost)
+      .then(() => {
+        articlePost.querySelector('#inpPost').value = ''; // limpiar el text area
+        guardarTodosLosPost();
+      })
+      /*.then((posts) => {
+        posts.forEach((post) => {
+          // crear un div para cada post
+          const postElement = document.createElement('div');
+          postElement.textContent = post.contenidoPost;
+          // agregar el elemento al contenedor de posts
+          postsContainer.appendChild(postElement);
+        });
+      });*/
   });
 
   return postDiv;

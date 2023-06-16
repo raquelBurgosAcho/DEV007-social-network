@@ -1,5 +1,4 @@
 /* eslint-disable max-len */
-/* eslint-disable no-unused-vars */
 import { iniciarSesionConUsuarioYContraseña, iniciarSesionConGoogle } from '../lib';
 
 export const Login = (onNavigate) => {
@@ -52,11 +51,8 @@ export const Login = (onNavigate) => {
         errorLogIn.textContent = ('Por favor ingresa tu correo y contraseña');
         errorLogIn.style.display = 'block';
       } else {
-        const user = await iniciarSesionConUsuarioYContraseña(inputCorreo.value, inputContraseña.value);
-        if (user) {
-          console.log('user', user);
-          onNavigate('/timeline');
-        }
+        await iniciarSesionConUsuarioYContraseña(inputCorreo.value, inputContraseña.value);
+        onNavigate('/timeline');
       }
     } catch (error) {
       if (error.code === 'auth/wrong-password') {
