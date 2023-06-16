@@ -61,7 +61,7 @@ export const Timeline = (onNavigate) => {
   articlePost.appendChild(errorTextoVacio);
   postDiv.appendChild(buttonHome);
 
-  // ---------------------- Evento y fuciones del botón publicar y textarea ---------------------
+  // ---------- Evento y llamado de fuciones del botón publicar y textarea --------------
 
   articlePost.querySelector('#btn-post').addEventListener('click', () => {
     const contenidoPost = articlePost.querySelector('#inp-post').value;
@@ -70,9 +70,6 @@ export const Timeline = (onNavigate) => {
       errorTextoVacio.textContent = 'Por favor ingresa tu comentario';
       errorTextoVacio.style.display = 'block';
     } else {
-      errorTextoVacio.style.display = 'none';
-      articlePost.querySelector('#inp-post').value = ''; // Limpiar el área de texto
-
       crearPost(contenidoPost)
         .then(() => {
           guardarTodosLosPost(); // Devolver la promesa para poder acceder a los posts
@@ -89,3 +86,12 @@ export const Timeline = (onNavigate) => {
   });
   return postDiv;
 };
+
+//  Condicional de para limpiar contenedor y asegurarse de que el usuario deba ingresar algo
+
+// if (contenidoPost === '') {
+//   errorTextoVacio.textContent = 'Por favor ingresa tu comentario';
+//   errorTextoVacio.style.display = 'block';
+// } else {
+//     errorTextoVacio.style.display = 'none';
+//     articlePost.querySelector('#inp-post').value = ''; // Limpiar el área de texto
