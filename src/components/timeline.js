@@ -72,7 +72,7 @@ export const Timeline = (onNavigate) => {
     const contenidoPost = articlePost.querySelector('#inpPost').value;
 
     if (contenidoPost === '') {
-      errorTextoVacio.textContent = 'Por favor ingresa tu comentario';
+      errorTextoVacio.textContent = 'Por favor ingresa tu comentario!';
       errorTextoVacio.style.display = 'block';
     } else {
       errorTextoVacio.style.display = 'none';
