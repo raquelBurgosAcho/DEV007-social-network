@@ -1,19 +1,24 @@
 import { crearPost, guardarTodosLosPost } from '../lib';
 
 export const Timeline = (onNavigate) => {
+  // Div que almacena todo-------------------------------------
   const postDiv = document.createElement('div');
-  postDiv.className = 'postDiv';
+  postDiv.className = 'login-register-div ';
 
+  // titulo ------------------------------------------------------
   const titleFloraTimeline = document.createElement('header');
   titleFloraTimeline.textContent = 'Flora';
   titleFloraTimeline.className = 'title-flora';
 
+  // almacena el text AREA ------------------------------------------------------
   const articlePost = document.createElement('article');
-  articlePost.className = 'articleCreatePost';
+  articlePost.className = 'login-register-div ';
 
+  // NOMBRE DE USUARIO ------------------------------------------------------
   const nameUser = document.createElement('h5');
-  nameUser.className = 'nameUser';
+  nameUser.className = 'logo-flora';
 
+  // TEXT AREA -------------------------------------------------------------
   const textArea = document.createElement('textarea');
   textArea.name = 'textarea';
   textArea.rows = '10';
@@ -22,40 +27,47 @@ export const Timeline = (onNavigate) => {
   textArea.id = 'inpPost';
   textArea.placeholder = 'Escribe aquí...';
 
+  // BOTON CANCELAR ------------------------------------------------------
   const btnCancelPost = document.createElement('button');
   btnCancelPost.className = 'button';
   btnCancelPost.textContent = 'Cancelar';
 
+  // BOTON PUBLICAR ------------------------------------------------------
   const newPost = document.createElement('button');
   newPost.className = 'button';
   newPost.id = 'new-post';
   newPost.textContent = 'Publicar';
 
-  const buttonHome = document.createElement('button');
-  buttonHome.textContent = 'Volver a Home';
-  buttonHome.addEventListener('click', () => onNavigate('/'));
-
-  const postsContainer = document.createElement('div');
-  postsContainer.className = 'posts-container';
-
+  // ERROR DE CAMPO VACIO ANTES DE PUBLICAR ------------------------------------------------------
   const errorTextoVacio = document.createElement('h4');
   errorTextoVacio.textContent = '';
   errorTextoVacio.setAttribute('class', 'error-message');
 
+  // DIVS DE POST REALIZADOS ------------------------------------------------------
+  const postsContainer = document.createElement('div');
+  postsContainer.className = 'posts-container';
+
+  // VOLVER A HOME ------------------------------------------------------
+  const buttonHome = document.createElement('button');
+  buttonHome.textContent = 'Volver a Home';
+
   postDiv.appendChild(titleFloraTimeline);
   articlePost.appendChild(nameUser);
   articlePost.appendChild(textArea);
-  articlePost.appendChild(btnCancelPost);
   articlePost.appendChild(newPost);
+  articlePost.appendChild(btnCancelPost);
   postDiv.appendChild(articlePost);
-  articlePost.appendChild(postsContainer);
   articlePost.appendChild(errorTextoVacio);
+  articlePost.appendChild(postsContainer);
   postDiv.appendChild(buttonHome);
 
+  // EVENTO BOTON CANCELAR POST ------------------------------------------------------
   btnCancelPost.addEventListener('click', () => onNavigate('/timeline'));
 
-  // ---------------------BOTON PUBLICAR---------------------------------------------------------
+  // EVENTO BOTON IR A  HOME ------------------------------------------------------
+  buttonHome.addEventListener('click', () => onNavigate('/'));
 
+  // ---------------------BOTON PUBLICAR---------------------------------------------------------
   articlePost.querySelector('#new-post').addEventListener('click', () => {
     const contenidoPost = articlePost.querySelector('#inpPost').value;
 
@@ -67,14 +79,12 @@ export const Timeline = (onNavigate) => {
       articlePost.querySelector('#inpPost').value = ''; // Limpiar el área de texto
 
       crearPost(contenidoPost)
-        .then(() => {
-          guardarTodosLosPost(); // Devolver la promesa para poder acceder a los posts
-          console.log(guardarTodosLosPost());
-        })
+        .then(() => guardarTodosLosPost())
         .then((posts) => {
           posts.forEach((post) => {
             const postElement = document.createElement('div');
-            postElement.textContent = post.contenidoPost;
+            postElement.innerHTML = post;
+            postElement.className = 'divPost';
             postsContainer.appendChild(postElement);
           });
         });
