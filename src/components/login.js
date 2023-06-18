@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { iniciarSesionConUsuarioYContraseña, iniciarSesionConGoogle } from '../lib';
 
 export const Login = (onNavigate) => {
