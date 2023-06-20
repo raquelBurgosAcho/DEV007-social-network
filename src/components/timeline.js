@@ -1,6 +1,13 @@
-import { crearPost, guardarTodosLosPost, eliminarPost, toDislike, toLike } from '../lib';
+import {
+  crearPost,
+  guardarTodosLosPost,
+  eliminarPost,
+  toDislike,
+  toLike,
+} from '../lib';
 
 export const Timeline = (onNavigate, user) => {
+  // Div que almacena todo-------------------------------------
   const postDiv = document.createElement('div');
   postDiv.className = 'login-register-div';
 
@@ -22,19 +29,14 @@ export const Timeline = (onNavigate, user) => {
   textArea.name = 'textarea';
   textArea.rows = '10';
   textArea.cols = '50';
-  textArea.className = 'inpPost';
+  textArea.className = 'input-data ';
   textArea.id = 'inpPost';
   textArea.placeholder = 'Escribe aquí...';
 
-  // botón Cancelar
-  const btnCancelPost = document.createElement('button');
-  btnCancelPost.className = 'button';
-  btnCancelPost.textContent = 'Cancelar';
-
-  // botón Publicar
+  // BOTON PUBLICAR ------------------------------------------------------
   const newPost = document.createElement('button');
   newPost.className = 'button';
-  newPost.id = 'new-post';
+  newPost.id = 'newPost';
   newPost.textContent = 'Publicar';
 
   // mensaje de error de campo vacío antes de publicar
@@ -48,20 +50,21 @@ export const Timeline = (onNavigate, user) => {
 
   // botón Volver a Home
   const buttonHome = document.createElement('button');
-  buttonHome.textContent = 'Volver a Home';
+  buttonHome.textContent = 'Cerrar sesión';
 
   postDiv.appendChild(titleFloraTimeline);
-  articlePost.appendChild(nameUser);
+  // articlePost.appendChild(nameUser);
   articlePost.appendChild(textArea);
   articlePost.appendChild(newPost);
-  articlePost.appendChild(btnCancelPost);
   postDiv.appendChild(articlePost);
   articlePost.appendChild(errorTextoVacio);
   articlePost.appendChild(postsContainer);
   postDiv.appendChild(buttonHome);
 
-  // evento del botón Cancelar
-  btnCancelPost.addEventListener('click', () => onNavigate('/timeline'));
+  // EVENTO BOTON IR A  HOME ------------------------------------------------------
+  buttonHome.addEventListener('click', () => onNavigate('/'));
+
+  // ---------------------BOTON PUBLICAR---------------------------------------------------------
 
   newPost.addEventListener('click', () => {
     const contenidoPost = textArea.value;

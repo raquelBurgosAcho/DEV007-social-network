@@ -98,6 +98,14 @@ margin: 5px;
     background-color: transparent;
   }
 
+.like, .dislike{
+    height: 20px;
+  }
+  .btnsLike {
+    border: none;
+
+  }
+
 .titles {
     font-family: sans-serif;
     font-size: 25px;
