@@ -89,6 +89,14 @@ border: hidden;
 border-radius: 12px;
 margin: 5px;
 }
+.like, .dislike{
+    height: 20px;
+    background-color: transparent;
+  }
+  .btnsLike {
+    border: none;
+    background-color: transparent;
+  }
 
 .titles {
     font-family: sans-serif;

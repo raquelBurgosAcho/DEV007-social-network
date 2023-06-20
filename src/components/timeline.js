@@ -1,24 +1,23 @@
-import { crearPost, guardarTodosLosPost } from '../lib';
+import { crearPost, guardarTodosLosPost, eliminarPost, toDislike, toLike } from '../lib';
 
-export const Timeline = (onNavigate) => {
-  // Div que almacena todo-------------------------------------
+export const Timeline = (onNavigate, user) => {
   const postDiv = document.createElement('div');
-  postDiv.className = 'login-register-div ';
+  postDiv.className = 'login-register-div';
 
-  // titulo ------------------------------------------------------
+  // título
   const titleFloraTimeline = document.createElement('header');
   titleFloraTimeline.textContent = 'Flora';
   titleFloraTimeline.className = 'title-flora';
 
-  // almacena el text AREA ------------------------------------------------------
+  // contenedor del formulario de publicación
   const articlePost = document.createElement('article');
-  articlePost.className = 'login-register-div ';
+  articlePost.className = 'login-register-div';
 
-  // NOMBRE DE USUARIO ------------------------------------------------------
+  // nombre de usuario
   const nameUser = document.createElement('h5');
   nameUser.className = 'logo-flora';
 
-  // TEXT AREA -------------------------------------------------------------
+  // área de texto
   const textArea = document.createElement('textarea');
   textArea.name = 'textarea';
   textArea.rows = '10';
@@ -27,27 +26,27 @@ export const Timeline = (onNavigate) => {
   textArea.id = 'inpPost';
   textArea.placeholder = 'Escribe aquí...';
 
-  // BOTON CANCELAR ------------------------------------------------------
+  // botón Cancelar
   const btnCancelPost = document.createElement('button');
   btnCancelPost.className = 'button';
   btnCancelPost.textContent = 'Cancelar';
 
-  // BOTON PUBLICAR ------------------------------------------------------
+  // botón Publicar
   const newPost = document.createElement('button');
   newPost.className = 'button';
   newPost.id = 'new-post';
   newPost.textContent = 'Publicar';
 
-  // ERROR DE CAMPO VACIO ANTES DE PUBLICAR ------------------------------------------------------
+  // mensaje de error de campo vacío antes de publicar
   const errorTextoVacio = document.createElement('h4');
   errorTextoVacio.textContent = '';
-  errorTextoVacio.setAttribute('class', 'error-message');
+  errorTextoVacio.className = 'error-message';
 
-  // DIVS DE POST REALIZADOS ------------------------------------------------------
+  // contenedor de las publicaciones
   const postsContainer = document.createElement('div');
   postsContainer.className = 'posts-container';
 
-  // VOLVER A HOME ------------------------------------------------------
+  // botón Volver a Home
   const buttonHome = document.createElement('button');
   buttonHome.textContent = 'Volver a Home';
 
@@ -61,81 +60,98 @@ export const Timeline = (onNavigate) => {
   articlePost.appendChild(postsContainer);
   postDiv.appendChild(buttonHome);
 
-  // EVENTO BOTON CANCELAR POST ------------------------------------------------------
+  // evento del botón Cancelar
   btnCancelPost.addEventListener('click', () => onNavigate('/timeline'));
 
-  // EVENTO BOTON IR A  HOME ------------------------------------------------------
-  buttonHome.addEventListener('click', () => onNavigate('/'));
-  articlePost.appendChild(userImg);
-  articlePost.appendChild(nameUser);
-  articlePost.appendChild(btnCancelPost);
-  articlePost.appendChild(btnCreatePost);
-  articlePost.appendChild(textArea);
-  postDiv.appendChild(logoPost);
-  postDiv.appendChild(articlePost);
-  postDiv.appendChild(buttonHome);
-  btnCancelPost.addEventListener('click', () => onNavigate('/timeline'));
-
-  // ---------------------BOTON PUBLICAR---------------------------------------------------------
-  articlePost.querySelector('#new-post').addEventListener('click', () => {
-    const contenidoPost = articlePost.querySelector('#inpPost').value;
+  newPost.addEventListener('click', () => {
+    const contenidoPost = textArea.value;
 
     if (contenidoPost === '') {
       errorTextoVacio.textContent = 'Por favor ingresa tu comentario!';
       errorTextoVacio.style.display = 'block';
     } else {
       errorTextoVacio.style.display = 'none';
-      articlePost.querySelector('#inpPost').value = ''; // Limpiar el área de texto
+      textArea.value = '';
 
       crearPost(contenidoPost)
         .then(() => guardarTodosLosPost())
         .then((posts) => {
+          postsContainer.innerHTML = ''; // Limpiar el contenedor de publicaciones antes de generar los nuevos elementos
+
           posts.forEach((post) => {
             const postElement = document.createElement('div');
-            postElement.innerHTML = post;
             postElement.className = 'divPost';
+
+            const article = document.createElement('article');
+            article.className = 'articlePost';
+            article.id = 'articlePost';
+
+            const contenidoElement = document.createElement('p');
+            contenidoElement.textContent = post.contenido;
+
+            const bottomDiv = document.createElement('div');
+            bottomDiv.className = 'bottomDiv';
+
+            const btnsLike = document.createElement('button');
+            btnsLike.className = 'btnLike';
+            btnsLike.setAttribute('btnLikes', post.id);
+            btnsLike.id = 'btnsLikes';
+
+            const like = document.createElement('img');
+            like.className = 'like';
+            like.src = './images/heart.png';
+
+            const dislike = document.createElement('img');
+            dislike.className = 'dislike';
+            dislike.src = './images/full-heart.png';
+            dislike.style.display = 'none';
+
+            const btnsLikes = postsContainer.querySelectorAll('.btnLike');
+            btnsLikes.forEach((btn) => {
+              btn.addEventListener('click', async () => {
+                const getIdPost = btn.getAttribute('btnLikes');
+                if (getIdPost === post.id) {
+                  const document = await guardarTodosLosPost(posts.id);
+                  const postear = document.data();
+                  if (postear.likes.includes(user.uid)) {
+                    toDislike(post.id, user.uid);
+                  } else {
+                    toLike(post.id, user.uid);
+                  }
+                }
+              });
+            });
+
+            const botonEliminar = document.createElement('button');
+            botonEliminar.className = 'btnDelete';
+            botonEliminar.textContent = 'Eliminar';
+            botonEliminar.addEventListener('click', () => {
+              eliminarPost(post.id)
+                .then(() => {
+                  postElement.remove(); // Eliminar el elemento del DOM después de eliminar el post
+                })
+                .catch((error) => {
+                  console.log('Error al eliminar el post:', error);
+                });
+            });
+
+            bottomDiv.appendChild(btnsLike);
+            btnsLike.appendChild(like);
+            btnsLike.appendChild(dislike);
+            bottomDiv.appendChild(botonEliminar);
+
+            article.appendChild(contenidoElement);
+            article.appendChild(bottomDiv);
+
+            postElement.appendChild(article);
             postsContainer.appendChild(postElement);
           });
+        })
+        .catch((error) => {
+          console.log('Error al crear el post:', error);
         });
     }
   });
+
   return postDiv;
 };
-
-// export const Timeline = (onNavigate) => {
-//   const timelineDiv = document.createElement('div');
-//   timelineDiv.className = 'container-timeline';
-//   // --> esto es para asignarle caracteristicas al contenedor flex ppal
-
-//   timelineDiv.innerHTML += `
-//   <header class='title-flora'Flora>
-//    <div class='new-post-container'>
-//     <textarea class='new-post-container-textarea'></textarea>
-//     <button class='button'>Publicar</button>
-//    </div>
-//   <section class='posts'>
-//   </section>
-//   `;
-//   return timelineDiv;
-// };
-// -----------------------------------
-// export const Timeline = (onNavigate) => {
-//   const postDiv = document.createElement('div');
-//   const buttonHome = document.createElement('button');
-//   buttonHome.textContent = 'Volver a Home';
-//   buttonHome.addEventListener('click', () => onNavigate('/'));
-
-//   const buttonPost = document.createElement('button');
-//   buttonPost.id = 'new-post';
-
-//   buttonPost.textContent = 'Publicar';
-
-//   // postDiv.querySelector('.new-post').addEventListener('click', () => { ------
-//   //   const contenidoPost = postDiv.querySelector('.new-post').value; ------
-//   //   crearPost(contenidoPost); ------
-//   // }); ------
-
-//   postDiv.appendChild(buttonHome);
-//   postDiv.appendChild(buttonPost);
-//   return postDiv;
-// };
