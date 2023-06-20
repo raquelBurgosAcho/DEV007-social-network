@@ -29,7 +29,7 @@ export const Timeline = (onNavigate, user) => {
   textArea.name = 'textarea';
   textArea.rows = '10';
   textArea.cols = '50';
-  textArea.className = 'input-data ';
+  textArea.className = 'inpPost';
   textArea.id = 'inpPost';
   textArea.placeholder = 'Escribe aquí...';
 
@@ -70,7 +70,7 @@ export const Timeline = (onNavigate, user) => {
     const contenidoPost = textArea.value;
 
     if (contenidoPost === '') {
-      errorTextoVacio.textContent = 'Por favor ingresa tu comentario!';
+      errorTextoVacio.textContent = 'Por favor ingresa tu comentario.';
       errorTextoVacio.style.display = 'block';
     } else {
       errorTextoVacio.style.display = 'none';
@@ -109,7 +109,7 @@ export const Timeline = (onNavigate, user) => {
             dislike.src = './images/full-heart.png';
             dislike.style.display = 'none';
 
-            const btnsLikes = postsContainer.querySelectorAll('#btnLike');
+            const btnsLikes = postsContainer.querySelectorAll('#btnLikes');
             btnsLikes.forEach((btn) => {
               btn.addEventListener('click', async () => {
                 const getIdPost = btn.getAttribute('btnLikes');
