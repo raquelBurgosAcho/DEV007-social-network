@@ -1,27 +1,24 @@
 import { crearPost, guardarTodosLosPost } from '../lib';
 
 export const Timeline = (onNavigate) => {
+  // Div que almacena todo-------------------------------------
   const postDiv = document.createElement('div');
-  postDiv.className = 'postDiv';
+  postDiv.className = 'login-register-div ';
 
-  // -------------------------------- Header --------------------------------
+  // titulo ------------------------------------------------------
   const titleFloraTimeline = document.createElement('header');
   titleFloraTimeline.textContent = 'Flora';
   titleFloraTimeline.className = 'title-flora';
 
-  // -------------------------------- Cerrar sesión --------------------------------
-  const buttonHome = document.createElement('button');
-  buttonHome.textContent = 'Cerrar sesión';
-  buttonHome.addEventListener('click', () => onNavigate('/'));
-
-  // -------------------------------- Contenedor secundario article --------------------------------
+  // almacena el text AREA ------------------------------------------------------
   const articlePost = document.createElement('article');
-  articlePost.className = 'articleCreatePost';
+  articlePost.className = 'login-register-div ';
 
-  // const nameUser = document.createElement('h5');
-  // nameUser.className = 'nameUser';
+  // NOMBRE DE USUARIO ------------------------------------------------------
+  const nameUser = document.createElement('h5');
+  nameUser.className = 'logo-flora';
 
-  // -------------------------------- Text Area --------------------------------
+  // TEXT AREA -------------------------------------------------------------
   const textArea = document.createElement('textarea');
   textArea.name = 'textarea';
   textArea.rows = '10';
@@ -30,58 +27,64 @@ export const Timeline = (onNavigate) => {
   textArea.id = 'inp-post';
   textArea.placeholder = 'Escribe aquí...';
 
+  // BOTON CANCELAR ------------------------------------------------------
+  const btnCancelPost = document.createElement('button');
+  btnCancelPost.className = 'button';
+  btnCancelPost.textContent = 'Cancelar';
+
+  // BOTON PUBLICAR ------------------------------------------------------
+  const newPost = document.createElement('button');
+  newPost.className = 'button';
+  newPost.id = 'new-post';
+  newPost.textContent = 'Publicar';
+
+  // ERROR DE CAMPO VACIO ANTES DE PUBLICAR ------------------------------------------------------
   const errorTextoVacio = document.createElement('h4');
   errorTextoVacio.textContent = '';
   errorTextoVacio.setAttribute('class', 'error-message');
 
-  // -------------------------------- Botones publicar / cancelar --------------------------------
-  const btnPost = document.createElement('button');
-  btnPost.className = 'button';
-  btnPost.id = 'btn-post';
-  btnPost.textContent = 'Publicar';
-
-  const btnCancelPost = document.createElement('button');
-  btnCancelPost.className = 'button';
-  btnCancelPost.textContent = 'Cancelar';
-  btnCancelPost.addEventListener('click', () => onNavigate('/timeline'));
-
-  // -------------------------------- Contenedor despliegue posts --------------------------------
+  // DIVS DE POST REALIZADOS ------------------------------------------------------
   const postsContainer = document.createElement('div');
   postsContainer.className = 'posts-container';
 
-  // -------------------------------- appenChild --------------------------------
+  // VOLVER A HOME ------------------------------------------------------
+  const buttonHome = document.createElement('button');
+  buttonHome.textContent = 'Volver a Home';
 
   postDiv.appendChild(titleFloraTimeline);
   // articlePost.appendChild(nameUser);
   articlePost.appendChild(textArea);
+  articlePost.appendChild(newPost);
   articlePost.appendChild(btnCancelPost);
-  articlePost.appendChild(btnPost);
   postDiv.appendChild(articlePost);
-  articlePost.appendChild(postsContainer);
   articlePost.appendChild(errorTextoVacio);
+  articlePost.appendChild(postsContainer);
   postDiv.appendChild(buttonHome);
 
-  // ---------------------- Evento y fuciones del botón publicar y textarea ---------------------
+  // EVENTO BOTON CANCELAR POST ------------------------------------------------------
+  btnCancelPost.addEventListener('click', () => onNavigate('/timeline'));
 
-  articlePost.querySelector('#btn-post').addEventListener('click', () => {
-    const contenidoPost = articlePost.querySelector('#inp-post').value;
+  // EVENTO BOTON IR A  HOME ------------------------------------------------------
+  buttonHome.addEventListener('click', () => onNavigate('/'));
+
+  // ---------------------BOTON PUBLICAR---------------------------------------------------------
+  articlePost.querySelector('#new-post').addEventListener('click', () => {
+    const contenidoPost = articlePost.querySelector('#inpPost').value;
 
     if (contenidoPost === '') {
-      errorTextoVacio.textContent = 'Por favor ingresa tu comentario';
+      errorTextoVacio.textContent = 'Por favor ingresa tu comentario!';
       errorTextoVacio.style.display = 'block';
     } else {
       errorTextoVacio.style.display = 'none';
       articlePost.querySelector('#inp-post').value = ''; // Limpiar el área de texto
 
       crearPost(contenidoPost)
-        .then(() => {
-          guardarTodosLosPost(); // Devolver la promesa para poder acceder a los posts
-          console.log(guardarTodosLosPost());
-        })
+        .then(() => guardarTodosLosPost())
         .then((posts) => {
           posts.forEach((post) => {
             const postElement = document.createElement('div');
-            postElement.textContent = post.contenidoPost;
+            postElement.innerHTML = post;
+            postElement.className = 'divPost';
             postsContainer.appendChild(postElement);
           });
         });

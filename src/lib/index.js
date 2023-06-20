@@ -1,5 +1,5 @@
 // En este archivo están todas las funciones principales del proyecto
-import { addDoc, collection, onSnapshot } from 'firebase/firestore';
+import { addDoc, collection, getDocs } from 'firebase/firestore';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth, db, provider } from '../firebase';
 
@@ -21,9 +21,14 @@ export const crearPost = async (texto) => {
   });
 };
 
-export const guardarTodosLosPost = () => {
-  onSnapshot(collection(db, 'posts'));
+export const guardarTodosLosPost = async () => {
+  // realizar consulta a la coleccion y alamcenarla en snapshot
+  const snapshot = await getDocs(collection(db, 'posts'));
+  // iterar sobre cada documento y extraer el contenido de cada uno
+  const posts = snapshot.docs.map((doc) => doc.data().contenido);
+  return posts;
 };
+
 // import { addDoc, collection, setDoc, doc } from 'firebase/firestore';
 // import { createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider,
 // signInWithPopup } from 'firebase/auth';
