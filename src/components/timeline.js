@@ -23,14 +23,9 @@ export const Timeline = (onNavigate) => {
   textArea.name = 'textarea';
   textArea.rows = '10';
   textArea.cols = '50';
-  textArea.className = 'inp-post';
-  textArea.id = 'inp-post';
+  textArea.className = 'input-data ';
+  textArea.id = 'inpPost';
   textArea.placeholder = 'Escribe aquí...';
-
-  // BOTON CANCELAR ------------------------------------------------------
-  const btnCancelPost = document.createElement('button');
-  btnCancelPost.className = 'button';
-  btnCancelPost.textContent = 'Cancelar';
 
   // BOTON PUBLICAR ------------------------------------------------------
   const newPost = document.createElement('button');
@@ -49,20 +44,16 @@ export const Timeline = (onNavigate) => {
 
   // VOLVER A HOME ------------------------------------------------------
   const buttonHome = document.createElement('button');
-  buttonHome.textContent = 'Volver a Home';
+  buttonHome.textContent = 'Cerrar sesión';
 
   postDiv.appendChild(titleFloraTimeline);
   // articlePost.appendChild(nameUser);
   articlePost.appendChild(textArea);
   articlePost.appendChild(newPost);
-  articlePost.appendChild(btnCancelPost);
   postDiv.appendChild(articlePost);
   articlePost.appendChild(errorTextoVacio);
   articlePost.appendChild(postsContainer);
   postDiv.appendChild(buttonHome);
-
-  // EVENTO BOTON CANCELAR POST ------------------------------------------------------
-  btnCancelPost.addEventListener('click', () => onNavigate('/timeline'));
 
   // EVENTO BOTON IR A  HOME ------------------------------------------------------
   buttonHome.addEventListener('click', () => onNavigate('/'));
@@ -72,11 +63,11 @@ export const Timeline = (onNavigate) => {
     const contenidoPost = articlePost.querySelector('#inpPost').value;
 
     if (contenidoPost === '') {
-      errorTextoVacio.textContent = 'Por favor ingresa tu comentario!';
+      errorTextoVacio.textContent = 'Por favor ingresa tu comentario.';
       errorTextoVacio.style.display = 'block';
     } else {
       errorTextoVacio.style.display = 'none';
-      articlePost.querySelector('#inp-post').value = ''; // Limpiar el área de texto
+      articlePost.querySelector('#inpPost').value = ''; // Limpiar el área de texto
 
       crearPost(contenidoPost)
         .then(() => guardarTodosLosPost())

@@ -79,26 +79,27 @@ export const Register = (onNavigate) => {
         const errorCode = error.code;
         if (errorCode === 'auth/weak-password') {
           errorRegister.style.display = 'block';
-          errorRegister.textContent = 'The password must be at least 6 characters.';
+          errorRegister.textContent = 'La contraseña debe ser de al menos 6 caracteres.';
         } else if (errorCode === 'auth/network-request-failed.') {
           errorRegister.style.display = 'block';
-          errorRegister.textContent = 'Fields cannot be empty.';
+          errorRegister.textContent = 'Los campos no deben estar vacíos.';
         } else if (errorCode === 'auth/invalid-email') {
           errorRegister.style.display = 'block';
-          errorRegister.textContent = 'Invalid email.';
+          errorRegister.textContent = 'Correo inválido.';
         } else if (errorCode === 'auth/missing-email') {
           errorRegister.style.display = 'block';
-          errorRegister.textContent = 'Email field cannot be empty.';
+          errorRegister.textContent = 'Ingresa tu correo electrónico.';
         } else if (errorCode === 'auth/email-already-in-use') {
           errorRegister.style.display = 'block';
-          errorRegister.textContent = 'Email already in use.';
+          errorRegister.textContent = 'Correo en uso.';
         } else if (errorCode === 'auth/invalid-argument') {
           console.log('Error interno:', error);
           errorRegister.style.display = 'block';
-          errorRegister.textContent = 'Password field cannot be empty.';
+          errorRegister.textContent = 'Ingresa tu contraseña.';
         }
         return error;
       });
+    alert('¡Te has registrado correctamente!');
   });
   return registerDiv;
 };

@@ -29,6 +29,8 @@ export const guardarTodosLosPost = async () => {
   return posts;
 };
 
+// export const
+
 // import { addDoc, collection, setDoc, doc } from 'firebase/firestore';
 // import { createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider,
 // signInWithPopup } from 'firebase/auth';
