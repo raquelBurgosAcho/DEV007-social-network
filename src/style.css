@@ -90,6 +90,14 @@ border-radius: 12px;
 margin: 5px;
 }
 
+.like, .dislike{
+    height: 20px;
+  }
+  .btnsLike {
+    border: none;
+
+  }
+
 .titles {
     font-family: sans-serif;
     font-size: 25px;
