@@ -1,6 +1,12 @@
-import { crearPost, guardarTodosLosPost } from '../lib';
+import {
+  crearPost,
+  guardarTodosLosPost,
+  eliminarPost,
+  toDislike,
+  toLike,
+} from '../lib';
 
-export const Timeline = (onNavigate) => {
+export const Timeline = (onNavigate, user) => {
   // Div que almacena todo-------------------------------------
   const postDiv = document.createElement('div');
   postDiv.className = 'login-register-div ';
@@ -30,7 +36,7 @@ export const Timeline = (onNavigate) => {
   // BOTON PUBLICAR ------------------------------------------------------
   const newPost = document.createElement('button');
   newPost.className = 'button';
-  newPost.id = 'new-post';
+  newPost.id = 'newPost';
   newPost.textContent = 'Publicar';
 
   // ERROR DE CAMPO VACIO ANTES DE PUBLICAR ------------------------------------------------------
@@ -59,44 +65,96 @@ export const Timeline = (onNavigate) => {
   buttonHome.addEventListener('click', () => onNavigate('/'));
 
   // ---------------------BOTON PUBLICAR---------------------------------------------------------
-  articlePost.querySelector('#new-post').addEventListener('click', () => {
-    const contenidoPost = articlePost.querySelector('#inpPost').value;
+
+  newPost.addEventListener('click', () => {
+    const contenidoPost = textArea.value;
 
     if (contenidoPost === '') {
-      errorTextoVacio.textContent = 'Por favor ingresa tu comentario.';
+      errorTextoVacio.textContent = 'Por favor ingresa tu comentario!';
       errorTextoVacio.style.display = 'block';
     } else {
       errorTextoVacio.style.display = 'none';
-      articlePost.querySelector('#inpPost').value = ''; // Limpiar el área de texto
+      textArea.value = '';
 
       crearPost(contenidoPost)
         .then(() => guardarTodosLosPost())
         .then((posts) => {
+          postsContainer.innerHTML = ''; // Limpiar el contenedor de publicaciones antes de generar los nuevos elementos
+
           posts.forEach((post) => {
             const postElement = document.createElement('div');
-            postElement.innerHTML = post;
             postElement.className = 'divPost';
+
+            const article = document.createElement('article');
+            article.className = 'articlePost';
+            article.id = 'articlePost';
+
+            const contenidoElement = document.createElement('p');
+            contenidoElement.textContent = post.contenido;
+
+            const bottomDiv = document.createElement('div');
+            bottomDiv.className = 'bottomDiv';
+
+            const btnsLike = document.createElement('button');
+            btnsLike.className = 'btnLike';
+            btnsLike.setAttribute('btnLikes', post.id);
+            btnsLike.id = 'btnsLikes';
+
+            const like = document.createElement('img');
+            like.className = 'like';
+            like.src = './images/heart.png';
+
+            const dislike = document.createElement('img');
+            dislike.className = 'dislike';
+            dislike.src = './images/full-heart.png';
+            dislike.style.display = 'none';
+
+            const btnsLikes = postsContainer.querySelectorAll('#btnLike');
+            btnsLikes.forEach((btn) => {
+              btn.addEventListener('click', async () => {
+                const getIdPost = btn.getAttribute('btnLikes');
+                if (getIdPost === post.id) {
+                  const document = await guardarTodosLosPost(posts.id);
+                  const postear = document.data();
+                  if (postear.likes.includes(user.uid)) {
+                    toDislike(post.id, user.uid);
+                  } else {
+                    toLike(post.id, user.uid);
+                  }
+                }
+              });
+            });
+
+            const botonEliminar = document.createElement('button');
+            botonEliminar.className = 'btnDelete';
+            botonEliminar.textContent = 'Eliminar';
+            botonEliminar.addEventListener('click', () => {
+              eliminarPost(post.id)
+                .then(() => {
+                  postElement.remove(); // Eliminar el elemento del DOM después de eliminar el post
+                })
+                .catch((error) => {
+                  console.log('Error al eliminar el post:', error);
+                });
+            });
+
+            bottomDiv.appendChild(btnsLike);
+            btnsLike.appendChild(like);
+            btnsLike.appendChild(dislike);
+            bottomDiv.appendChild(botonEliminar);
+
+            article.appendChild(contenidoElement);
+            article.appendChild(bottomDiv);
+
+            postElement.appendChild(article);
             postsContainer.appendChild(postElement);
           });
+        })
+        .catch((error) => {
+          console.log('Error al crear el post:', error);
         });
     }
   });
+
   return postDiv;
 };
-
-// export const Timeline = (onNavigate) => {
-//   const timelineDiv = document.createElement('div');
-//   timelineDiv.className = 'container-timeline';
-//   // --> esto es para asignarle caracteristicas al contenedor flex ppal
-
-//   timelineDiv.innerHTML += `
-//   <header class='title-flora'Flora>
-//    <div class='new-post-container'>
-//     <textarea class='new-post-container-textarea'></textarea>
-//     <button class='button'>Publicar</button>
-//    </div>
-//   <section class='posts'>
-//   </section>
-//   `;
-//   return timelineDiv;
-// };

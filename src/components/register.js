@@ -54,12 +54,6 @@ export const Register = (onNavigate) => {
   registerDiv.appendChild(errorRegister);
   registerDiv.appendChild(formRegister);
   registerDiv.appendChild(buttonHome);
-  // registerDiv.appendChild(nameRegister);
-  // registerDiv.appendChild(emailRegister);
-  // registerDiv.appendChild(claveRegister);
-  // registerDiv.appendChild(buttonRegister);
-  // registerDiv.appendChild(buttonGoogle);
-  // registerDiv.appendChild(buttonHome);
   formRegister.appendChild(nameRegister);
   formRegister.appendChild(emailRegister);
   formRegister.appendChild(claveRegister);

@@ -56,7 +56,7 @@ export const Login = (onNavigate) => {
       } else {
         await iniciarSesionConUsuarioYContraseña(inputCorreo.value, inputContraseña.value);
         onNavigate('/timeline');
-        // alert ´Hola ${name}!´;
+        // alert ´ Hola ${name}! ´;
       }
     } catch (error) {
       if (error.code === 'auth/wrong-password') {
