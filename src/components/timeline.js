@@ -106,7 +106,7 @@ export const Timeline = (onNavigate, user) => {
             dislike.src = './images/full-heart.png';
             dislike.style.display = 'none';
 
-            const btnsLikes = postsContainer.querySelectorAll('.btnLike');
+            const btnsLikes = postsContainer.querySelectorAll('#btnLike');
             btnsLikes.forEach((btn) => {
               btn.addEventListener('click', async () => {
                 const getIdPost = btn.getAttribute('btnLikes');
