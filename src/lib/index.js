@@ -50,3 +50,6 @@ export const toDislike = (id, uid) => {
     likes: arrayRemove(uid),
   });
 };
+
+export const toEdit = () =>
+

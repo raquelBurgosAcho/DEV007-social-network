@@ -50,6 +50,7 @@ export const Timeline = (onNavigate, user) => {
 
   // VOLVER A HOME ------------------------------------------------------
   const buttonHome = document.createElement('button');
+  buttonHome.className = 'button-logout';
   buttonHome.textContent = 'Cerrar sesión';
 
   postDiv.appendChild(titleFloraTimeline);
@@ -92,8 +93,8 @@ export const Timeline = (onNavigate, user) => {
             const contenidoElement = document.createElement('p');
             contenidoElement.textContent = post.contenido;
 
-            const bottomDiv = document.createElement('div');
-            bottomDiv.className = 'bottomDiv';
+            const bottonDiv = document.createElement('div');
+            bottonDiv.className = 'bottonDiv';
 
             const btnsLike = document.createElement('button');
             btnsLike.className = 'btnLike';
@@ -138,13 +139,13 @@ export const Timeline = (onNavigate, user) => {
                 });
             });
 
-            bottomDiv.appendChild(btnsLike);
+            bottonDiv.appendChild(btnsLike);
             btnsLike.appendChild(like);
             btnsLike.appendChild(dislike);
-            bottomDiv.appendChild(botonEliminar);
+            bottonDiv.appendChild(botonEliminar);
 
             article.appendChild(contenidoElement);
-            article.appendChild(bottomDiv);
+            article.appendChild(bottonDiv);
 
             postElement.appendChild(article);
             postsContainer.appendChild(postElement);
@@ -155,6 +156,5 @@ export const Timeline = (onNavigate, user) => {
         });
     }
   });
-
   return postDiv;
 };
