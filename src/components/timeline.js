@@ -1,9 +1,10 @@
+import { QuerySnapshot } from 'firebase/firestore';
 import {
-  crearPost,
-  guardarTodosLosPost,
-  eliminarPost,
-  toDislike,
-  toLike,
+  // crearPost,
+  // guardarTodosLosPost,
+  // eliminarPost,
+  // toDislike,
+  // toLike,
 } from '../lib';
 
 export const Timeline = (onNavigate) => {
@@ -20,5 +21,27 @@ export const Timeline = (onNavigate) => {
   <section class='posts'>
   </section>
   `;
+
+QuerySnapshot.forEach((doc) => {
+    const postContent = doc.data(); // aquí guardamos la data como objetos
+    timelineDiv.innerHTML += `
+  <div>
+    <p>${postContent.name}</p>
+    <p>${postContent.posts}</p>
+     <button class='btn-edit' data-id='${doc.id}'>Editar</button>
+  </div>
+ `;
+  });
+
+  timelineDiv.innerHTML;
+
+  const btnsEdit = timelineDiv.querySelectroAll('.btn-edit')
+  btnsEdit.forEach(btn => {
+    console.log(btn)
+  })
+
   return timelineDiv;
 };
+
+// para agregar después del eventListener del botón de publicar
+// e.preventDefault();
