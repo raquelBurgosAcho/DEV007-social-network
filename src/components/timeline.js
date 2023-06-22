@@ -29,7 +29,7 @@ export const Timeline = (onNavigate, user) => {
   textArea.name = 'textarea';
   textArea.rows = '10';
   textArea.cols = '50';
-  textArea.className = 'input-data ';
+  textArea.className = 'inpPost';
   textArea.id = 'inpPost';
   textArea.placeholder = 'Escribe aquí...';
 
@@ -50,6 +50,7 @@ export const Timeline = (onNavigate, user) => {
 
   // VOLVER A HOME ------------------------------------------------------
   const buttonHome = document.createElement('button');
+  buttonHome.className = 'button-logout';
   buttonHome.textContent = 'Cerrar sesión';
 
   postDiv.appendChild(titleFloraTimeline);
@@ -70,7 +71,7 @@ export const Timeline = (onNavigate, user) => {
     const contenidoPost = textArea.value;
 
     if (contenidoPost === '') {
-      errorTextoVacio.textContent = 'Por favor ingresa tu comentario!';
+      errorTextoVacio.textContent = 'Por favor ingresa tu comentario.';
       errorTextoVacio.style.display = 'block';
     } else {
       errorTextoVacio.style.display = 'none';
@@ -92,13 +93,13 @@ export const Timeline = (onNavigate, user) => {
             const contenidoElement = document.createElement('p');
             contenidoElement.textContent = post.contenido;
 
-            const bottomDiv = document.createElement('div');
-            bottomDiv.className = 'bottomDiv';
+            const bottonDiv = document.createElement('div');
+            bottonDiv.className = 'bottonDiv';
 
             const btnsLike = document.createElement('button');
             btnsLike.className = 'btnLike';
             btnsLike.setAttribute('btnLikes', post.id);
-            btnsLike.id = 'btnsLikes';
+            // btnsLike.id = 'btnsLikes';
 
             const like = document.createElement('img');
             like.className = 'like';
@@ -109,14 +110,18 @@ export const Timeline = (onNavigate, user) => {
             dislike.src = './images/full-heart.png';
             dislike.style.display = 'none';
 
-            const btnsLikes = postsContainer.querySelectorAll('#btnLike');
+            const btnsLikes = postsContainer.querySelectorAll('.btnLike');
             btnsLikes.forEach((btn) => {
               btn.addEventListener('click', async () => {
+                console.log(btn);
                 const getIdPost = btn.getAttribute('btnLikes');
+                console.log(getIdPost, post.id);
                 if (getIdPost === post.id) {
                   const document = await guardarTodosLosPost(posts.id);
                   const postear = document.data();
+                  console.log(postear);
                   if (postear.likes.includes(user.uid)) {
+                    console.log('hola');
                     toDislike(post.id, user.uid);
                   } else {
                     toLike(post.id, user.uid);
@@ -138,13 +143,13 @@ export const Timeline = (onNavigate, user) => {
                 });
             });
 
-            bottomDiv.appendChild(btnsLike);
+            bottonDiv.appendChild(btnsLike);
             btnsLike.appendChild(like);
             btnsLike.appendChild(dislike);
-            bottomDiv.appendChild(botonEliminar);
+            bottonDiv.appendChild(botonEliminar);
 
             article.appendChild(contenidoElement);
-            article.appendChild(bottomDiv);
+            article.appendChild(bottonDiv);
 
             postElement.appendChild(article);
             postsContainer.appendChild(postElement);
@@ -155,6 +160,5 @@ export const Timeline = (onNavigate, user) => {
         });
     }
   });
-
   return postDiv;
 };
