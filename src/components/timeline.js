@@ -99,7 +99,7 @@ export const Timeline = (onNavigate, user) => {
             const btnsLike = document.createElement('button');
             btnsLike.className = 'btnLike';
             btnsLike.setAttribute('btnLikes', post.id);
-            btnsLike.id = 'btnsLikes';
+            // btnsLike.id = 'btnsLikes';
 
             const like = document.createElement('img');
             like.className = 'like';
@@ -110,14 +110,18 @@ export const Timeline = (onNavigate, user) => {
             dislike.src = './images/full-heart.png';
             dislike.style.display = 'none';
 
-            const btnsLikes = postsContainer.querySelectorAll('#btnLikes');
+            const btnsLikes = postsContainer.querySelectorAll('.btnLike');
             btnsLikes.forEach((btn) => {
               btn.addEventListener('click', async () => {
+                console.log(btn);
                 const getIdPost = btn.getAttribute('btnLikes');
+                console.log(getIdPost, post.id);
                 if (getIdPost === post.id) {
                   const document = await guardarTodosLosPost(posts.id);
                   const postear = document.data();
+                  console.log(postear);
                   if (postear.likes.includes(user.uid)) {
+                    console.log('hola');
                     toDislike(post.id, user.uid);
                   } else {
                     toLike(post.id, user.uid);
