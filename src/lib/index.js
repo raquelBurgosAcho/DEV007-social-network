@@ -20,12 +20,13 @@ export const iniciarSesionConGoogle = async () => {
 export const crearPost = async (texto) => {
   await addDoc(collection(db, 'posts'), {
     contenido: texto,
+    likes: [],
   });
 };
 
 export const guardarTodosLosPost = async () => {
   // realizar consulta a la coleccion y alamcenarla en snapshot
-  const snapshot = await getDocs(collection(db, 'posts'));
+  const snapshot = await getDocs(collection(db, 'posts')); // cambiar por onSnapshot
   const posts = snapshot.docs.map((doc) => ({
     // iterar sobre cada documento y extraer el contenido de cada uno
     contenido: doc.data().contenido,
@@ -50,3 +51,5 @@ export const toDislike = (id, uid) => {
     likes: arrayRemove(uid),
   });
 };
+
+// export const toEdit = () =>

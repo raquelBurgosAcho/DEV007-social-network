@@ -1,4 +1,4 @@
-import { crearUsuarioConCorreoYContraseña } from '../lib';
+import { crearUsuarioConCorreoYContraseña, iniciarSesionConGoogle } from '../lib';
 
 export const Register = (onNavigate) => {
   const registerDiv = document.createElement('div');
@@ -23,19 +23,19 @@ export const Register = (onNavigate) => {
 
   const nameRegister = document.createElement('input');
   nameRegister.type = 'text';
-  nameRegister.placeholder = '  Nombre de Usuario';
+  nameRegister.placeholder = 'Nombre de Usuario';
   nameRegister.id = 'name';
   nameRegister.className = 'input-data';
 
   const emailRegister = document.createElement('input');
   emailRegister.type = 'email';
-  emailRegister.placeholder = '  Email';
+  emailRegister.placeholder = 'Email';
   emailRegister.id = 'email';
   emailRegister.className = 'input-data';
 
   const claveRegister = document.createElement('input');
   claveRegister.type = 'password';
-  claveRegister.placeholder = '  Contraseña';
+  claveRegister.placeholder = 'Contraseña';
   claveRegister.id = 'password';
   claveRegister.className = 'input-data';
 
@@ -44,9 +44,9 @@ export const Register = (onNavigate) => {
   buttonRegister.textContent = 'Registrar';
   buttonRegister.className = 'button';
 
-  // const buttonGoogle = document.createElement('button');
-  // buttonGoogle.textContent = 'Continuar con Google';
-  // buttonGoogle.className = 'button-google';
+  const buttonGoogle = document.createElement('button');
+  buttonGoogle.textContent = 'Continuar con Google';
+  buttonGoogle.className = 'button-google';
 
   // const registerName = HomeDiv.querySelector('#name');
 
@@ -58,6 +58,7 @@ export const Register = (onNavigate) => {
   formRegister.appendChild(emailRegister);
   formRegister.appendChild(claveRegister);
   formRegister.appendChild(buttonRegister);
+  formRegister.appendChild(buttonGoogle);
 
   buttonHome.addEventListener('click', () => {
     onNavigate('/');
@@ -95,41 +96,17 @@ export const Register = (onNavigate) => {
       });
     alert('¡Te has registrado correctamente!');
   });
+
+  buttonGoogle.addEventListener('click', async (e) => {
+    e.preventDefault();
+    try {
+      await iniciarSesionConGoogle();
+      onNavigate('/timeline');
+    } catch (error) {
+      // Manejar errores
+      console.error(error);
+    }
+  });
+
   return registerDiv;
 };
-
-// import { crearUsuarioConCorreoYContraseña } from '../lib';
-
-// export const Register = (onNavigate) => {
-//   const HomeDiv = document.createElement('div');
-//   HomeDiv.textContent = 'Bienvenida al registro';
-//   const buttonHome = document.createElement('button');
-
-//   buttonHome.textContent = 'Regresar al Home';
-
-//   buttonHome.addEventListener('click', () => onNavigate('/')); // renderiza a home
-//   HomeDiv.appendChild(buttonHome);
-
-//   return HomeDiv;
-// };
-
-// inputEmail.setAttribute('id', 'input-email');
-// inputPassword.setAttribute('id', 'input-password');
-
-// const inputCorreo = loginDiv.querySelector('#input-email');
-// const inputContraseña = loginDiv.querySelector('#input-password');
-
-// buttonLogin.addEventListener('click', (e) => {
-//   e.preventDefault();
-//   crearUsuarioConCorreoYContraseña(inputCorreo.value, inputContraseña.value);
-// });
-
-// correo invalido
-// registerUser(email,password).then(() => {
-//   onNavigate('/muro');
-//   console.log('¡Bienvenido!');
-// }).catch((error) => {
-//   const errorCode = error.code;
-//   if (errorCode) {
-//     if (errorCode === 'auth/invalid-email') {
-//       console.log('Correo inválido.');
