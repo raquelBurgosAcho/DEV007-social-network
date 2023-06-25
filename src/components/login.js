@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { iniciarSesionConUsuarioYContraseña, iniciarSesionConGoogle } from '../lib';
+import { iniciarSesionConUsuarioYContraseña, logInGoogle } from '../lib';
 
 export const Login = (onNavigate) => {
   const loginDiv = document.createElement('div');
@@ -8,6 +8,13 @@ export const Login = (onNavigate) => {
   const titleIS = document.createElement('h2');
   titleIS.textContent = ' Iniciar sesión ';
   titleIS.setAttribute('class', 'titles');
+  const errorHome = document.createElement('h5');
+  errorHome.className = 'errorHome';
+  errorHome.id = 'errorHome';
+  errorHome.style.display = 'none';
+  const formLogin = document.createElement('form');
+  formLogin.className = 'formLogin';
+  formLogin.id = 'formLogin';
 
   const inputEmail = document.createElement('input');
   inputEmail.placeholder = 'Ingresa tu Email';
@@ -24,9 +31,9 @@ export const Login = (onNavigate) => {
   buttonLogin.textContent = 'Iniciar sesión';
   buttonLogin.setAttribute('class', 'button');
 
-  const buttongoogle = document.createElement('button');
-  buttongoogle.textContent = 'Continuar con Google';
-  buttongoogle.setAttribute('class', 'button-google');
+  const buttonGoogle = document.createElement('button');
+  buttonGoogle.textContent = 'Continuar con Google';
+  buttonGoogle.setAttribute('class', 'button-google');
 
   const buttonHome = document.createElement('button');
   buttonHome.textContent = 'Volver a Home';
@@ -43,55 +50,53 @@ export const Login = (onNavigate) => {
   buttonHome.addEventListener('click', () => onNavigate('/'));
 
   // boton para iniciar sesion--------------------------------------------------------------------
-  buttonLogin.addEventListener('click', async (e) => {
+  formLogin.addEventListener('submit', (e) => {
     e.preventDefault();
-
-    const inputCorreo = loginDiv.querySelector('#input-email');
-    const inputContraseña = loginDiv.querySelector('#input-password');
-
-    try {
-      if (inputCorreo.value === '' || inputContraseña.value === '') {
-        errorLogIn.textContent = ('Por favor ingresa tu correo y contraseña.');
-        errorLogIn.style.display = 'block';
-      } else {
-        await iniciarSesionConUsuarioYContraseña(inputCorreo.value, inputContraseña.value);
+    iniciarSesionConUsuarioYContraseña(inputEmail.value, inputPassword.value)
+      .then((credentials) => {
+        const user = credentials.user.uid;
+        localStorage.setItem('idUser', user);
         onNavigate('/timeline');
-        // alert ´ Hola ${name}! ´;
-      }
-    } catch (error) {
-      if (error.code === 'auth/wrong-password') {
-        errorLogIn.textContent = ('Contraseña incorrecta. Verifica tu contraseña e intenta nuevamente.');
-        errorLogIn.style.display = 'block';
-      } else if (error.code === 'auth/invalid-email') {
-        errorLogIn.textContent = ('El correo electrónico proporcionado no es válido.');
-        errorLogIn.style.display = 'block';
-      } else if (error.code === 'auth/user-not-found') {
-        errorLogIn.textContent = ('El usuario no fue encontrado. Verifica tu correo y contraseña.');
-        errorLogIn.style.display = 'block';
-      } else {
-        errorLogIn.textContent = ('Ha ocurrido un error en el inicio de sesión. Por favor, intenta nuevamente.');
-        errorLogIn.style.display = 'block';
-      }
-    }
+      })
+      .catch((error) => {
+        if (error.code === 'auth/wrong-password') {
+          errorLogIn.textContent = 'Contraseña incorrecta. Verifica tu contraseña e intenta nuevamente.';
+          errorLogIn.style.display = 'block';
+        } else if (error.code === 'auth/invalid-email') {
+          errorLogIn.textContent = 'El correo electrónico proporcionado no es válido.';
+          errorLogIn.style.display = 'block';
+        } else if (error.code === 'auth/user-not-found') {
+          errorLogIn.textContent = 'El usuario no fue encontrado. Verifica tu correo y contraseña.';
+          errorLogIn.style.display = 'block';
+        } else {
+          errorLogIn.textContent = 'Ha ocurrido un error en el inicio de sesión. Por favor, intenta nuevamente.';
+          errorLogIn.style.display = 'block';
+        }
+      });
     alert('¡Has iniciado sesión correctamente!');
   });
-  // boton para iniciar sesion con GOOGLE---------------------------------------------------------
-  buttongoogle.addEventListener('click', async (e) => {
-    e.preventDefault();
-    try {
-      await iniciarSesionConGoogle();
-      onNavigate('/timeline');
-    } catch (error) {
-      // Manejar errores
-      console.error(error);
-    }
+  // Inicia sesión con Google
+  buttonGoogle.addEventListener('click', () => {
+    logInGoogle()
+      .then(() => {
+        onNavigate('/timeline');
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        if (errorCode === 'auth/popup-closed-by-user') {
+          errorHome.style.display = 'block';
+          errorHome.textContent = 'Something went wrong.';
+        }
+      });
   });
 
   loginDiv.appendChild(titleIS);
   loginDiv.appendChild(inputEmail);
   loginDiv.appendChild(inputPassword);
+  loginDiv.appendChild(errorHome);
+  loginDiv.appendChild(formLogin);
   loginDiv.appendChild(buttonLogin);
-  loginDiv.appendChild(buttongoogle);
+  loginDiv.appendChild(buttonGoogle);
   loginDiv.appendChild(buttonHome);
   loginDiv.appendChild(errorLogIn);
 

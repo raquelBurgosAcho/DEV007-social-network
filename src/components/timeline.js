@@ -1,164 +1,194 @@
+import { onSnapshot } from 'firebase/firestore';
+import { auth } from '../firebase';
 import {
-  crearPost,
-  guardarTodosLosPost,
-  eliminarPost,
-  toDislike,
+  queryInstruction,
+  deletePost,
+  getPost,
+  updatePost,
   toLike,
+  toDislike,
 } from '../lib';
 
-export const Timeline = (onNavigate, user) => {
-  // Div que almacena todo-------------------------------------
-  const postDiv = document.createElement('div');
-  postDiv.className = 'login-register-div';
+import { modalDelete, modalEditPost } from './modal.js';
 
-  // título
-  const titleFloraTimeline = document.createElement('header');
-  titleFloraTimeline.textContent = 'Flora';
-  titleFloraTimeline.className = 'title-flora';
-
-  // contenedor del formulario de publicación
-  const articlePost = document.createElement('article');
-  articlePost.className = 'login-register-div';
-
-  // nombre de usuario
-  const nameUser = document.createElement('h5');
-  nameUser.className = 'logo-flora';
-
-  // área de texto
-  const textArea = document.createElement('textarea');
-  textArea.name = 'textarea';
-  textArea.rows = '10';
-  textArea.cols = '50';
-  textArea.className = 'inpPost';
-  textArea.id = 'inpPost';
-  textArea.placeholder = 'Escribe aquí...';
-
-  // BOTON PUBLICAR ------------------------------------------------------
-  const newPost = document.createElement('button');
-  newPost.className = 'button';
-  newPost.id = 'newPost';
-  newPost.textContent = 'Publicar';
-
-  // mensaje de error de campo vacío antes de publicar
-  const errorTextoVacio = document.createElement('h4');
-  errorTextoVacio.textContent = '';
-  errorTextoVacio.className = 'error-message';
-
-  // contenedor de las publicaciones
-  const postsContainer = document.createElement('div');
-  postsContainer.className = 'posts-container';
-
-  // botón Volver a Home
-  const buttonHome = document.createElement('button');
-  buttonHome.className = 'button-logout';
-  buttonHome.textContent = 'Cerrar sesión';
-
-  postDiv.appendChild(titleFloraTimeline);
-  // articlePost.appendChild(nameUser);
-  articlePost.appendChild(textArea);
-  articlePost.appendChild(newPost);
-  postDiv.appendChild(articlePost);
-  articlePost.appendChild(errorTextoVacio);
-  articlePost.appendChild(postsContainer);
-  postDiv.appendChild(buttonHome);
-
-  // EVENTO BOTON IR A  HOME ------------------------------------------------------
-  buttonHome.addEventListener('click', () => onNavigate('/'));
-
-  // ---------------------BOTON PUBLICAR---------------------------------------------------------
-
-  newPost.addEventListener('click', () => {
-    const contenidoPost = textArea.value;
-
-    if (contenidoPost === '') {
-      errorTextoVacio.textContent = 'Por favor ingresa tu comentario.';
-      errorTextoVacio.style.display = 'block';
-    } else {
-      errorTextoVacio.style.display = 'none';
-      textArea.value = '';
-
-      crearPost(contenidoPost)
-        .then(() => guardarTodosLosPost())
-        .then((posts) => {
-          postsContainer.innerHTML = ''; // Limpiar el contenedor de publicaciones antes de generar los nuevos elementos
-
-          posts.forEach((post) => {
-            const postElement = document.createElement('div');
-            postElement.className = 'divPost';
-
-            const article = document.createElement('article');
-            article.className = 'articlePost';
-            article.id = 'articlePost';
-
-            const contenidoElement = document.createElement('p');
-            contenidoElement.textContent = post.contenido;
-
-            const bottonDiv = document.createElement('div');
-            bottonDiv.className = 'bottonDiv';
-
-            const btnsLike = document.createElement('button');
-            btnsLike.className = 'btnLike';
-            btnsLike.setAttribute('btnLikes', post.id);
-            // btnsLike.id = 'btnsLikes';
-
-            const like = document.createElement('img');
-            like.className = 'like';
-            like.src = './images/heart.png';
-
-            const dislike = document.createElement('img');
-            dislike.className = 'dislike';
-            dislike.src = './images/full-heart.png';
-            dislike.style.display = 'none';
-
-            const btnsLikes = postsContainer.querySelectorAll('.btnLike');
-            btnsLikes.forEach((btn) => {
-              btn.addEventListener('click', async () => {
-                console.log(btn);
-                const getIdPost = btn.getAttribute('btnLikes');
-                console.log(getIdPost, post.id);
-                if (getIdPost === post.id) {
-                  const document = await guardarTodosLosPost(posts.id);
-                  const postear = document.data();
-                  console.log(postear);
-                  if (postear.likes.includes(user.uid)) {
-                    console.log('hola');
-                    toDislike(post.id, user.uid);
-                  } else {
-                    toLike(post.id, user.uid);
-                  }
-                }
-              });
-            });
-
-            const botonEliminar = document.createElement('button');
-            botonEliminar.className = 'btnDelete';
-            botonEliminar.textContent = 'Eliminar';
-            botonEliminar.addEventListener('click', () => {
-              eliminarPost(post.id)
-                .then(() => {
-                  postElement.remove(); // Eliminar el elemento del DOM después de eliminar el post
-                })
-                .catch((error) => {
-                  console.log('Error al eliminar el post:', error);
-                });
-            });
-
-            bottonDiv.appendChild(btnsLike);
-            btnsLike.appendChild(like);
-            btnsLike.appendChild(dislike);
-            bottonDiv.appendChild(botonEliminar);
-
-            article.appendChild(contenidoElement);
-            article.appendChild(bottonDiv);
-
-            postElement.appendChild(article);
-            postsContainer.appendChild(postElement);
-          });
-        })
-        .catch((error) => {
-          console.log('Error al crear el post:', error);
-        });
+export const Timeline = (onNavigate) => {
+  const divPost = document.createElement('div');
+  divPost.className = 'divPost';
+  const imgPost = document.createElement('img');
+  imgPost.className = 'imgPost';
+  imgPost.src = './img/imgPost.png';
+  const txtPost = document.createElement('h5');
+  txtPost.className = 'txtPost';
+  txtPost.textContent = 'NEW POST';
+  divPost.appendChild(imgPost);
+  divPost.appendChild(txtPost);
+  // Botón para ir a crear post
+  txtPost.addEventListener('click', () => onNavigate('/post'));
+  imgPost.addEventListener('click', () => onNavigate('/post'));
+  // Obtenemos los post en tiempo real
+  const containerPosts = document.createElement('section');
+  onSnapshot(queryInstruction(), (array) => {
+    while (containerPosts.firstChild) {
+      containerPosts.removeChild(containerPosts.firstChild);
     }
+    array.forEach((posts) => {
+      const postLikes = posts.data().likes;
+      // Contenedor de todos los post
+      containerPosts.className = 'containerPosts';
+      containerPosts.id = 'containerPosts';
+      // Contenedor de post individual
+      const articlePost = document.createElement('article');
+      articlePost.className = 'articlePost';
+      articlePost.id = 'articlePost';
+      const imgUserPost = document.createElement('img');
+      imgUserPost.className = 'imgUserPost';
+      const nameUserPost = document.createElement('h5');
+      nameUserPost.className = 'nameUserPost';
+      const btnDelete = document.createElement('button');
+      btnDelete.type = 'submit';
+      btnDelete.className = 'btnDelete';
+      btnDelete.id = 'btnDelete';
+      btnDelete.setAttribute('btnDelete', posts.id);
+      btnDelete.value = posts.id;
+      btnDelete.style.display = 'none';
+      const imgDelete = document.createElement('img');
+      imgDelete.className = 'imgDelete';
+      imgDelete.src = './img/delete-post.png';
+      imgDelete.id = posts.id;
+      btnDelete.appendChild(imgDelete);
+      const btnEdit = document.createElement('button');
+      btnEdit.className = 'btnEdit';
+      btnEdit.id = 'btnEdit';
+      btnEdit.style.display = 'none';
+      btnEdit.setAttribute('btnEdit', posts.id);
+      const imgEdit = document.createElement('img');
+      imgEdit.src = './img/edit-post.png';
+      imgEdit.className = 'imgEdit';
+      btnEdit.appendChild(imgEdit);
+      const textPost = document.createElement('p');
+      textPost.className = 'textPost';
+      const bottomDiv = document.createElement('div');
+      bottomDiv.className = 'bottomDiv';
+      const likesNum = document.createElement('p');
+      likesNum.className = 'likesNum';
+      const likeNum = postLikes.length;
+      likesNum.textContent = `${likeNum} likes`;
+      const btnLike = document.createElement('button');
+      btnLike.className = 'btnLike';
+      btnLike.setAttribute('btnLikes', posts.id);
+      const like = document.createElement('img');
+      like.className = 'like';
+      like.src = './img/heart.png';
+      const dislike = document.createElement('img');
+      dislike.className = 'dislike';
+      dislike.src = './img/full-heart.png';
+      dislike.style.display = 'none';
+      bottomDiv.appendChild(likesNum);
+      btnLike.appendChild(like);
+      btnLike.appendChild(dislike);
+      bottomDiv.appendChild(btnLike);
+      articlePost.appendChild(imgUserPost);
+      articlePost.appendChild(nameUserPost);
+      articlePost.appendChild(btnDelete);
+      articlePost.appendChild(btnEdit);
+      articlePost.appendChild(textPost);
+      articlePost.appendChild(bottomDiv);
+      containerPosts.append(articlePost);
+      divPost.appendChild(containerPosts);
+      const user = auth.currentUser;
+      // Llenamos cada contendor de post
+      if (posts.data().photo == null) {
+        imgUserPost.src = './img/user.png';
+      } else {
+        imgUserPost.src = posts.data().photo;
+      }
+      nameUserPost.textContent = posts.data().ownerPost;
+      textPost.textContent = posts.data().post;
+      const owner = posts.data().id;
+      const userAuth = auth.currentUser.uid;
+      if (owner === userAuth) {
+        btnDelete.style.display = 'flex';
+        btnEdit.style.display = 'flex';
+      }
+      if (postLikes.includes(auth.currentUser.uid)) {
+        like.style.display = 'none';
+        dislike.style.display = 'flex';
+      } else {
+        like.style.display = 'flex';
+        dislike.style.display = 'none';
+      }
+      // Botón de like y dislike
+      const btnsLikes = containerPosts.querySelectorAll('.btnLike');
+      btnsLikes.forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const getIdPost = btn.getAttribute('btnLikes');
+          if (getIdPost === posts.id) {
+            const document = await getPost(posts.id);
+            const post = document.data();
+            if (post.likes.includes(user.uid)) {
+              toDislike(posts.id, user.uid);
+            } else {
+              toLike(posts.id, user.uid);
+            }
+          }
+        });
+      });
+      // Botón de eliminar post
+      const btnsDelete = containerPosts.querySelectorAll('#btnDelete');
+      const modalForDelete = modalDelete();
+      articlePost.appendChild(modalForDelete);
+      btnsDelete.forEach((btn) => {
+        const getIdPostDelete = btn.getAttribute('btnDelete');
+        if (getIdPostDelete === posts.id) {
+          btn.addEventListener('click', () => {
+            modalForDelete.style.display = 'block';
+            const confirmBtnDelete = modalForDelete.querySelector('#btnAgree');
+            confirmBtnDelete.addEventListener('click', () => {
+              deletePost(posts.id);
+              modalForDelete.style.display = 'none';
+              containerPosts.append(modalForDelete);
+            });
+            const btnCancel = modalForDelete.querySelector('#btnCancel');
+            btnCancel.addEventListener('click', () => {
+              modalForDelete.style.display = 'none';
+            });
+          });
+        }
+      });
+      // Botón de editar post
+      const btnsEdit = containerPosts.querySelectorAll('#btnEdit');
+      btnsEdit.forEach((btn) => {
+        const getIdPost = btn.getAttribute('btnEdit');
+        if (getIdPost === posts.id) {
+          const modalToEdit = modalEditPost();
+          modalToEdit.style.display = 'none';
+          containerPosts.appendChild(modalToEdit);
+          btn.addEventListener('click', async () => {
+            articlePost.style.display = 'none';
+            modalToEdit.style.display = 'grid';
+            const document = await getPost(posts.id);
+            const post = document.data();
+            if (post.photo === null) {
+              modalToEdit.querySelector('.userImgEdit').src = './img/user.png';
+            } else {
+              modalToEdit.querySelector('.userImgEdit').src = post.photo;
+            }
+            modalToEdit.querySelector('.nameUserEdit').textContent = post.ownerPost;
+            modalToEdit.querySelector('.textAreaEdit').value = post.post;
+            const btnConfirmEdit = modalToEdit.querySelector('.editPostConfirm');
+            btnConfirmEdit.addEventListener('click', () => {
+              const editPost = modalToEdit.querySelector('.textAreaEdit').value;
+              updatePost(posts.id, { post: editPost });
+            });
+            const btnCanceledit = modalToEdit.querySelector('.btnCancelEdit');
+            btnCanceledit.addEventListener('click', () => {
+              articlePost.style.display = 'grid';
+              modalToEdit.style.display = 'none';
+            });
+          });
+        }
+      });
+    });
   });
-  return postDiv;
+  return divPost;
 };

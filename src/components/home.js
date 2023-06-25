@@ -2,7 +2,7 @@ export const Home = (onNavigate) => {
   const titleFlora = document.createElement('h1');
   const logoFlora = document.createElement('p');
   const imgFlora = document.createElement('img');
-  imgFlora.src = './images/Floralogo.png';
+  imgFlora.src = './img/Floralogo.png';
   // imgFlora.id = 'containerImgHome';
   const HomeDiv = document.createElement('div');
   const buttonRegister = document.createElement('button');

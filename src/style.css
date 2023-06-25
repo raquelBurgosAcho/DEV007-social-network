@@ -1,9 +1,4 @@
-@media only screen and (min-width: 768px) and (max-width: 1400px) {
-}
 
-/* ---------------------------------------- Vista home ---------------------------------------- */
-@import url('https://fonts.googleapis.com/css2?family=Bitter:wght@200&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Bitter:wght@200&family=Nunito+Sans:wght@300&display=swap');
 
 * {
     font-family: 'Nunito Sans', sans-serif;
@@ -30,12 +25,12 @@
     row-gap: 50px;
 }
 
-.container-img-home {
+/*.container-img-home {
     max-width: 80%;
     align-items: center;
     margin-top: 30px;
     margin-bottom: 30px;
-}
+}*/
 
 /* ---------------------------------------- Botones e inputs ---------------------------------------- */
 
@@ -80,17 +75,15 @@
     width: 230px;
     height: 44px;
     cursor: pointer;
-    background-image: url(../src/images/google-icon.png);
+    background-image: url(../src/img/google-icon.png);
     background-repeat:no-repeat;
     background-size: 28px;
     background-position: 6%;
 }
 
 .login-register-div {
-display: flex;
-flex-direction: column;
-justify-content: flex-end;
-align-items: center;
+    display: grid;
+    justify-items: center;
 }
 
 .input-data {
@@ -106,7 +99,7 @@ border-radius: 12px;
 margin: 5px;
 padding: 10px;
 }
-.like, .dislike{
+/*.like, .dislike{
     height: 20px;
     background-color: transparent;
   }
@@ -121,9 +114,9 @@ padding: 10px;
 
   .btnsLike {
     border: none;
-  }
+  }*/
 
-.inpPost{
+/*.inpPost{
     width: 302px;
     height: 89px;
     
@@ -135,9 +128,9 @@ padding: 10px;
     border-radius: 12px;
     margin: 5px;
     padding: 10px;
-}  
+}  */
 
-.posts-container {
+/*.posts-container {
     font-size: 12px;
     color: gray;
     text-align: left;
@@ -145,15 +138,15 @@ padding: 10px;
     border-radius: 12px;
     margin: 5px;
     padding: 10px;
-}
+}*/
 
-.divPost{
+/*.divPost{
     width: 302px;
     margin: 15px;
     padding: 10px;
     border: 1px solid #263238;
     border-radius: 12px;
-}
+} */
 
 
 /* ---------------------------------------- Textos ---------------------------------------- */
@@ -170,3 +163,319 @@ padding: 10px;
     font-size: 14px;
     margin-top: 5px;
   }
+  .divPost {
+    background-color: #F3D2C1;
+    display: flex;
+    height: 40px;
+    gap: 5px;
+  }
+  .txtPost {
+    background-color: #F3D2C1;
+    color: #001858;
+    margin-top: 15px;
+  }
+  .imgPost {
+    height: 90%;
+    background-color: #F3D2C1;
+    margin-left: 5px;
+    margin-top: 3px;
+  }
+  
+  
+  .articleCreatePost{
+    display: grid;
+    grid-template-rows: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr) ;
+    width: 75%;
+    height: 250px;
+    background-color: #F3D2C1;
+    border-radius: 8px;
+    align-self: center;
+  }
+  .inpPost{
+    display: flex;
+    background-color: transparent;
+    grid-column-start: 1;
+    grid-column-end: 5;
+    grid-row-start: 2;
+    grid-row-end: 5;
+    margin: 10px 10px 10px 30px;
+    border: 0;
+    color: #001858;
+  }
+  .inpPost::placeholder {
+    color: #001858;
+  }
+  .btnCancelPost {
+    background-color: transparent;
+    color: #001858;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 10px;
+    border: none;
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 5;
+    grid-row-end: 6;
+    display: flex;
+    margin: 8px 6px;
+    justify-content: center;
+  }
+  .btnCancelPost:hover {
+    border: #001858 solid 2px;
+  }
+  .newPost {
+    background-color: #F582AE;
+    color: #001858;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 10px;
+    border: none;
+    grid-column-start: 4;
+    grid-column-end: 5;
+    grid-row-start: 5;
+    grid-row-end: 6;
+    display: flex;
+    margin: 8px 6px;
+    justify-content: center;
+  }
+  .btnCreatePost:hover{
+    background-color: #D95E8D;
+    color: white;
+  }
+  .userImg {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    margin-left: 10px;
+    margin-top: 10px;
+  }
+  .nameUser {
+    color: #001858;
+    margin-top: 25px;
+    margin-left: 10px;
+    background-color: transparent;
+    grid-column-start: 2;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 2;
+  }
+  /* --------------- feed.js 'ALL POSTS' STYLE --------------- */
+  .containerPosts {
+    display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+  }
+  .articlePost{
+    display: grid;
+    background-color:#fef6e4;
+    width: 75%;
+    height: auto;
+    border-radius: 8px;
+    grid-template-rows: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 1fr) ;
+    padding-top: 15px;
+    box-shadow: 2px 5px 5px 0px rgba(0,24,88,0.75);
+    margin-bottom: 10px;
+    margin-top: 40px;
+    border: 1px solid #F3D2C1;
+  }
+  .imgUserPost{
+    display: flex;
+    border-radius: 50%;
+    width: 35px;
+    margin-left: 10px;
+    }
+  .nameUserPost{
+    display: flex;
+    color: #001858;
+    background-color: transparent;
+    grid-column-start: 2;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    margin-top: 10px;
+  }
+  .textPost{
+    display: flex;
+    color: #001858;
+    background-color: transparent;
+    grid-column-start: 1;
+    grid-column-end: 5;
+    grid-row-start: 2;
+    grid-row-end: 4;
+    margin: 10px 10px 10px 30px;
+  }
+  .bottomDiv{
+    display: flex;
+    width: 100%;
+    background-color: #F3D2C1;
+    grid-column-start: 1;
+    grid-column-end: 5;
+    grid-row-start: 4;
+    grid-row-end: 5;
+    border-radius: 0 0 8px 8px;
+    justify-content: space-between;
+  }
+  .like, .dislike{
+    height: 20px;
+    background-color: transparent;
+  }
+  .btnLike {
+    border: none;
+    background-color: transparent;
+  }
+  .likesNum {
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    color: #001858;
+  }
+  .btnEdit{
+    width: 35px;
+    height: 20px;
+    grid-column-start: 4;
+    grid-column-end: 5;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    justify-self: end;
+    border: none;
+  }
+  .btnDelete{
+    width: 35px;
+    height: 20px;
+    grid-column-start: 4;
+    grid-column-end: 5;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    justify-self: end;
+    border: none;
+    margin-right: 30px;
+  }
+  .imgDelete {
+    width: 100%;
+    float: center;
+  }
+  .imgEdit{
+    width: 100%;
+    float: center;
+  }
+  /* --------------- modal.js 'confirm delete post' STYLE --------------- */
+.modalForDelete{
+    height: 12%;
+    width: 60%;
+    border-radius: 8px;
+    padding-top: 15px;
+    box-shadow: 2px 5px 5px 0px rgba(0,24,88,0.75);
+    text-align: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .titleModal{
+    color:#001858;
+    align-self: center;
+  }
+  .btnAgree{
+    color: white;
+    font-weight: bold;
+    background-color: #F582AE;
+    border: none;
+    margin: 10px;
+  }
+  .btnAgree:hover{
+    color: white;
+    font-weight: bold;
+    background-color:#D95E8D;
+    border: none;
+  }
+  .btnCancel{
+    color:#001858;
+    font-weight: bold;
+    border: none;
+  }
+  .btnCancel:hover{
+    border: #001858 1px solid;
+  }
+  /* --------------- modal.js 'confirm edit post' STYLE --------------- */
+  .articlePostEdit{
+    background-color:#f3d2c1;
+    width: 75%;
+    height: 200px;
+    border-radius: 8px;
+    grid-template-rows: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 1fr) ;
+    padding-top: 15px;
+    box-shadow: 2px 5px 5px 0px rgba(0,24,88,0.75);
+    margin-bottom: 10px;
+    margin-top: 40px;
+  }
+  .userImgEdit{
+    display: flex;
+    border-radius: 50%;
+    width: 30px;
+    margin-left: 10px;
+    align-self: center;
+    }
+  .nameUserEdit{
+    display: flex;
+    color: #001858;
+    background-color: transparent;
+    grid-column-start: 2;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    align-self: center;
+    margin-left: 5px;
+  }
+  .textAreaEdit{
+    display: flex;
+    color: #001858;
+    background-color: transparent;
+    grid-column-start: 1;
+    grid-column-end: 5;
+    grid-row-start: 2;
+    grid-row-end: 4;
+    margin: 10px 10px 10px 30px;
+  }
+  .btnCancelEdit{
+    background-color: transparent;
+    color: #001858;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 10px;
+    border: none;
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 4;
+    grid-row-end: 5;
+    display: flex;
+    margin: 8px 2px;
+    justify-content: center;
+  }
+  .btnCancelEdit:hover{
+    border: #001858 solid 2px;
+  }
+  .editPostConfirm{
+    background-color: #F582AE;
+    color: #001858;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 10px;
+    border: none;
+    grid-column-start: 4;
+    grid-column-end: 5;
+    grid-row-start: 4;
+    grid-row-end: 5;
+    display: flex;
+    margin: 8px 2px;
+    justify-content: center;
+  }
+  .editPostConfirm:hover{
+    background-color: #D95E8D;
+    color: white;
+  }
+  
