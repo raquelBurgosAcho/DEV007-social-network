@@ -15,6 +15,7 @@ export const iniciarSesionConGoogle = async () => {
   await signInWithPopup(auth, provider);
 };
 
+// ---------------------Funciones del timeline---------------------
 export const crearPost = async (texto) => {
   await addDoc(collection(db, 'posts'), {
     contenido: texto,
