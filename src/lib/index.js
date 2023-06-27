@@ -40,16 +40,22 @@ export const eliminarPost = async (id) => {
   await deleteDoc(doc(db, 'posts', id));
 };
 
-export const toLike = (id, uid) => {
+export const toLike = (id) => {
+  const user = auth.currentUser;
+  console.log('una persona de internet', user.email);
+  console.log(' este es el id del post', id);
   updateDoc(doc(db, 'posts', id), {
-    likes: arrayUnion(uid),
+    likes: arrayUnion(user.email),
   });
 };
 
-export const toDislike = (id, uid) => {
+export const toDislike = (id) => {
+  const user = auth.currentUser;
+  console.log('una persona de internet', user);
   updateDoc(doc(db, 'posts', id), {
-    likes: arrayRemove(uid),
+    likes: arrayRemove(user.email),
   });
 };
 
 // export const toEdit = () =>
+// upd

@@ -39,7 +39,7 @@ export const Timeline = (onNavigate, user) => {
   newPost.id = 'newPost';
   newPost.textContent = 'Publicar';
 
-  // ERROR DE CAMPO VACIO ANTES DE PUBLICAR ------------------------------------------------------
+  // ERROR DE CAMPO VACIO ANTES DE PUBLICAR -----------------------------------------------
   const errorTextoVacio = document.createElement('h4');
   errorTextoVacio.textContent = '';
   errorTextoVacio.setAttribute('class', 'error-message');
@@ -103,30 +103,35 @@ export const Timeline = (onNavigate, user) => {
 
             const like = document.createElement('img');
             like.className = 'like';
-            like.src = './images/heart.png';
+            like.src = './images/empty-heart-icon.png';
+            // like.style.display = 'none';
 
             const dislike = document.createElement('img');
             dislike.className = 'dislike';
-            dislike.src = './images/full-heart.png';
-            dislike.style.display = 'none';
+            like.src = './images/full-heart-icon.png';
+            // dislike.style.display = 'none';
+
 
             const btnsLikes = postsContainer.querySelectorAll('.btnLike');
             btnsLikes.forEach((btn) => {
               btn.addEventListener('click', async () => {
-                console.log(btn);
-                const getIdPost = btn.getAttribute('btnLikes');
-                console.log(getIdPost, post.id);
-                if (getIdPost === post.id) {
-                  const document = await guardarTodosLosPost(posts.id);
-                  const postear = document.data();
-                  console.log(postear);
-                  if (postear.likes.includes(user.uid)) {
-                    console.log('hola');
-                    toDislike(post.id, user.uid);
-                  } else {
-                    toLike(post.id, user.uid);
-                  }
-                }
+                // console.log(btn);
+                // const getIdPost = btn.getAttribute('btnLikes');
+                // console.log(getIdPost, post.id);
+                console.log('ya vamos por el tu laiq');
+                // if (getIdPost === post.id) {
+                const document = await guardarTodosLosPost(posts.id);
+                // const postear = document.data();
+                // console.log(postear);
+                console.log('hay viene el tulaik');
+                // if (postear.likes.includes(user.uid)) {
+                console.log('hola');
+                //  toDislike(post.id, user.uid);
+                // } else {
+                console.log('soy el tulaik');
+                toLike(post.id);
+                // }
+                // }
               });
             });
 
