@@ -1,5 +1,9 @@
-import { onSnapshot } from 'firebase/firestore';
-import { auth } from '../firebase';
+import {
+  onSnapshot,
+  doc,
+  getDoc,
+} from 'firebase/firestore';
+import { auth, db } from '../firebase';
 import {
   queryInstruction,
   deletePost,
@@ -7,11 +11,51 @@ import {
   updatePost,
   toLike,
   toDislike,
-} from '../lib';
+  signOutUser,
+} from '../lib/index.js';
 
 import { modalDelete, modalEditPost } from './modal.js';
 
 export const Timeline = (onNavigate) => {
+  const feedSection = document.createElement('section');
+  feedSection.className = 'feedSection';
+  feedSection.id = 'feedSection';
+  const logo = document.createElement('img');
+  logo.className = 'logoFeed';
+  logo.id = 'logoFeed';
+  logo.src = './img/logo.png';
+  // Crea el menú del usuario
+  const feedNav = document.createElement('nav');
+  feedNav.id = 'feedNav';
+  feedNav.className = 'feedNav';
+  const ulMenu = document.createElement('ul');
+  ulMenu.className = 'ulMenu';
+  const imgUser = document.createElement('img');
+  imgUser.className = 'imgUser';
+  const liImg = document.createElement('li');
+  liImg.className = 'liImg';
+  const userName = document.createElement('h5');
+  userName.className = 'userName';
+  const liName = document.createElement('li');
+  liName.className = 'liName';
+  const btnLogout = document.createElement('button');
+  btnLogout.type = 'submit';
+  btnLogout.className = 'btnLogout';
+  btnLogout.id = 'btnLogout';
+  btnLogout.textContent = 'LOGOUT';
+  const imgLogout = document.createElement('img');
+  imgLogout.className = 'imgLogout';
+  imgLogout.src = './img/log-out.png';
+  btnLogout.appendChild(imgLogout);
+  const liLogout = document.createElement('li');
+  liLogout.className = 'liLogout';
+  liImg.appendChild(imgUser);
+  liImg.appendChild(userName);
+  liLogout.appendChild(btnLogout);
+  ulMenu.appendChild(liImg);
+  ulMenu.appendChild(liName);
+  ulMenu.appendChild(liLogout);
+  feedNav.appendChild(ulMenu);
   const divPost = document.createElement('div');
   divPost.className = 'divPost';
   const imgPost = document.createElement('img');
@@ -22,17 +66,57 @@ export const Timeline = (onNavigate) => {
   txtPost.textContent = 'NEW POST';
   divPost.appendChild(imgPost);
   divPost.appendChild(txtPost);
+  feedSection.appendChild(feedNav);
+  feedSection.appendChild(logo);
+  feedSection.appendChild(divPost);
+  // Llena la información del usuario
+  const user = auth.currentUser;
+  if (user !== null) {
+    user.providerData.forEach(async (profile) => {
+      console.log('Usuario:', profile);
+      const photo = profile.photoURL;
+      imgUser.src = photo;
+      const name = profile.displayName;
+      userName.textContent = name;
+      if (photo === null) {
+        imgUser.src = './img/user.png';
+      }
+      const docRef = doc(db, 'users', user.uid);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const nameF = docSnap.data().displayName;
+        userName.textContent = nameF;
+      }
+    });
+  }
+  // Botón de cerrar sesión
+  btnLogout.addEventListener('click', () => {
+    signOutUser()
+      .then(() => {
+        onNavigate('/');
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        return errorCode;
+      });
+  });
+
   // Botón para ir a crear post
   txtPost.addEventListener('click', () => onNavigate('/post'));
+  console.log('Clic en el botón de nuevo post');
   imgPost.addEventListener('click', () => onNavigate('/post'));
+  console.log('Clic en el botón de nuevo post');
   // Obtenemos los post en tiempo real
   const containerPosts = document.createElement('section');
   onSnapshot(queryInstruction(), (array) => {
+    console.log(queryInstruction());
     while (containerPosts.firstChild) {
       containerPosts.removeChild(containerPosts.firstChild);
     }
     array.forEach((posts) => {
+      console.log('Datos de la publicación:', posts.data());
       const postLikes = posts.data().likes;
+
       // Contenedor de todos los post
       containerPosts.className = 'containerPosts';
       containerPosts.id = 'containerPosts';
@@ -94,8 +178,8 @@ export const Timeline = (onNavigate) => {
       articlePost.appendChild(textPost);
       articlePost.appendChild(bottomDiv);
       containerPosts.append(articlePost);
-      divPost.appendChild(containerPosts);
-      const user = auth.currentUser;
+      feedSection.appendChild(containerPosts);
+
       // Llenamos cada contendor de post
       if (posts.data().photo == null) {
         imgUserPost.src = './img/user.png';
@@ -190,5 +274,5 @@ export const Timeline = (onNavigate) => {
       });
     });
   });
-  return divPost;
+  return feedSection;
 };

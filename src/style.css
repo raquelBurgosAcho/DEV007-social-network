@@ -1,5 +1,4 @@
 
-
 * {
     font-family: 'Nunito Sans', sans-serif;
 }
@@ -33,8 +32,29 @@
 }*/
 
 /* ---------------------------------------- Botones e inputs ---------------------------------------- */
+.division {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+}
+.line,
+.line2 {
+  height: 1px;
+  background-color: #001858;
+  width: 50px;
+  margin-top: 20px;
+}
+.or {
+  color: #001858;
+}
+.button:hover,
+.btnLogin:hover {
+  background-color: #D95E8D;
+  color: #FEF6E4;
+}
 
-.button {
+  .button,
+.btnLogin {
     font-family: sans-serif;
     background-color: #263238;
     color: #E0EDA5;
@@ -62,8 +82,11 @@
     cursor: pointer;
     justify-content: flex-end;
 }
-
-.button-google {
+#inpDate {
+  padding: 3px 15px 3px 15px;
+  color: #777777;
+}
+.btnGoogle {
     font-family: sans-serif;
     background: rgba(217, 217, 217, 0.26);
     color: #263238;
@@ -81,12 +104,13 @@
     background-position: 6%;
 }
 
-.login-register-div {
+.login-register-div,
+.formLogin {
     display: grid;
     justify-items: center;
 }
 
-.input-data {
+.form {
 width: 269px;
 height: 40px;
 
@@ -158,11 +182,82 @@ padding: 10px;
     text-align: center;
 }
 
-.error-message {
+/*.error-message {
     color: red;
     font-size: 14px;
     margin-top: 5px;
+  }*/
+  .feedSection {
+    display: flex;
+    flex-direction: column;
   }
+  .feedNav {
+    position: absolute;
+    height: 10%;
+    width: 60px;
+    overflow: hidden;
+    transition: width 0.2s linear;
+  }
+  .feedNav:hover {
+    width: 170px;
+    height: 100px;
+    transition: all 0.5s ease;
+    background-color: #F3D2C1;
+  }
+  .ulMenu {
+    margin: 5px 0 0 5px;
+    padding: 0;
+    background-color: transparent;
+    }
+  .imgUser {
+    text-align: center;
+    display: flex;
+    transition: all 0.5s ease;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-left: 5px;
+  }
+  .userName {
+    color: #001858;
+    position: relative;
+    background-color: #F3D2C1;
+    top: 12px;
+  }
+  li {
+    position: relative;
+    width: 300px;
+    display: flex;
+    gap: 10px;
+    background-color: transparent;
+  }
+  li:hover {
+    background-color: #F3D2C1;
+  }
+  .logoFeed {
+    max-width: 20%;
+    align-self: center;
+  }
+  .btnLogout {
+    background-color: #F582AE;
+    color: #001858;
+    font-weight: bold;
+    border-radius: 5px;
+    margin-left: 40px;
+    margin-top: 10px;
+    text-align: left;
+    padding: 3px;
+    line-height: 20px;
+  }
+  .btnLogout:hover {
+    background-color: #D95E8D;
+    color: #001858;
+  }
+  .imgLogout{
+    width: 20px;
+    background-color: transparent;
+    float: right;
+   }
   .divPost {
     background-color: #F3D2C1;
     display: flex;
@@ -180,7 +275,14 @@ padding: 10px;
     margin-left: 5px;
     margin-top: 3px;
   }
-  
+  /* --------------- post.js STYLE --------------- */
+.postSection {
+  display: grid;
+  justify-items: center;
+}
+.logoPost {
+  max-width: 20%;
+}
   
   .articleCreatePost{
     display: grid;
@@ -224,7 +326,7 @@ padding: 10px;
   .btnCancelPost:hover {
     border: #001858 solid 2px;
   }
-  .newPost {
+  .btnCreatePost {
     background-color: #F582AE;
     color: #001858;
     font-weight: bold;
@@ -262,7 +364,7 @@ padding: 10px;
   }
   /* --------------- feed.js 'ALL POSTS' STYLE --------------- */
   .containerPosts {
-    display: flex;
+      display: flex;
       align-items: center;
       justify-content: center;
       flex-wrap: wrap;

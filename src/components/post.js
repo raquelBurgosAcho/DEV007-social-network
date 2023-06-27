@@ -5,21 +5,15 @@ import { crearPost } from '../lib';
 
 export const Post = (onNavigate) => {
   // Div que almacena todo
-  const postDiv = document.createElement('div');
-  postDiv.className = 'login-register-div';
-
-  // título
-  const titleFloraTimeline = document.createElement('header');
-  titleFloraTimeline.textContent = 'Flora';
-  titleFloraTimeline.className = 'title-flora';
-
-  // contenedor del formulario de publicación
+  const postSection = document.createElement('section');
+  postSection.className = 'postSection';
+  const logoPost = document.createElement('img');
+  logoPost.className = 'logoPost';
+  logoPost.src = './img/logo.png';
   const articlePost = document.createElement('article');
-  articlePost.className = 'login-register-div';
+  articlePost.className = 'articleCreatePost';
   const userImg = document.createElement('img');
   userImg.className = 'userImg';
-
-  // nombre de usuario
   const nameUser = document.createElement('h5');
   nameUser.className = 'nameUser';
 
@@ -35,31 +29,19 @@ export const Post = (onNavigate) => {
   const btnCancelPost = document.createElement('button');
   btnCancelPost.className = 'btnCancelPost';
   btnCancelPost.textContent = 'CANCEL';
-
-  // BOTON PUBLICAR
-  const newPost = document.createElement('button');
-  newPost.className = 'button';
-  newPost.id = 'newPost';
-  newPost.textContent = 'Publicar';
-
-  // botón Volver a Home
-  const buttonHome = document.createElement('button');
-  buttonHome.className = 'button-logout';
-  buttonHome.textContent = 'Cerrar sesión';
-
-  postDiv.appendChild(titleFloraTimeline);
-  articlePost.appendChild(textArea);
+  const btnCreatePost = document.createElement('button');
+  btnCreatePost.className = 'btnCreatePost';
+  btnCreatePost.id = 'btnCreatePost';
+  btnCreatePost.textContent = 'POST';
   articlePost.appendChild(userImg);
-  articlePost.appendChild(newPost);
+  articlePost.appendChild(nameUser);
   articlePost.appendChild(btnCancelPost);
-  postDiv.appendChild(articlePost);
-  articlePost.appendChild(buttonHome);
-
-  // EVENTO BOTON IR A HOME
-  buttonHome.addEventListener('click', () => onNavigate('/'));
+  articlePost.appendChild(btnCreatePost);
+  articlePost.appendChild(textArea);
+  postSection.appendChild(logoPost);
+  postSection.appendChild(articlePost);
   btnCancelPost.addEventListener('click', () => onNavigate('/timeline'));
-
-  // BOTON PUBLICAR
+  // Llena la información del usuario
   const user = auth.currentUser;
   if (user !== null) {
     user.providerData.forEach(async (profile) => {
@@ -76,13 +58,17 @@ export const Post = (onNavigate) => {
         const nameF = docSnap.data().displayName;
         nameUser.textContent = nameF;
 
-        newPost.addEventListener('click', (e) => {
+        btnCreatePost.addEventListener('click', (e) => {
+          console.log('Clic en el botón POST');
           e.preventDefault();
+          console.log('Texto del post:', textArea.value);
+          console.log('Nombre del usuario:', docSnap.data().displayName);
           crearPost(textArea.value, docSnap.data().displayName)
             .then(() => {
               onNavigate('/timeline');
             })
             .catch((error) => {
+              console.log('Error al crear el post:', error);
               const errorCode = error.code;
               return errorCode;
             });
@@ -90,6 +76,7 @@ export const Post = (onNavigate) => {
       }
     });
   }
+  // Botón de crear post
 
-  return postDiv;
+  return postSection;
 };

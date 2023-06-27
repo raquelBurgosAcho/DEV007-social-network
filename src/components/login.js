@@ -2,49 +2,76 @@
 import { iniciarSesionConUsuarioYContraseña, logInGoogle } from '../lib';
 
 export const Login = (onNavigate) => {
-  const loginDiv = document.createElement('div');
-  loginDiv.setAttribute('class', 'login-register-div');
+  const homeSection = document.createElement('section');
+  homeSection.id = 'homeSection';
 
-  const titleIS = document.createElement('h2');
-  titleIS.textContent = ' Iniciar sesión ';
-  titleIS.setAttribute('class', 'titles');
+  const logo = document.createElement('img');
+  logo.className = 'logo';
+  logo.id = 'logo';
+  logo.src = './img/floralogo.png';
+
   const errorHome = document.createElement('h5');
   errorHome.className = 'errorHome';
   errorHome.id = 'errorHome';
   errorHome.style.display = 'none';
+  // Crea formulario de iniciar sesión
   const formLogin = document.createElement('form');
   formLogin.className = 'formLogin';
   formLogin.id = 'formLogin';
+  const inpEmail = document.createElement('input');
+  inpEmail.className = 'form';
+  inpEmail.id = 'email';
+  inpEmail.type = 'email';
+  inpEmail.placeholder = 'Email';
+  inpEmail.setAttribute('autocomplete', 'email');
+  const inpPassword = document.createElement('input');
+  inpPassword.className = 'form';
+  inpPassword.id = 'password';
+  inpPassword.placeholder = 'Password';
+  inpPassword.type = 'password';
+  inpPassword.setAttribute('autocomplete', 'current-password');
 
-  const inputEmail = document.createElement('input');
-  inputEmail.placeholder = 'Ingresa tu Email';
-  inputEmail.setAttribute('class', 'input-data');
-  inputEmail.setAttribute('id', 'input-email');
+  const btnLogin = document.createElement('button');
+  btnLogin.type = 'submit';
+  btnLogin.className = 'btnLogin';
+  btnLogin.id = 'btnLogin';
+  btnLogin.textContent = 'LOGIN';
 
-  const inputPassword = document.createElement('input');
-  inputPassword.placeholder = 'Ingresa tu contraseña';
-  inputPassword.type = 'password';
-  inputPassword.setAttribute('class', 'input-data');
-  inputPassword.setAttribute('id', 'input-password');
+  formLogin.appendChild(inpEmail);
+  formLogin.appendChild(inpPassword);
+  formLogin.appendChild(btnLogin);
 
-  const buttonLogin = document.createElement('button');
-  buttonLogin.textContent = 'Iniciar sesión';
-  buttonLogin.setAttribute('class', 'button');
+  const division = document.createElement('div');
+  division.className = 'division';
+  division.id = 'division';
+  const line = document.createElement('hr');
+  line.className = 'line';
+  line.id = 'line';
+  const or = document.createElement('p');
+  or.textContent = 'or';
+  or.className = 'or';
+  const line2 = document.createElement('hr');
+  line2.className = 'line2';
+  line2.id = 'line2';
 
-  const buttonGoogle = document.createElement('button');
-  buttonGoogle.textContent = 'Continuar con Google';
-  buttonGoogle.setAttribute('class', 'button-google');
+  division.appendChild(line);
+  division.appendChild(or);
+  division.appendChild(line2);
+
+  const btnGoogle = document.createElement('img');
+  btnGoogle.className = 'btnGoogle';
+  btnGoogle.id = 'btnGoogle';
 
   const buttonHome = document.createElement('button');
   buttonHome.textContent = 'Volver a Home';
   buttonHome.setAttribute('class', 'button');
 
-  const errorLogIn = document.createElement('h4');
-  errorLogIn.textContent = '';
-  errorLogIn.setAttribute('class', 'error-message');
-
-  const welcomeMessage = document.createElement('h4');
-  welcomeMessage.setAttribute('class', 'error-message');
+  homeSection.appendChild(logo);
+  homeSection.appendChild(errorHome);
+  homeSection.appendChild(formLogin);
+  homeSection.appendChild(division);
+  homeSection.appendChild(btnGoogle);
+  homeSection.appendChild(buttonHome);
 
   // boton para volver a home--------------------------------------------------------------------
   buttonHome.addEventListener('click', () => onNavigate('/'));
@@ -52,31 +79,32 @@ export const Login = (onNavigate) => {
   // boton para iniciar sesion--------------------------------------------------------------------
   formLogin.addEventListener('submit', (e) => {
     e.preventDefault();
-    iniciarSesionConUsuarioYContraseña(inputEmail.value, inputPassword.value)
+    iniciarSesionConUsuarioYContraseña(inpEmail.value, inpPassword.value)
       .then((credentials) => {
         const user = credentials.user.uid;
         localStorage.setItem('idUser', user);
         onNavigate('/timeline');
+        alert('¡Has iniciado sesión correctamente!');
       })
       .catch((error) => {
         if (error.code === 'auth/wrong-password') {
-          errorLogIn.textContent = 'Contraseña incorrecta. Verifica tu contraseña e intenta nuevamente.';
-          errorLogIn.style.display = 'block';
+          errorHome.textContent = 'Contraseña incorrecta. Verifica tu contraseña e intenta nuevamente.';
+          errorHome.style.display = 'block';
         } else if (error.code === 'auth/invalid-email') {
-          errorLogIn.textContent = 'El correo electrónico proporcionado no es válido.';
-          errorLogIn.style.display = 'block';
+          errorHome.textContent = 'El correo electrónico proporcionado no es válido.';
+          errorHome.style.display = 'block';
         } else if (error.code === 'auth/user-not-found') {
-          errorLogIn.textContent = 'El usuario no fue encontrado. Verifica tu correo y contraseña.';
-          errorLogIn.style.display = 'block';
+          errorHome.textContent = 'El usuario no fue encontrado. Verifica tu correo y contraseña.';
+          errorHome.style.display = 'block';
         } else {
-          errorLogIn.textContent = 'Ha ocurrido un error en el inicio de sesión. Por favor, intenta nuevamente.';
-          errorLogIn.style.display = 'block';
+          errorHome.textContent = 'Ha ocurrido un error en el inicio de sesión. Por favor, intenta nuevamente.';
+          errorHome.style.display = 'block';
         }
       });
-    alert('¡Has iniciado sesión correctamente!');
   });
+
   // Inicia sesión con Google
-  buttonGoogle.addEventListener('click', () => {
+  btnGoogle.addEventListener('click', () => {
     logInGoogle()
       .then(() => {
         onNavigate('/timeline');
@@ -90,15 +118,5 @@ export const Login = (onNavigate) => {
       });
   });
 
-  loginDiv.appendChild(titleIS);
-  loginDiv.appendChild(inputEmail);
-  loginDiv.appendChild(inputPassword);
-  loginDiv.appendChild(errorHome);
-  loginDiv.appendChild(formLogin);
-  loginDiv.appendChild(buttonLogin);
-  loginDiv.appendChild(buttonGoogle);
-  loginDiv.appendChild(buttonHome);
-  loginDiv.appendChild(errorLogIn);
-
-  return loginDiv;
+  return homeSection;
 };
