@@ -53,6 +53,7 @@ export const Login = (onNavigate) => {
       } else {
         await iniciarSesionConUsuarioYContraseña(inputCorreo.value, inputContraseña.value);
         onNavigate('/timeline');
+        alert(`¡ Hola ${inputCorreo.value} te has registrado con éxito!`);
       }
     } catch (error) {
       if (error.code === 'auth/wrong-password') {
@@ -83,12 +84,12 @@ export const Login = (onNavigate) => {
   });
 
   loginDiv.appendChild(titleIS);
+  loginDiv.appendChild(errorLogIn);
   loginDiv.appendChild(inputEmail);
   loginDiv.appendChild(inputPassword);
   loginDiv.appendChild(buttonLogin);
   loginDiv.appendChild(buttongoogle);
   loginDiv.appendChild(buttonHome);
-  loginDiv.appendChild(errorLogIn);
 
   return loginDiv;
 };
