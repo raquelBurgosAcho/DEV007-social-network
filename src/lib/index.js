@@ -1,7 +1,7 @@
 // En este archivo están todas las funciones principales del proyecto
 import {
-  addDoc, collection, onSnapshot, query, orderBy,
-  deleteDoc, doc, updateDoc, arrayUnion, arrayRemove,
+  addDoc, collection,
+  deleteDoc, doc, updateDoc, arrayUnion, arrayRemove, onSnapshot, query, orderBy,
 } from 'firebase/firestore';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth, db, provider } from '../firebase';
@@ -27,9 +27,7 @@ export const crearPost = async (texto) => {
   });
 };
 
-export const guardarTodosLosPost = (callback) => onSnapshot(query(collection(db, 'posts'), orderBy('postDate', 'asc')), callback);
-
-/* export const guardarTodosLosPost = async () => {
+export const guardarTodosLosPost = async () => {
   // realizar consulta a la coleccion y alamcenarla en snapshot
   const snapshot = await getDocs(collection(db, 'posts')); // cambiar por onSnapshot
   const posts = snapshot.docs.map((doc) => ({
@@ -39,7 +37,7 @@ export const guardarTodosLosPost = (callback) => onSnapshot(query(collection(db,
     id: doc.id,
   }));
   return posts;
-}; */
+};
 
 export const eliminarPost = async (id) => {
   await deleteDoc(doc(db, 'posts', id));
