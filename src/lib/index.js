@@ -1,8 +1,18 @@
 // En este archivo están todas las funciones principales del proyecto
 import {
-  addDoc, collection,
-  deleteDoc, doc, updateDoc, arrayUnion, arrayRemove, onSnapshot, query, orderBy,
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+  // query,
+  // onSnapshot,
+  // orderBy,
 } from 'firebase/firestore';
+
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth, db, provider } from '../firebase';
 
@@ -21,9 +31,9 @@ export const iniciarSesionConGoogle = () => {
 export const crearPost = async (texto) => {
   await addDoc(collection(db, 'posts'), {
     contenido: texto,
-    fecha: new Date(),
-    emailUsuario: auth.currentUser.email,
     likes: [],
+    usuario: auth.currentUser.email,
+    fecha: new Date(),
   });
 };
 
@@ -35,24 +45,39 @@ export const guardarTodosLosPost = async () => {
     contenido: doc.data().contenido,
     // y el id elimina cada comentario
     id: doc.id,
+    usuario: doc.data().usuario,
+    likes: doc.data().likes,
   }));
   return posts;
+};
+
+// onSnapshot!!!!!!
+// export const guardarTodosLosPost = (callback) => onSnapshot(query(collection(db, 'posts'),
+// orderBy('postDate', 'asc')), callback);
+
+export const toEdit = async (id, nuevoContenido) => {
+  await updateDoc(doc(db, 'posts', id), {
+    contenido: nuevoContenido,
+  });
 };
 
 export const eliminarPost = async (id) => {
   await deleteDoc(doc(db, 'posts', id));
 };
 
-export const toLike = (id, uid) => {
+export const toLike = (id) => {
+  const user = auth.currentUser;
+  console.log('una persona de internet', user.email);
+  console.log(' este es el id del post', id);
   updateDoc(doc(db, 'posts', id), {
-    likes: arrayUnion(uid),
+    likes: arrayUnion(user.email),
   });
 };
 
-export const toDislike = (id, uid) => {
+export const toDislike = (id) => {
+  const user = auth.currentUser;
+  console.log('una persona de internet', user);
   updateDoc(doc(db, 'posts', id), {
-    likes: arrayRemove(uid),
+    likes: arrayRemove(user.email),
   });
 };
-
-// export const toEdit = () =>

@@ -16,10 +16,33 @@
     align-items: center;
 }
 
+.like, .dislike{
+  height: 20px;
+  background-color: transparent;
+}
+.btnLike {
+  border: none;
+  background-color: transparent;
+}
+.likesCount {
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  color: #001858;
+}
+.userName {
+  color: #001858;
+  position: relative;
+  background-color: #F3D2C1;
+  top: 12px;
+}
+
 .title-flora {
     font-size: 32px;
     color: #263238;
     text-align: center;
+    margin: 20px;
 }
 
 .logo-flora {
@@ -36,11 +59,12 @@
     margin-bottom: 30px;
 }
 
-/* ---------------------------------------- Botones e inputs ---------------------------------------- */
+/* ---------------------------- Botones e inputs home/login/register ---------------------------- */
 
 .button {
     font-family: sans-serif;
     background-color: #263238;
+    transition: background-color .5s;
     color: #E0EDA5;
     border-radius: 25px;
     border: hidden;
@@ -51,6 +75,10 @@
     height: 44px;
     cursor: pointer;
 }
+
+.button:hover {
+    background-color: #111a1e;
+  }
 
 .button-google {
     font-family: sans-serif;
@@ -84,11 +112,113 @@ height: 40px;
 font-size: 12px;
 background: rgba(217, 217, 217, 0.26);
 color: gray;
-text-align: center;
+text-align: left;
 border: hidden;
 border-radius: 12px;
 margin: 5px;
+padding: 10px;
 }
+
+/* --------------------------------- Botones e inputs timeline --------------------------------- */
+
+.divPost{
+    width: 302px;
+    margin: 15px;
+    padding: 10px;
+    border: 1px solid #263238;
+    border-radius: 12px;
+}
+
+.inpPost{
+    width: 302px;
+    height: 89px;
+    
+    font-size: 12px;
+    background: rgba(217, 217, 217, 0.26);
+    color: gray;
+    text-align: left;
+    border: hidden;
+    border-radius: 12px;
+    margin: 5px;
+    padding: 10px;
+}  
+
+.posts-container {
+    font-size: 12px;
+    color: gray;
+    text-align: left;
+    border: hidden;
+    border-radius: 12px;
+    margin: 5px;
+    padding: 10px;
+}
+
+
+.like, .dislike {
+    height: 20px;
+    margin: 0px;
+  }
+
+  .btnLike {
+    border: none;
+    background-color: #263238; 
+    border-radius: 50px;
+    padding: 5px;
+  }
+
+  .btnDelete {
+    font-family: sans-serif;
+    background: rgba(217, 217, 217, 0.26);
+    transition: background-color .5s;
+    color: gray;
+    border-radius: 10px;
+    border: hidden;
+    margin: 5px;
+    padding: 10px;
+    font-size: 12px;
+    width: 60px;
+    height: 40px;
+    cursor: pointer;
+    justify-items: left;
+  }
+  .btnEdit {
+    font-family: sans-serif;
+    background: rgba(217, 217, 217, 0.26);
+    transition: background-color .5s;
+    color: gray;
+    border-radius: 10px;
+    border: hidden;
+    margin: 5px;
+    padding: 10px;
+    font-size: 12px;
+    width: 60px;
+    height: 40px;
+    cursor: pointer;
+    justify-items: left;
+
+  }
+
+  .btnDelete:hover {
+    background-color: rgba(101, 101, 101, 0.39);
+  }
+  
+
+  .button-logout {
+    font-family: sans-serif;
+    background-color: #263238;
+    color: #E0EDA5;
+    border-radius: 25px;
+    border: hidden;
+    margin: 5px;
+    padding: 15px;
+    font-size: 12px;
+    width: 150px;
+    height: 44px;
+    cursor: pointer;
+    justify-content: flex-end;
+}
+
+/* ---------------------------------------- Textos errores ---------------------------------------- */
 
 .titles {
     font-family: sans-serif;
@@ -98,23 +228,7 @@ margin: 5px;
 }
 
 .error-message {
-    color: red;
+    color: #F96645;
     font-size: 14px;
     margin-top: 5px;
   }
-
-.inpPost{
-    margin: 15px;
-    width: 302px;
-    height: 89px;
-    background: rgba(217, 217, 217, 0.26);
-    border-radius: 12px;
-}  
-
-.divPost{
-    margin: 15px;
-    width: 302px;
-    height: 89px;
-    border: 1px solid #263238;
-    border-radius: 12px;
-}

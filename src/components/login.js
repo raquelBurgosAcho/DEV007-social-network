@@ -36,6 +36,9 @@ export const Login = (onNavigate) => {
   errorLogIn.textContent = '';
   errorLogIn.setAttribute('class', 'error-message');
 
+  const welcomeMessage = document.createElement('h4');
+  welcomeMessage.setAttribute('class', 'error-message');
+
   // boton para volver a home--------------------------------------------------------------------
   buttonHome.addEventListener('click', () => onNavigate('/'));
 
@@ -48,7 +51,7 @@ export const Login = (onNavigate) => {
 
     try {
       if (inputCorreo.value === '' || inputContraseña.value === '') {
-        errorLogIn.textContent = ('Por favor ingresa tu correo y contraseña');
+        errorLogIn.textContent = ('Por favor ingresa tu correo y contraseña.');
         errorLogIn.style.display = 'block';
       } else {
         await iniciarSesionConUsuarioYContraseña(inputCorreo.value, inputContraseña.value);
@@ -60,7 +63,7 @@ export const Login = (onNavigate) => {
         errorLogIn.textContent = ('Contraseña incorrecta. Verifica tu contraseña e intenta nuevamente.');
         errorLogIn.style.display = 'block';
       } else if (error.code === 'auth/invalid-email') {
-        errorLogIn.textContent = ('El correo electrónico proporcionado no es válido');
+        errorLogIn.textContent = ('El correo electrónico proporcionado no es válido.');
         errorLogIn.style.display = 'block';
       } else if (error.code === 'auth/user-not-found') {
         errorLogIn.textContent = ('El usuario no fue encontrado. Verifica tu correo y contraseña.');
