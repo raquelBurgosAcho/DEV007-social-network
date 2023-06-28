@@ -33,6 +33,7 @@ export const crearPost = async (texto) => {
     contenido: texto,
     likes: [],
     usuario: auth.currentUser.email,
+    fecha: new Date(),
   });
 };
 
@@ -49,15 +50,16 @@ export const guardarTodosLosPost = async () => {
   }));
   return posts;
 };
+
+// onSnapshot!!!!!!
+// export const guardarTodosLosPost = (callback) => onSnapshot(query(collection(db, 'posts'),
+// orderBy('postDate', 'asc')), callback);
+
 export const toEdit = async (id, nuevoContenido) => {
   await updateDoc(doc(db, 'posts', id), {
     contenido: nuevoContenido,
   });
 };
-
-/* Suscribe los cambios en la colección de posts y ejecuta la función de devolución de llamada */
-// export const guardarTodosLosPost = (callback) => onSnapshot(query(collection(db, 'posts'), 
-// orderBy('postDate', 'asc')), callback);
 
 export const eliminarPost = async (id) => {
   await deleteDoc(doc(db, 'posts', id));
@@ -79,5 +81,3 @@ export const toDislike = (id) => {
     likes: arrayRemove(user.email),
   });
 };
-
-// export const toEdit = () =>

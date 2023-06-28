@@ -13,7 +13,7 @@ export const Register = (onNavigate) => {
   titleR.className = 'titles';
 
   const errorRegister = document.createElement('h4');
-  errorRegister.className = 'errorMessage';
+  errorRegister.className = 'error-message';
   errorRegister.style.display = 'none';
   errorRegister.id = 'errorRegister';
   // crea formulario de registro
@@ -69,6 +69,7 @@ export const Register = (onNavigate) => {
     crearUsuarioConCorreoYContraseña(emailRegister.value, claveRegister.value, nameRegister.value)
       .then(() => {
         onNavigate('/timeline');
+        alert(`¡ Hola ${emailRegister.value} te has registrado con éxito!`);
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -94,7 +95,6 @@ export const Register = (onNavigate) => {
         }
         return error;
       });
-    alert('¡Te has registrado correctamente!');
   });
 
   buttonGoogle.addEventListener('click', async (e) => {
