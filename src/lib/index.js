@@ -81,5 +81,3 @@ export const toDislike = (id) => {
     likes: arrayRemove(user.email),
   });
 };
-
-// export const toEdit = () =>
