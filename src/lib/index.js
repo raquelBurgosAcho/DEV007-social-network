@@ -26,7 +26,7 @@ import {
   db,
   db2,
   provider,
-} from '../firebase.js';
+} from '../firebase';
 
 // createUser
 
@@ -73,7 +73,6 @@ export const likes = [];
 // eslint-disable-next-line
 export const crearPost = (post, ownerPost) => {
   return addDoc(collection(db, 'post'), {
-    likes,
     post,
     id: auth.currentUser.uid,
     ownerPost,
@@ -85,7 +84,7 @@ export const crearPost = (post, ownerPost) => {
 export const queryInstruction = () => query((collection(db, 'post')), orderBy('createDate', 'desc'));
 
 export const deletePost = async (id) => {
-  await deleteDoc(doc(db, 'posts', id));
+  deleteDoc(doc(db, 'post', id));
 };
 
 export const getPost = (id) => getDoc(doc(db, 'post', id));

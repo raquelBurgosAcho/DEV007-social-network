@@ -1,7 +1,7 @@
 /* eslint-disable eol-last */
 import { getDoc, doc } from 'firebase/firestore';
 import { db, auth } from '../firebase';
-import { crearPost } from '../lib';
+import { crearPost } from '../lib/index.js';
 
 export const Post = (onNavigate) => {
   // Div que almacena todo
@@ -33,6 +33,7 @@ export const Post = (onNavigate) => {
   btnCreatePost.className = 'btnCreatePost';
   btnCreatePost.id = 'btnCreatePost';
   btnCreatePost.textContent = 'POST';
+  btnCreatePost.setAttribute('type', 'submit');
   articlePost.appendChild(userImg);
   articlePost.appendChild(nameUser);
   articlePost.appendChild(btnCancelPost);
@@ -53,18 +54,21 @@ export const Post = (onNavigate) => {
         userImg.src = './img/user.png';
       }
       const docRef = doc(db, 'users', user.uid);
+      console.log('Valor de docRef:', docRef);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         const nameF = docSnap.data().displayName;
+        console.log('Valor de nameF:', nameF);
         nameUser.textContent = nameF;
+        console.log('No se encontró el documento');
 
         btnCreatePost.addEventListener('click', (e) => {
           console.log('Clic en el botón POST');
           e.preventDefault();
-          console.log('Texto del post:', textArea.value);
-          console.log('Nombre del usuario:', docSnap.data().displayName);
           crearPost(textArea.value, docSnap.data().displayName)
             .then(() => {
+              console.log('Texto del post:', textArea.value);
+              console.log('Nombre del usuario:', docSnap.data().displayName);
               onNavigate('/timeline');
             })
             .catch((error) => {
