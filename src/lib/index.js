@@ -32,6 +32,7 @@ export const crearPost = async (texto) => {
   await addDoc(collection(db, 'posts'), {
     contenido: texto,
     likes: [],
+    usuario: auth.currentUser.email,
   });
 };
 
@@ -43,8 +44,15 @@ export const guardarTodosLosPost = async () => {
     contenido: doc.data().contenido,
     // y el id elimina cada comentario
     id: doc.id,
+    usuario: doc.data().usuario,
+    likes: doc.data().likes,
   }));
   return posts;
+};
+export const toEdit = async (id, nuevoContenido) => {
+  await updateDoc(doc(db, 'posts', id), {
+    contenido: nuevoContenido,
+  });
 };
 
 /* Suscribe los cambios en la colección de posts y ejecuta la función de devolución de llamada */
@@ -73,4 +81,3 @@ export const toDislike = (id) => {
 };
 
 // export const toEdit = () =>
-// upd

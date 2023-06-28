@@ -16,6 +16,28 @@
     align-items: center;
 }
 
+.like, .dislike{
+  height: 20px;
+  background-color: transparent;
+}
+.btnLike {
+  border: none;
+  background-color: transparent;
+}
+.likesCount {
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  color: #001858;
+}
+.userName {
+  color: #001858;
+  position: relative;
+  background-color: #F3D2C1;
+  top: 12px;
+}
+
 .title-flora {
     font-size: 32px;
     color: #263238;
@@ -158,6 +180,22 @@ padding: 10px;
     height: 40px;
     cursor: pointer;
     justify-items: left;
+  }
+  .btnEdit {
+    font-family: sans-serif;
+    background: rgba(217, 217, 217, 0.26);
+    transition: background-color .5s;
+    color: gray;
+    border-radius: 10px;
+    border: hidden;
+    margin: 5px;
+    padding: 10px;
+    font-size: 12px;
+    width: 60px;
+    height: 40px;
+    cursor: pointer;
+    justify-items: left;
+
   }
 
   .btnDelete:hover {
