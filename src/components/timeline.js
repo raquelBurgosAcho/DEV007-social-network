@@ -1,3 +1,4 @@
+import { QuerySnapshot, onSnapshot } from 'firebase/firestore';
 import { auth } from '../firebase';
 import {
   crearPost,
@@ -62,128 +63,156 @@ export const Timeline = (onNavigate) => {
   articlePost.appendChild(postsContainer);
   postDiv.appendChild(buttonHome);
 
-  // EVENTO BOTON IR A  HOME ------------------------------------------------------
+  // --------------------------EVENTO IR A  HOME/CERRAR SESIÓN -------------------------
   buttonHome.addEventListener('click', () => onNavigate('/'));
 
+  // ------------------------------ CLICK AL BOTÓN PUBLICAR --------------------------------
   newPost.addEventListener('click', async () => {
     const contenidoPost = textArea.value;
 
+    // --------------------------- VALIDACIÓN CAMPO VACÍO --------------------------
     if (contenidoPost === '') {
       errorTextoVacio.textContent = 'Por favor ingresa tu comentario.';
       errorTextoVacio.style.display = 'block';
     } else {
       errorTextoVacio.style.display = 'none';
       textArea.value = '';
-
+      // --------------------------- TRY/CATCH --------------------------
       try {
         await crearPost(contenidoPost);
+        // lamando la función de traer los posts, esto es suficiente para traerlos?
         const posts = await guardarTodosLosPost();
-        postsContainer.innerHTML = '';
+        // postsContainer.innerHTML = '';
 
-        posts.forEach((post) => {
-          const postElement = document.createElement('div');
-          postElement.className = 'divPost';
+        // ------------- uso querySnapshot ¿y onSnapshot? -----------
+        // obtener referencia de la colección posts
+        // const postsRef = db.collection('posts');
 
-          const article = document.createElement('article');
-          article.className = 'articlePost';
-          article.id = 'articlePost';
+        // escuchar cambios en tiempo real utilizando onSnapshot
+        posts.onSnapshot((QuerySnapshot) => {
+          postsContainer.innerHTML = '';
 
-          const contenidoElement = document.createElement('p');
-          contenidoElement.textContent = post.contenido;
+          QuerySnapshot.forEach((doc) => {
+            console.log(QuerySnapshot);
+            const post = doc.data();
 
-          const bottonDiv = document.createElement('div');
-          bottonDiv.className = 'bottonDiv';
+            // ---------------CREACIÓN ELEMENTOS DEL POST----------------
+            const postElement = document.createElement('div');
+            postElement.className = 'divPost';
 
-          const btnsLike = document.createElement('button');
-          btnsLike.className = 'btnLike';
-          btnsLike.setAttribute('btnLikes', post.id);
+            const article = document.createElement('article');
+            article.className = 'articlePost';
+            article.id = 'articlePost';
 
-          const like = document.createElement('img');
-          like.className = 'like';
-          like.src = './img/empty-heart-icon.png';
+            const contenidoElement = document.createElement('p');
+            contenidoElement.textContent = post.contenido;
 
-          btnsLike.addEventListener('click', async () => {
-            const postId = btnsLike.getAttribute('btnLikes');
-            await toLike(postId);
-          });
+            const bottonDiv = document.createElement('div');
+            bottonDiv.className = 'bottonDiv';
 
-          const botonEditar = document.createElement('button');
-          botonEditar.className = 'btnEdit';
-          botonEditar.textContent = 'Editar';
+            // ------------------------------CREACIÓN EVENTO LIKE ----------------------------------
+            const btnsLike = document.createElement('button');
+            btnsLike.className = 'btnLike';
+            btnsLike.setAttribute('btnLikes', post.id);
 
-          botonEditar.addEventListener('click', () => {
-            const user = auth.currentUser;
-            if (user && post.usuario === user.email) {
-              const textAreaEdit = document.createElement('textarea');
-              textAreaEdit.className = 'inpPost';
-              textAreaEdit.value = contenidoElement.textContent;
-              textAreaEdit.placeholder = 'Escribe aquí...';
+            const like = document.createElement('img');
+            like.className = 'like';
+            like.src = './img/empty-heart-icon.png';
 
-              const btnGuardar = document.createElement('button');
-              btnGuardar.className = 'btnSave';
-              btnGuardar.textContent = 'Guardar';
+            btnsLike.addEventListener('click', async () => {
+              const postId = btnsLike.getAttribute('btnLikes');
+              await toLike(postId);
+            });
 
-              const btnCancelar = document.createElement('button');
-              btnCancelar.className = 'btnCancel';
-              btnCancelar.textContent = 'Cancelar';
+            // -------------------------CREACIÓN EVENTO EDITAR ----------------------------------
+            const botonEditar = document.createElement('button');
+            botonEditar.className = 'btnEdit';
+            botonEditar.textContent = 'Editar';
 
-              const editContainer = document.createElement('div');
-              editContainer.className = 'editContainer';
-              editContainer.appendChild(textAreaEdit);
-              editContainer.appendChild(btnGuardar);
-              editContainer.appendChild(btnCancelar);
+            botonEditar.addEventListener('click', () => {
+              const user = auth.currentUser;
+              if (user && post.usuario === user.email) {
+                const textAreaEdit = document.createElement('textarea');
+                textAreaEdit.className = 'inpPost';
+                textAreaEdit.value = contenidoElement.textContent;
+                textAreaEdit.placeholder = 'Escribe aquí...';
 
-              article.replaceChild(editContainer, contenidoElement);
+                const btnGuardar = document.createElement('button');
+                btnGuardar.className = 'btnSave';
+                btnGuardar.textContent = 'Guardar';
 
-              btnGuardar.addEventListener('click', async () => {
-                const nuevoContenido = textAreaEdit.value;
-                if (nuevoContenido) {
-                  try {
-                    await toEdit(post.id, nuevoContenido);
-                    contenidoElement.textContent = nuevoContenido;
-                    article.replaceChild(contenidoElement, editContainer);
-                    console.log('El post se editó correctamente');
-                  } catch (error) {
-                    console.log('Error al editar el post:', error);
+                const btnCancelar = document.createElement('button');
+                btnCancelar.className = 'btnCancel';
+                btnCancelar.textContent = 'Cancelar';
+
+                const editContainer = document.createElement('div');
+                editContainer.className = 'editContainer';
+                editContainer.appendChild(textAreaEdit);
+                editContainer.appendChild(btnGuardar);
+                editContainer.appendChild(btnCancelar);
+
+                article.replaceChild(editContainer, contenidoElement);
+
+                btnGuardar.addEventListener('click', async () => {
+                  const nuevoContenido = textAreaEdit.value;
+                  if (nuevoContenido) {
+                    try {
+                      await toEdit(post.id, nuevoContenido);
+                      contenidoElement.textContent = nuevoContenido;
+                      article.replaceChild(contenidoElement, editContainer);
+                      console.log('El post se editó correctamente');
+                    } catch (error) {
+                      console.log('Error al editar el post:', error);
+                    }
                   }
-                }
-              });
+                });
 
-              btnCancelar.addEventListener('click', () => {
-                article.replaceChild(contenidoElement, editContainer);
-              });
-            }
-          });
+                btnCancelar.addEventListener('click', () => {
+                  article.replaceChild(contenidoElement, editContainer);
+                });
+              }
+            });
 
-          const botonEliminar = document.createElement('button');
-          botonEliminar.className = 'btnDelete';
-          botonEliminar.textContent = 'Eliminar';
+            // ----------------------------CREACIÓN EVENTO ELIMINAR -------------------------------
+            const botonEliminar = document.createElement('button');
+            botonEliminar.className = 'btnDelete';
+            botonEliminar.textContent = 'Eliminar';
 
-          botonEliminar.addEventListener('click', async () => {
-            try {
-              await eliminarPost(post.id);
-              postElement.remove();
-            } catch (error) {
-              console.log('Error al eliminar el post:', error);
-            }
-          });
+            botonEliminar.addEventListener('click', async () => {
+              try {
+                await eliminarPost(post.id);
+                postElement.remove();
+              } catch (error) {
+                console.log('Error al eliminar el post:', error);
+              }
+            });
 
-          bottonDiv.appendChild(btnsLike);
-          btnsLike.appendChild(like);
+            // ------------------------------APPENCHILD DE EVENTOS ------------------------------
 
-          article.appendChild(contenidoElement);
-          article.appendChild(bottonDiv);
-          article.appendChild(botonEditar);
-          article.appendChild(botonEliminar);
+            bottonDiv.appendChild(btnsLike);
+            btnsLike.appendChild(like);
+            article.appendChild(contenidoElement);
+            article.appendChild(bottonDiv);
+            article.appendChild(botonEditar);
+            article.appendChild(botonEliminar);
 
-          postElement.appendChild(article);
-          postsContainer.appendChild(postElement);
+            postElement.appendChild(article);
+            postsContainer.appendChild(postElement);
+          }); // cierra el for.Each ln 90
         });
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        // cierra el try ln 80, abre catch
       } catch (error) {
         console.log('Error al crear el post:', error);
-      }
-    }
-  });
+      } // y cierra el catch
+    } // cierra el else ln 76 de lo que debe pasar si el usuario ingresa un valor en el textarea
+  }); // cierra addEventListener del botón de publicar newPost ln 69
 
   return postDiv;
-};
+}; // cierra toda la función Timeline
