@@ -89,7 +89,6 @@ export const Register = (onNavigate) => {
           errorRegister.style.display = 'block';
           errorRegister.textContent = 'Correo en uso.';
         } else if (errorCode === 'auth/invalid-argument') {
-          console.log('Error interno:', error);
           errorRegister.style.display = 'block';
           errorRegister.textContent = 'Ingresa tu contraseña.';
         }

@@ -22,7 +22,18 @@ export const Timeline = (onNavigate) => {
   // NOMBRE DE USUARIO ------------------------------------------------------
   const nameUser = document.createElement('h5');
   nameUser.className = 'logo-flora';
-  nameUser.textContent = '';
+  // Función para actualizar el contenido de nameUser cuando se inicia sesión
+  const updateNameUser = (usuario) => {
+    if (usuario) {
+      nameUser.textContent = `Hola ${usuario.email}`;
+    } else {
+      nameUser.textContent = 'Hola Invitado';
+    }
+  };
+  // Observar cambios en el estado de autenticación
+  auth.onAuthStateChanged((user) => {
+    updateNameUser(user);
+  });
 
   // TEXT AREA -------------------------------------------------------------
   const textArea = document.createElement('textarea');
@@ -88,6 +99,9 @@ export const Timeline = (onNavigate) => {
           article.className = 'articlePost';
           article.id = 'articlePost';
 
+          const usuarioPublicacion = document.createElement('p'); // crear el espacio para el usuario
+          usuarioPublicacion.textContent = `${post.usuario}`;
+
           const contenidoElement = document.createElement('p');
           contenidoElement.textContent = post.contenido;
 
@@ -100,17 +114,23 @@ export const Timeline = (onNavigate) => {
 
           const like = document.createElement('img');
           like.className = 'like';
-          like.src = './img/empty-heart-icon.png';
+          like.src = './images/empty-heart-icon.png';
 
           btnsLike.addEventListener('click', async () => {
             const postId = btnsLike.getAttribute('btnLikes');
             await toLike(postId);
           });
-
+          // BOTON EDITAR -------------------------------------------------------------------
           const botonEditar = document.createElement('button');
           botonEditar.className = 'btnEdit';
           botonEditar.textContent = 'Editar';
+          botonEditar.style.display = 'none'; // Ocultar el botón inicialmente
 
+          // Aquí agregamos la condición para mostrar el botón solo al autor de la publicación
+          if (auth.currentUser && post.usuario === auth.currentUser.email) {
+            // Mostrar el botón solo si el usuario actual es el autor de la publicación
+            botonEditar.style.display = 'inline-block';
+          }
           botonEditar.addEventListener('click', () => {
             const user = auth.currentUser;
             if (user && post.usuario === user.email) {
@@ -154,10 +174,17 @@ export const Timeline = (onNavigate) => {
               });
             }
           });
-
+          // BOTON ELIMINAR -------------------------------------------------------------------
           const botonEliminar = document.createElement('button');
           botonEliminar.className = 'btnDelete';
           botonEliminar.textContent = 'Eliminar';
+          botonEliminar.style.display = 'none'; // Ocultar el botón inicialmente
+
+          // Aquí agregamos la condición para mostrar el botón solo al autor de la publicación
+          if (auth.currentUser && post.usuario === auth.currentUser.email) {
+            // Mostrar el botón solo si el usuario actual es el autor de la publicación
+            botonEliminar.style.display = 'inline-block';
+          }
 
           botonEliminar.addEventListener('click', async () => {
             try {
@@ -168,13 +195,14 @@ export const Timeline = (onNavigate) => {
             }
           });
 
+          // APENDIZAR -------------------------------------------------------------------
           bottonDiv.appendChild(btnsLike);
           btnsLike.appendChild(like);
-
+          article.appendChild(usuarioPublicacion); // apendizar @ usuario a article para mostrarlo
           article.appendChild(contenidoElement);
           article.appendChild(bottonDiv);
           article.appendChild(botonEditar);
-          article.appendChild(botonEliminar);
+          article.appendChild(botonEliminar); // Agregar el botón al artículo
 
           postElement.appendChild(article);
           postsContainer.appendChild(postElement);
