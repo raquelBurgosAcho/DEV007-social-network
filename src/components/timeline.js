@@ -2,11 +2,11 @@ import {
   crearPost,
   guardarTodosLosPost,
   eliminarPost,
-  toDislike,
+  // toDislike,
   toLike,
 } from '../lib';
 
-export const Timeline = (onNavigate, user) => {
+export const Timeline = (onNavigate) => {
   // Div que almacena todo-------------------------------------
   const postDiv = document.createElement('div');
   postDiv.className = 'login-register-div ';
@@ -110,7 +110,6 @@ export const Timeline = (onNavigate, user) => {
             dislike.className = 'dislike';
             like.src = './images/full-heart-icon.png';
             // dislike.style.display = 'none';
-
 
             const btnsLikes = postsContainer.querySelectorAll('.btnLike');
             btnsLikes.forEach((btn) => {
