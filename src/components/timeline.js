@@ -100,7 +100,7 @@ export const Timeline = (onNavigate) => {
 
           const like = document.createElement('img');
           like.className = 'like';
-          like.src = './images/empty-heart-icon.png';
+          like.src = './img/empty-heart-icon.png';
 
           btnsLike.addEventListener('click', async () => {
             const postId = btnsLike.getAttribute('btnLikes');

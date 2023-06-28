@@ -1,7 +1,18 @@
 // En este archivo están todas las funciones principales del proyecto
 import {
-  addDoc, collection, getDocs, deleteDoc, doc, updateDoc, arrayUnion, arrayRemove,
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+  // query,
+  // onSnapshot,
+  // orderBy,
 } from 'firebase/firestore';
+
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth, db, provider } from '../firebase';
 
@@ -22,6 +33,7 @@ export const crearPost = async (texto) => {
     contenido: texto,
     likes: [],
     usuario: auth.currentUser.email,
+    fecha: new Date(),
   });
 };
 
@@ -38,6 +50,11 @@ export const guardarTodosLosPost = async () => {
   }));
   return posts;
 };
+
+// onSnapshot!!!!!!
+// export const guardarTodosLosPost = (callback) => onSnapshot(query(collection(db, 'posts'),
+// orderBy('postDate', 'asc')), callback);
+
 export const toEdit = async (id, nuevoContenido) => {
   await updateDoc(doc(db, 'posts', id), {
     contenido: nuevoContenido,
@@ -64,5 +81,3 @@ export const toDislike = (id) => {
     likes: arrayRemove(user.email),
   });
 };
-
-// export const toEdit = () =>
