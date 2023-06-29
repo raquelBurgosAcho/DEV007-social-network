@@ -33,6 +33,8 @@ export const crearPost = async (texto) => {
     contenido: texto,
     likes: [],
     usuario: auth.currentUser.email,
+    nombreUsuario: auth.currentUser.displayName,
+    fotoUsuario: auth.currentUser.photoURL,
     fecha: new Date(),
   });
 };
@@ -46,6 +48,8 @@ export const guardarTodosLosPost = async () => {
     // y el id elimina cada comentario
     id: doc.id,
     usuario: doc.data().usuario,
+    fotoUsuario: doc.data().fotoUsuario,
+    nombreUsuario: doc.data().nombreUsuario,
     likes: doc.data().likes,
   }));
   return posts;

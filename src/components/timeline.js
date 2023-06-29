@@ -66,6 +66,7 @@ export const Timeline = (onNavigate) => {
   buttonHome.addEventListener('click', () => onNavigate('/'));
 
   newPost.addEventListener('click', async () => {
+    const user = auth.currentUser;
     const contenidoPost = textArea.value;
 
     if (contenidoPost === '') {
@@ -90,6 +91,18 @@ export const Timeline = (onNavigate) => {
 
           const contenidoElement = document.createElement('p');
           contenidoElement.textContent = post.contenido;
+
+          const nombreUsuarioElement = document.createElement('span');
+          nombreUsuarioElement.textContent = post.nombreUsuario;
+          nombreUsuarioElement.className = 'nombreUsuario';
+          const fotoUsuarioElement = document.createElement('img');
+          fotoUsuarioElement.className = 'fotoUsuario';
+          if (post.fotoUsuario) {
+            fotoUsuarioElement.src = post.fotoUsuario;
+          } else {
+            // En caso de que no haya una foto de usuario, usar una imagen ;)
+            fotoUsuarioElement.src = './img/user.png';
+          }
 
           const bottonDiv = document.createElement('div');
           bottonDiv.className = 'bottonDiv';
@@ -170,11 +183,12 @@ export const Timeline = (onNavigate) => {
 
           bottonDiv.appendChild(btnsLike);
           btnsLike.appendChild(like);
-
+          article.appendChild(nombreUsuarioElement);
           article.appendChild(contenidoElement);
           article.appendChild(bottonDiv);
           article.appendChild(botonEditar);
           article.appendChild(botonEliminar);
+          article.appendChild(fotoUsuarioElement);
 
           postElement.appendChild(article);
           postsContainer.appendChild(postElement);
