@@ -95,6 +95,7 @@ export const Timeline = (onNavigate) => {
           const nombreUsuarioElement = document.createElement('span');
           nombreUsuarioElement.textContent = post.nombreUsuario;
           nombreUsuarioElement.className = 'nombreUsuario';
+
           const fotoUsuarioElement = document.createElement('img');
           fotoUsuarioElement.className = 'fotoUsuario';
           if (post.fotoUsuario) {
