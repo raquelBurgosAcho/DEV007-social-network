@@ -38,7 +38,7 @@ export const crearPost = async (texto) => {
 };
 
 // onSnapshot!!!!!!
-export const guardarTodosLosPost = (callback) => onSnapshot(query(collection(db, 'posts'), orderBy('fecha', 'desc')), callback);
+export const mostrarTodosLosPost = (callback) => onSnapshot(query(collection(db, 'posts'), orderBy('fecha', 'desc')), callback);
 
 export const toEdit = async (id, nuevoContenido) => {
   await updateDoc(doc(db, 'posts', id), {

@@ -1,7 +1,7 @@
 import { auth } from '../firebase';
 import {
   crearPost,
-  guardarTodosLosPost,
+  mostrarTodosLosPost,
   eliminarPost,
   toLike,
   toEdit,
@@ -95,7 +95,7 @@ export const Timeline = (onNavigate) => {
   });
 
   // Enlistar posts
-  guardarTodosLosPost((querySnapshot) => {
+  mostrarTodosLosPost((querySnapshot) => {
     postsContainer.innerHTML = '';
 
     querySnapshot.forEach((doc) => {
