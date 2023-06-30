@@ -95,13 +95,12 @@ export const Timeline = (onNavigate) => {
           const nombreUsuarioElement = document.createElement('span');
           nombreUsuarioElement.textContent = post.nombreUsuario;
           nombreUsuarioElement.className = 'nombreUsuario';
-
           const fotoUsuarioElement = document.createElement('img');
           fotoUsuarioElement.className = 'fotoUsuario';
           if (post.fotoUsuario) {
             fotoUsuarioElement.src = post.fotoUsuario;
           } else {
-            // En caso de que no haya una foto de usuario, usar una imagen ;)
+            // En caso de que no haya foto de usuario, usar una imagen por defecto
             fotoUsuarioElement.src = './img/user.png';
           }
 
