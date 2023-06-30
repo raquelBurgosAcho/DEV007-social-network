@@ -1,7 +1,7 @@
 import { auth } from '../firebase';
 import {
   crearPost,
-  guardarTodosLosPost,
+  mostrarTodosLosPost,
   eliminarPost,
   toLike,
   // toDislike,
@@ -9,6 +9,8 @@ import {
 } from '../lib';
 
 export const Timeline = (onNavigate) => {
+  const user = auth.currentUser;
+
   const postDiv = document.createElement('div');
   postDiv.className = 'login-register-div';
 
@@ -22,8 +24,15 @@ export const Timeline = (onNavigate) => {
 
   // NOMBRE DE USUARIO ------------------------------------------------------
   const nameUser = document.createElement('h5');
-  nameUser.className = 'logo-flora';
-  nameUser.textContent = '';
+  nameUser.className = 'usuariopublicacion';
+  // Función para actualizar el contenido de nameUser cuando se inicia sesión
+  const updateNameUser = (usuario) => {
+    nameUser.textContent = `Hola ${usuario.email}`;
+  };
+  // Observar cambios en el estado de autenticación
+  auth.onAuthStateChanged((users) => {
+    updateNameUser(users);
+  });
 
   // TEXT AREA -------------------------------------------------------------
   const textArea = document.createElement('textarea');
@@ -54,18 +63,20 @@ export const Timeline = (onNavigate) => {
   buttonHome.className = 'button-logout';
   buttonHome.textContent = 'Cerrar sesión';
 
+  // EVENTO BOTON IR A  HOME
+  buttonHome.addEventListener('click', () => onNavigate('/'));
+
+  // APENDIZAR LO PRINCIPAL DEL TIMELINE
   postDiv.appendChild(titleFloraTimeline);
+  postDiv.appendChild(articlePost);
   articlePost.appendChild(nameUser);
   articlePost.appendChild(textArea);
   articlePost.appendChild(newPost);
-  postDiv.appendChild(articlePost);
   articlePost.appendChild(errorTextoVacio);
-  articlePost.appendChild(postsContainer);
+  postDiv.appendChild(postsContainer);
   postDiv.appendChild(buttonHome);
 
-  // EVENTO BOTON IR A  HOME ------------------------------------------------------
-  buttonHome.addEventListener('click', () => onNavigate('/'));
-
+  // EVENTO BOTON PARA CREAR UNA PUBLICACION------------------------------------------------------
   newPost.addEventListener('click', async () => {
     const contenidoPost = textArea.value;
 
@@ -78,36 +89,70 @@ export const Timeline = (onNavigate) => {
 
       try {
         await crearPost(contenidoPost);
-        const posts = await guardarTodosLosPost();
-        postsContainer.innerHTML = '';
+      } catch (error) {
+        console.log('Error al crear el post:', error);
+      }
+    }
+  });
 
-        posts.forEach((post) => {
-          const postElement = document.createElement('div');
-          postElement.className = 'divPost';
+  // Enlistar posts---------------------------------------------------------------------
+  mostrarTodosLosPost((querySnapshot) => {
+    postsContainer.innerHTML = '';
 
-          const article = document.createElement('article');
-          article.className = 'articlePost';
-          article.id = 'articlePost';
+    querySnapshot.forEach((doc) => {
+      const post = doc.data();
+      // console.log(post);
 
-          const contenidoElement = document.createElement('p');
-          contenidoElement.textContent = post.contenido;
+      //  // Crear elementos de la publicación
+      const postEnlistados = document.createElement('div');
+      postEnlistados.className = 'divPost';
 
-          const bottonDiv = document.createElement('div');
-          bottonDiv.className = 'bottonDiv';
+      const article = document.createElement('article');
+      article.className = 'articlePost';
+      article.id = 'articlePost';
+
+      const usuarioPublicacion = document.createElement('p');
+      usuarioPublicacion.className = 'usuariopublicacion';
+      usuarioPublicacion.textContent = `${post.usuario}`;
+
+      const usuarioIcono = document.createElement('img');
+      usuarioIcono.className = 'iconoUsuario';
+      usuarioIcono.src = './img/usuarioicono.png';
+
+      const contenidoElement = document.createElement('p');
+      contenidoElement.textContent = post.contenido;
+
+      const bottonDiv = document.createElement('div');
+      bottonDiv.className = 'bottonDiv';
 
           // -------- Evento dar like ------------
           const btnsLike = document.createElement('button');
           btnsLike.className = 'btnLike';
           btnsLike.setAttribute('btnLikes', post.id);
+      const likeCount = document.createElement('p');
+      likeCount.className = 'contadorlike';
+      likeCount.textContent = post.likes.length;
 
-          const like = document.createElement('img');
-          like.className = 'like';
-          like.src = './img/empty-heart-icon.png';
+      const btnsLike = document.createElement('button');
+      btnsLike.className = 'btnLike';
+      btnsLike.setAttribute('btnLikes', doc.id);
 
-          btnsLike.addEventListener('click', async () => {
-            const postId = btnsLike.getAttribute('btnLikes');
-            await toLike(postId);
-          });
+      const like = document.createElement('img');
+      like.className = 'like';
+      like.src = './img/empty-heart-icon.png';
+
+      // EVENTO BOTON LIKE---------------------------------------------------
+      btnsLike.addEventListener('click', async () => {
+        const postId = btnsLike.getAttribute('btnLikes');
+        await toLike(postId);
+
+        // Incrementar el contador de likes y actualizar el contenido
+        const currentLikes = parseInt(likeCount.textContent, 10);
+        likeCount.textContent = `${currentLikes + 1}`;
+
+        // Cambiar la imagen del corazón al hacer clic
+        like.src = './img/full-heart-icon.png';
+      });
 
           // const buttonLike = btnsLike.querySelector('.btnLikes');
           // buttonLike.forEach((user) => {
@@ -119,7 +164,7 @@ export const Timeline = (onNavigate) => {
 
           //     if (buttonLike.includes(currentUser.email)) {
           //       await toLike(postId, userLike);
-          //       like.src = './img/filled-heart-icon.png';
+          //       like.src = './img/full-heart-icon.png';
           //     } else {
           //       await toDislike(postId, userLike);
           //       like.src = './img/empty-heart-icon.png';
@@ -132,79 +177,91 @@ export const Timeline = (onNavigate) => {
           botonEditar.className = 'btnEdit';
           botonEditar.textContent = 'Editar';
 
-          botonEditar.addEventListener('click', () => {
-            const user = auth.currentUser;
-            if (user && post.usuario === user.email) {
-              const textAreaEdit = document.createElement('textarea');
-              textAreaEdit.className = 'inpPost';
-              textAreaEdit.value = contenidoElement.textContent;
-              textAreaEdit.placeholder = 'Escribe aquí...';
+      // EVENTO PARA EL BOTON DE EDITAR
+      botonEditar.addEventListener('click', () => {
+        if (user && post.usuario === user.email) {
+          const textAreaEdit = document.createElement('textarea');
+          textAreaEdit.className = 'inpPost';
+          textAreaEdit.value = contenidoElement.textContent;
+          textAreaEdit.placeholder = 'Escribe aquí...';
 
-              const btnGuardar = document.createElement('button');
-              btnGuardar.className = 'btnSave';
-              btnGuardar.textContent = 'Guardar';
+          const btnGuardar = document.createElement('button');
+          btnGuardar.className = 'btnSave';
+          btnGuardar.textContent = 'Guardar';
 
-              const btnCancelar = document.createElement('button');
-              btnCancelar.className = 'btnCancel';
-              btnCancelar.textContent = 'Cancelar';
+          const btnCancelar = document.createElement('button');
+          btnCancelar.className = 'btnCancel';
+          btnCancelar.textContent = 'Cancelar';
 
-              const editContainer = document.createElement('div');
-              editContainer.className = 'editContainer';
-              editContainer.appendChild(textAreaEdit);
-              editContainer.appendChild(btnGuardar);
-              editContainer.appendChild(btnCancelar);
+          const editContainer = document.createElement('div');
+          editContainer.className = 'editContainer';
+          editContainer.appendChild(textAreaEdit);
+          editContainer.appendChild(btnGuardar);
+          editContainer.appendChild(btnCancelar);
 
-              article.replaceChild(editContainer, contenidoElement);
+          article.replaceChild(editContainer, contenidoElement);
 
-              btnGuardar.addEventListener('click', async () => {
-                const nuevoContenido = textAreaEdit.value;
-                if (nuevoContenido) {
-                  try {
-                    await toEdit(post.id, nuevoContenido);
-                    contenidoElement.textContent = nuevoContenido;
-                    article.replaceChild(contenidoElement, editContainer);
-                    console.log('El post se editó correctamente');
-                  } catch (error) {
-                    console.log('Error al editar el post:', error);
-                  }
-                }
-              });
-
-              btnCancelar.addEventListener('click', () => {
+          btnGuardar.addEventListener('click', async () => {
+            const nuevoContenido = textAreaEdit.value;
+            if (nuevoContenido) {
+              try {
+                await toEdit(doc.id, nuevoContenido);
+                contenidoElement.textContent = nuevoContenido;
                 article.replaceChild(contenidoElement, editContainer);
-              });
+                console.log('El post se editó correctamente');
+              } catch (error) {
+                console.log('Error al editar el post:', error);
+              }
             }
           });
+
+          btnCancelar.addEventListener('click', () => {
+            article.replaceChild(contenidoElement, editContainer);
+          });
+        }
+      });
 
           // -------- Evento eliminar post ------------
           const botonEliminar = document.createElement('button');
           botonEliminar.className = 'btnDelete';
           botonEliminar.textContent = 'Eliminar';
+      // BOTON ELIMINAR-------------------------------------------------------------------
+      // Código para mostrar el botón de eliminar y su evento
 
-          botonEliminar.addEventListener('click', async () => {
-            try {
-              await eliminarPost(post.id);
-              postElement.remove();
-            } catch (error) {
-              console.log('Error al eliminar el post:', error);
-            }
-          });
+      const botonEliminar = document.createElement('button');
+      botonEliminar.className = 'btnDelete';
+      botonEliminar.textContent = 'Eliminar';
+      botonEliminar.style.display = 'none'; // Ocultar el botón inicialmente
 
-          bottonDiv.appendChild(btnsLike);
-          btnsLike.appendChild(like);
-
-          article.appendChild(contenidoElement);
-          article.appendChild(bottonDiv);
-          article.appendChild(botonEditar);
-          article.appendChild(botonEliminar);
-
-          postElement.appendChild(article);
-          postsContainer.appendChild(postElement);
-        });
-      } catch (error) {
-        console.log('Error al crear el post:', error);
+      // Aquí agregamos la condición para mostrar el botón solo al autor de la publicación
+      if (auth.currentUser && post.usuario === auth.currentUser.email) {
+        // Mostrar el botón solo si el usuario actual es el autor de la publicación
+        botonEliminar.style.display = 'inline-block';
       }
-    }
+
+      botonEliminar.addEventListener('click', async () => {
+        try {
+          await eliminarPost(doc.id);
+          postEnlistados.remove();
+        } catch (error) {
+          console.log('Error al eliminar el post:', error);
+        }
+      });
+
+      // Agregar los elementos de la publicación al contenedor
+      bottonDiv.appendChild(btnsLike);
+      btnsLike.appendChild(likeCount);
+      btnsLike.appendChild(like);
+      article.appendChild(usuarioIcono);
+      article.appendChild(usuarioPublicacion);
+      article.appendChild(contenidoElement);
+      article.appendChild(bottonDiv);
+      article.appendChild(botonEditar);
+      article.appendChild(botonEliminar);
+
+      postEnlistados.appendChild(article);
+      postsContainer.appendChild(postEnlistados);
+    });
   });
 
   return postDiv;
