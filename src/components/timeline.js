@@ -6,7 +6,6 @@ import {
   toLike,
   toDislike,
   toEdit,
-  toDislike,
 } from '../lib';
 
 export const Timeline = (onNavigate) => {
