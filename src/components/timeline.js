@@ -94,7 +94,7 @@ export const Timeline = (onNavigate) => {
     }
   });
 
-  // Enlistar posts
+  // Enlistar posts---------------------------------------------------------------------
   mostrarTodosLosPost((querySnapshot) => {
     postsContainer.innerHTML = '';
 
@@ -102,6 +102,7 @@ export const Timeline = (onNavigate) => {
       const post = doc.data();
       // console.log(post);
 
+      //  // Crear elementos de la publicación
       const postEnlistados = document.createElement('div');
       postEnlistados.className = 'divPost';
 
@@ -149,6 +150,7 @@ export const Timeline = (onNavigate) => {
       });
 
       // BOTON EDITAR-----------------------------------------------------------
+      // Código para mostrar el botón de eliminar y su evento
       const botonEditar = document.createElement('button');
       botonEditar.className = 'btnEdit';
       botonEditar.textContent = 'Editar';
@@ -160,7 +162,7 @@ export const Timeline = (onNavigate) => {
         botonEditar.style.display = 'inline-block';
       }
 
-      // EVENTO PARA EL BOTON DE EDITAR------------------------------------------------
+      // EVENTO PARA EL BOTON DE EDITAR
       botonEditar.addEventListener('click', () => {
         if (user && post.usuario === user.email) {
           const textAreaEdit = document.createElement('textarea');
@@ -205,6 +207,8 @@ export const Timeline = (onNavigate) => {
       });
 
       // BOTON ELIMINAR-------------------------------------------------------------------
+      // Código para mostrar el botón de eliminar y su evento
+
       const botonEliminar = document.createElement('button');
       botonEliminar.className = 'btnDelete';
       botonEliminar.textContent = 'Eliminar';
@@ -225,6 +229,7 @@ export const Timeline = (onNavigate) => {
         }
       });
 
+      // Agregar los elementos de la publicación al contenedor
       bottonDiv.appendChild(btnsLike);
       btnsLike.appendChild(likeCount);
       btnsLike.appendChild(like);
