@@ -71,13 +71,14 @@ export const toLike = (id) => {
   console.log(' este es el id del post', id);
   updateDoc(doc(db, 'posts', id), {
     likes: arrayUnion(user.email),
+    dislikes: arrayRemove(user.email),
   });
 };
 
-export const toDislike = (id) => {
-  const user = auth.currentUser;
-  console.log('una persona de internet', user);
-  updateDoc(doc(db, 'posts', id), {
-    likes: arrayRemove(user.email),
-  });
-};
+// export const toDislike = (id) => {
+//   const user = auth.currentUser;
+//   console.log('una persona de internet', user);
+//   updateDoc(doc(db, 'posts', id), {
+//     dislikes: arrayRemove(user.email),
+//   });
+// };

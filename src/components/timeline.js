@@ -4,6 +4,7 @@ import {
   guardarTodosLosPost,
   eliminarPost,
   toLike,
+  // toDislike,
   toEdit,
 } from '../lib';
 
@@ -94,6 +95,7 @@ export const Timeline = (onNavigate) => {
           const bottonDiv = document.createElement('div');
           bottonDiv.className = 'bottonDiv';
 
+          // -------- Evento dar like ------------
           const btnsLike = document.createElement('button');
           btnsLike.className = 'btnLike';
           btnsLike.setAttribute('btnLikes', post.id);
@@ -107,6 +109,25 @@ export const Timeline = (onNavigate) => {
             await toLike(postId);
           });
 
+          // const buttonLike = btnsLike.querySelector('.btnLikes');
+          // buttonLike.forEach((user) => {
+          //   btnsLike.addEventListener('click', async () => {
+          //     // e.preventDefault();
+          //     const postId = btnsLike.getAttribute('btnLikes');
+          //     const userLike = auth.currentUser.email;
+          //     // await toLike(postId, userLike);
+
+          //     if (buttonLike.includes(currentUser.email)) {
+          //       await toLike(postId, userLike);
+          //       like.src = './img/filled-heart-icon.png';
+          //     } else {
+          //       await toDislike(postId, userLike);
+          //       like.src = './img/empty-heart-icon.png';
+          //     }
+          //   });
+          // });
+
+          // -------- Evento editar post ------------
           const botonEditar = document.createElement('button');
           botonEditar.className = 'btnEdit';
           botonEditar.textContent = 'Editar';
@@ -155,6 +176,7 @@ export const Timeline = (onNavigate) => {
             }
           });
 
+          // -------- Evento eliminar post ------------
           const botonEliminar = document.createElement('button');
           botonEliminar.className = 'btnDelete';
           botonEliminar.textContent = 'Eliminar';
