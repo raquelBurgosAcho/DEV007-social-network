@@ -33,6 +33,8 @@ export const crearPost = async (texto) => {
     contenido: texto,
     likes: [],
     usuario: auth.currentUser.email,
+    nombreUsuario: auth.currentUser.displayName,
+    fotoUsuario: auth.currentUser.photoURL,
     fecha: new Date(),
   });
 };

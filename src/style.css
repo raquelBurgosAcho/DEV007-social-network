@@ -211,6 +211,7 @@ padding: 10px;
   }
 
 .usuariopublicacion{
+  margin-top: 15px;
   margin-left: 33px;
   color: #263238;
   font-size: 15px;
@@ -219,6 +220,13 @@ padding: 10px;
 
 .iconoUsuario{
   margin-left: 3px;
+  position: absolute;
+}
+
+.fotoUsuario {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
   position: absolute;
 }
 

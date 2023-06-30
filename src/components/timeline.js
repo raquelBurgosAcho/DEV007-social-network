@@ -116,8 +116,13 @@ export const Timeline = (onNavigate) => {
       usuarioPublicacion.textContent = `${post.usuario}`;
 
       const usuarioIcono = document.createElement('img');
-      usuarioIcono.className = 'iconoUsuario';
-      usuarioIcono.src = './img/usuarioicono.png';
+      usuarioIcono.className = 'fotoUsuario';
+      if (post.fotoUsuario) {
+        usuarioIcono.src = post.fotoUsuario;
+      } else {
+        // En caso de que no haya foto de usuario, usar una imagen por defecto
+        usuarioIcono.src = './img/usuarioicono.png';
+      }
 
       const contenidoElement = document.createElement('p');
       contenidoElement.textContent = post.contenido;
@@ -139,25 +144,21 @@ export const Timeline = (onNavigate) => {
       like.className = 'like';
       like.src = post.likes.includes(auth.currentUser.email) ? './img/full-heart-icon.png' : './img/empty-heart-icon.png';
 
-      // EVENTO BOTON LIKE---------------------------------------------------
-      // EVENTO BOTON LIKE---------------------------------------------------
+      // EVENTO BOTON LIKE---------------------------------------------------------
       btnsLike.addEventListener('click', async () => {
         const postId = btnsLike.getAttribute('btnLikes');
         const isLiked = btnsLike.getAttribute('data-liked');
-        console.log('CLICK')
-        console.log(isLiked)
+        console.log('CLICK');
+        console.log(isLiked);
         if (isLiked === 'false') {
-
           // Cambiar la imagen del corazón al hacer clic
           like.src = './img/full-heart-icon.png';
 
           // Actualizar el atributo "data-liked" para indicar que ahora está "liked"
           btnsLike.setAttribute('data-liked', 'true');
-          
+
           // Hacer la solicitud para dar "like" al post
           await toLike(postId);
-
-          
         } else {
           // Hacer la solicitud para quitar el "like" al post
           await toDislike(postId);
