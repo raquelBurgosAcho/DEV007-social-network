@@ -132,6 +132,7 @@ export const Timeline = (onNavigate) => {
       const btnsLike = document.createElement('button');
       btnsLike.className = 'btnLike';
       btnsLike.setAttribute('btnLikes', doc.id);
+      btnsLike.setAttribute('data-liked', 'false');
 
       const like = document.createElement('img');
       like.className = 'like';
@@ -141,7 +142,7 @@ export const Timeline = (onNavigate) => {
       // EVENTO BOTON LIKE---------------------------------------------------
       btnsLike.addEventListener('click', async () => {
         const postId = btnsLike.getAttribute('btnLikes');
-        const isLiked = btnsLike.getAttribute('data-liked'); // Asumimos que hay un atributo "data-liked" que indica si el post ya ha sido "liked" o no
+        const isLiked = btnsLike.getAttribute('data-liked');
 
         if (isLiked === 'false') {
           // Hacer la solicitud para dar "like" al post
