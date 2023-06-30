@@ -5,6 +5,7 @@ import {
   eliminarPost,
   toLike,
   toEdit,
+  toDislike,
 } from '../lib';
 
 export const Timeline = (onNavigate) => {
@@ -137,16 +138,30 @@ export const Timeline = (onNavigate) => {
       like.src = './img/empty-heart-icon.png';
 
       // EVENTO BOTON LIKE---------------------------------------------------
+      // EVENTO BOTON LIKE---------------------------------------------------
       btnsLike.addEventListener('click', async () => {
         const postId = btnsLike.getAttribute('btnLikes');
-        await toLike(postId);
+        const isLiked = btnsLike.getAttribute('data-liked'); // Asumimos que hay un atributo "data-liked" que indica si el post ya ha sido "liked" o no
 
-        // Incrementar el contador de likes y actualizar el contenido
-        const currentLikes = parseInt(likeCount.textContent, 10);
-        likeCount.textContent = `${currentLikes + 1}`;
+        if (isLiked === 'false') {
+          // Hacer la solicitud para dar "like" al post
+          await toLike(postId);
 
-        // Cambiar la imagen del corazón al hacer clic
-        like.src = './img/full-heart-icon.png';
+          // Cambiar la imagen del corazón al hacer clic
+          like.src = './img/full-heart-icon.png';
+
+          // Actualizar el atributo "data-liked" para indicar que ahora está "liked"
+          btnsLike.setAttribute('data-liked', 'true');
+        } else {
+          // Hacer la solicitud para quitar el "like" al post
+          await toDislike(postId);
+
+          // Cambiar la imagen del corazón al hacer clic
+          like.src = './img/empty-heart-icon.png';
+
+          // Actualizar el atributo "data-liked" para indicar que ya no está "liked"
+          btnsLike.setAttribute('data-liked', 'false');
+        }
       });
 
       // BOTON EDITAR-----------------------------------------------------------
