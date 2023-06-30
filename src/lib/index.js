@@ -50,11 +50,19 @@ export const eliminarPost = async (id) => {
   await deleteDoc(doc(db, 'posts', id));
 };
 
+// ------- función like y dislike -------
 export const toLike = (id) => {
   const user = auth.currentUser;
 
   updateDoc(doc(db, 'posts', id), {
     likes: arrayUnion(user.email),
+  });
+};
+
+export const toDislike = (id) => {
+  const user = auth.currentUser;
+
+  updateDoc(doc(db, 'posts', id), {
     dislikes: arrayRemove(user.email),
   });
 };
@@ -66,10 +74,3 @@ export const toLike = (id) => {
 //     dislikes: arrayRemove(user.email),
 //   });
 // };
-export const toDislike = (id) => {
-  const user = auth.currentUser;
-
-  updateDoc(doc(db, 'posts', id), {
-    likes: arrayRemove(user.email),
-  });
-};

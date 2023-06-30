@@ -4,7 +4,7 @@ import {
   mostrarTodosLosPost,
   eliminarPost,
   toLike,
-  // toDislike,
+  toDislike,
   toEdit,
 } from '../lib';
 
@@ -125,10 +125,7 @@ export const Timeline = (onNavigate) => {
       const bottonDiv = document.createElement('div');
       bottonDiv.className = 'bottonDiv';
 
-          // -------- Evento dar like ------------
-          const btnsLike = document.createElement('button');
-          btnsLike.className = 'btnLike';
-          btnsLike.setAttribute('btnLikes', post.id);
+      // -------- CREACIÓN ELEMENTOS like ------------
       const likeCount = document.createElement('p');
       likeCount.className = 'contadorlike';
       likeCount.textContent = post.likes.length;
@@ -141,41 +138,45 @@ export const Timeline = (onNavigate) => {
       like.className = 'like';
       like.src = './img/empty-heart-icon.png';
 
-      // EVENTO BOTON LIKE---------------------------------------------------
-      btnsLike.addEventListener('click', async () => {
-        const postId = btnsLike.getAttribute('btnLikes');
-        await toLike(postId);
+      // EVENTO BOTON LIKE QUE SÍ FUNCIONA -------------------
+      // btnsLike.addEventListener('click', async () => {
+      //   const postId = btnsLike.getAttribute('btnLikes');
+      //   await toLike(postId);
 
-        // Incrementar el contador de likes y actualizar el contenido
-        const currentLikes = parseInt(likeCount.textContent, 10);
-        likeCount.textContent = `${currentLikes + 1}`;
+      // Incrementar el contador de likes y actualizar el contenido
+      const currentLikes = parseInt(likeCount.textContent, 10);
+      likeCount.textContent = `${currentLikes + 1}`;
 
-        // Cambiar la imagen del corazón al hacer clic
-        like.src = './img/full-heart-icon.png';
+      //   // Cambiar la imagen del corazón al hacer clic
+      //   like.src = './img/full-heart-icon.png';
+      // });
+
+      // ---- intento numero 2 ------
+      // trayendo el valor del boton para dar like
+      // postsContainer es el div que contiene las publicaciones desplegadas
+      const buttonLike = postsContainer.querySelectorAll('.btnLike');
+      buttonLike.forEach((liked) => {
+        btnsLike.addEventListener('click', async () => {
+          // guardando los id de los posts y el usuario que dé like
+          const postId = btnsLike.getAttribute('btnLikes');
+          const userLike = auth.currentUser.email;
+
+          if (liked.includes(postId && userLike)) {
+            await toLike;
+            likeCount.textContent = `${currentLikes + 1}`;
+            like.src = './img/full-heart-icon.png';
+          } else {
+            await toDislike;
+            likeCount.textContent = `${currentLikes - 1}`;
+            like.src = './img/empty-heart-icon.png';
+          }
+        });
       });
 
-          // const buttonLike = btnsLike.querySelector('.btnLikes');
-          // buttonLike.forEach((user) => {
-          //   btnsLike.addEventListener('click', async () => {
-          //     // e.preventDefault();
-          //     const postId = btnsLike.getAttribute('btnLikes');
-          //     const userLike = auth.currentUser.email;
-          //     // await toLike(postId, userLike);
-
-          //     if (buttonLike.includes(currentUser.email)) {
-          //       await toLike(postId, userLike);
-          //       like.src = './img/full-heart-icon.png';
-          //     } else {
-          //       await toDislike(postId, userLike);
-          //       like.src = './img/empty-heart-icon.png';
-          //     }
-          //   });
-          // });
-
-          // -------- Evento editar post ------------
-          const botonEditar = document.createElement('button');
-          botonEditar.className = 'btnEdit';
-          botonEditar.textContent = 'Editar';
+      // -------- Evento editar post ------------
+      const botonEditar = document.createElement('button');
+      botonEditar.className = 'btnEdit';
+      botonEditar.textContent = 'Editar';
 
       // EVENTO PARA EL BOTON DE EDITAR
       botonEditar.addEventListener('click', () => {
@@ -221,10 +222,6 @@ export const Timeline = (onNavigate) => {
         }
       });
 
-          // -------- Evento eliminar post ------------
-          const botonEliminar = document.createElement('button');
-          botonEliminar.className = 'btnDelete';
-          botonEliminar.textContent = 'Eliminar';
       // BOTON ELIMINAR-------------------------------------------------------------------
       // Código para mostrar el botón de eliminar y su evento
 
