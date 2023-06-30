@@ -5,6 +5,7 @@ import {
   eliminarPost,
   toLike,
   toEdit,
+  toDislike,
 } from '../lib';
 
 export const Timeline = (onNavigate) => {
@@ -100,7 +101,6 @@ export const Timeline = (onNavigate) => {
 
     querySnapshot.forEach((doc) => {
       const post = doc.data();
-      // console.log(post);
 
       //  // Crear elementos de la publicación
       const postEnlistados = document.createElement('div');
@@ -115,8 +115,13 @@ export const Timeline = (onNavigate) => {
       usuarioPublicacion.textContent = `${post.usuario}`;
 
       const usuarioIcono = document.createElement('img');
-      usuarioIcono.className = 'iconoUsuario';
-      usuarioIcono.src = './img/usuarioicono.png';
+      usuarioIcono.className = 'fotoUsuario';
+      if (post.fotoUsuario) {
+        usuarioIcono.src = post.fotoUsuario;
+      } else {
+        // En caso de que no haya foto de usuario, usar una imagen por defecto
+        usuarioIcono.src = './img/usuarioicono.png';
+      }
 
       const contenidoElement = document.createElement('p');
       contenidoElement.textContent = post.contenido;
@@ -131,22 +136,37 @@ export const Timeline = (onNavigate) => {
       const btnsLike = document.createElement('button');
       btnsLike.className = 'btnLike';
       btnsLike.setAttribute('btnLikes', doc.id);
+      btnsLike.setAttribute('data-liked', post.likes.includes(auth.currentUser.email) ? 'true' : 'false');
 
       const like = document.createElement('img');
       like.className = 'like';
-      like.src = './img/empty-heart-icon.png';
+      like.src = post.likes.includes(auth.currentUser.email) ? './img/full-heart-icon.png' : './img/empty-heart-icon.png';
 
-      // EVENTO BOTON LIKE---------------------------------------------------
+      // EVENTO BOTON LIKE---------------------------------------------------------
       btnsLike.addEventListener('click', async () => {
         const postId = btnsLike.getAttribute('btnLikes');
-        await toLike(postId);
+        const isLiked = btnsLike.getAttribute('data-liked');
+        console.log('CLICK');
+        console.log(isLiked);
+        if (isLiked === 'false') {
+          // Cambiar la imagen del corazón al hacer clic
+          like.src = './img/full-heart-icon.png';
 
-        // Incrementar el contador de likes y actualizar el contenido
-        const currentLikes = parseInt(likeCount.textContent, 10);
-        likeCount.textContent = `${currentLikes + 1}`;
+          // Actualizar el atributo "data-liked" para indicar que ahora está "liked"
+          btnsLike.setAttribute('data-liked', 'true');
 
-        // Cambiar la imagen del corazón al hacer clic
-        like.src = './img/full-heart-icon.png';
+          // Hacer la solicitud para dar "like" al post
+          await toLike(postId);
+        } else {
+          // Hacer la solicitud para quitar el "like" al post
+          await toDislike(postId);
+
+          // Cambiar la imagen del corazón al hacer clic
+          like.src = './img/empty-heart-icon.png';
+
+          // Actualizar el atributo "data-liked" para indicar que ya no está "liked"
+          btnsLike.setAttribute('data-liked', 'false');
+        }
       });
 
       // BOTON EDITAR-----------------------------------------------------------
