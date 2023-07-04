@@ -39,22 +39,6 @@ export const crearPost = async (texto) => {
   });
 };
 
-export const guardarTodosLosPost = async () => {
-  // realizar consulta a la coleccion y alamcenarla en snapshot
-  const snapshot = await getDocs(collection(db, 'posts')); // cambiar por onSnapshot
-  const posts = snapshot.docs.map((doc) => ({
-    // iterar sobre cada documento y extraer el contenido de cada uno
-    contenido: doc.data().contenido,
-    // y el id elimina cada comentario
-    id: doc.id,
-    usuario: doc.data().usuario,
-    fotoUsuario: doc.data().fotoUsuario,
-    nombreUsuario: doc.data().nombreUsuario,
-    likes: doc.data().likes,
-  }));
-  return posts;
-};
-
 // onSnapshot!!!!!!
 // export const guardarTodosLosPost = (callback) => onSnapshot(query(collection(db, 'posts'),
 // orderBy('postDate', 'asc')), callback);
