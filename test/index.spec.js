@@ -1,6 +1,5 @@
 // funciones/métodos firebase-firestore
 import { signInWithEmailAndPassword } from 'firebase/auth';
-
 // funciones index.js
 import {
   crearPost,
@@ -19,16 +18,6 @@ import {
 jest.mock('firebase/auth');
 jest.mock('firebase/firestore');
 
-// beforeEach(() => {
-//   signInWithEmailAndPassword.mockClear();
-// });
-
-describe('crearUsuarioConCorreoYContraseña', () => {
-  it('Debería ser una función', () => {
-    expect(typeof crearUsuarioConCorreoYContraseña).toBe('function');
-  });
-});
-
 describe('iniciarSesionConUsuarioYContraseña', () => {
   it('Debería ser una función', () => {
     expect(typeof iniciarSesionConUsuarioYContraseña).toBe('function');
@@ -44,7 +33,7 @@ describe('iniciarSesionConUsuarioYContraseña', () => {
     signInWithEmailAndPassword.mockReturnValueOnce({ user: { email: 'arturovh@hotmail.com' } });
     const response = await iniciarSesionConUsuarioYContraseña('arturovh@hotmail.com', '1234567');
     // console.log(response)
-    expect(response.user.email).toBe('object');
+    expect(response.user.email).toBe('arturovh@hotmail.com');
   });
 });
 
@@ -93,5 +82,15 @@ describe('toLike', () => {
 describe('toDislike', () => {
   it('Debería ser una función', () => {
     expect(typeof toDislike).toBe('function');
+  });
+});
+
+// beforeEach(() => {
+//   signInWithEmailAndPassword.mockClear();
+// });
+
+describe('crearUsuarioConCorreoYContraseña', () => {
+  it('Debería ser una función', () => {
+    expect(typeof crearUsuarioConCorreoYContraseña).toBe('function');
   });
 });

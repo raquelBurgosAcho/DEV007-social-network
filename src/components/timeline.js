@@ -174,7 +174,13 @@ export const Timeline = (onNavigate) => {
       const botonEditar = document.createElement('button');
       botonEditar.className = 'btnEdit';
       botonEditar.textContent = 'Editar';
+      botonEditar.style.display = 'none'; // Ocultar el botón inicialmente
 
+      // Aquí agregamos la condición para mostrar el botón solo al autor de la publicación
+      if (auth.currentUser && post.usuario === auth.currentUser.email) {
+        // Mostrar el botón solo si el usuario actual es el autor de la publicación
+        botonEditar.style.display = 'inline-block';
+      }
       // EVENTO PARA EL BOTON DE EDITAR
       botonEditar.addEventListener('click', () => {
         if (user && post.usuario === user.email) {
