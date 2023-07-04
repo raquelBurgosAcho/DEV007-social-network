@@ -4,8 +4,8 @@ import {
   mostrarTodosLosPost,
   eliminarPost,
   toLike,
-  toDislike,
   toEdit,
+  toDislike,
 } from '../lib';
 
 export const Timeline = (onNavigate) => {
@@ -129,7 +129,6 @@ export const Timeline = (onNavigate) => {
       const bottonDiv = document.createElement('div');
       bottonDiv.className = 'bottonDiv';
 
-      // -------- CREACIÓN ELEMENTOS like ------------
       const likeCount = document.createElement('p');
       likeCount.className = 'contadorlike';
       likeCount.textContent = post.likes.length;
@@ -170,10 +169,18 @@ export const Timeline = (onNavigate) => {
         }
       });
 
-      // -------- Evento editar post ------------
+      // BOTON EDITAR-----------------------------------------------------------
+      // Código para mostrar el botón de eliminar y su evento
       const botonEditar = document.createElement('button');
       botonEditar.className = 'btnEdit';
       botonEditar.textContent = 'Editar';
+      botonEditar.style.display = 'none'; // Ocultar el botón inicialmente
+
+      // Aquí agregamos la condición para mostrar el botón solo al autor de la publicación
+      if (auth.currentUser && post.usuario === auth.currentUser.email) {
+        // Mostrar el botón solo si el usuario actual es el autor de la publicación
+        botonEditar.style.display = 'inline-block';
+      }
 
       // EVENTO PARA EL BOTON DE EDITAR
       botonEditar.addEventListener('click', () => {
