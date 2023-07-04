@@ -4,13 +4,13 @@ import {
   collection,
   deleteDoc,
   doc,
-  getDocs,
+  // getDocs,
   updateDoc,
   arrayUnion,
   arrayRemove,
-  // query,
-  // onSnapshot,
-  // orderBy,
+  query,
+  onSnapshot,
+  orderBy,
 } from 'firebase/firestore';
 
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
@@ -40,8 +40,7 @@ export const crearPost = async (texto) => {
 };
 
 // onSnapshot!!!!!!
-// export const guardarTodosLosPost = (callback) => onSnapshot(query(collection(db, 'posts'),
-// orderBy('postDate', 'asc')), callback);
+export const mostrarTodosLosPost = (callback) => onSnapshot(query(collection(db, 'posts'), orderBy('fecha', 'desc')), callback);
 
 export const toEdit = async (id, nuevoContenido) => {
   await updateDoc(doc(db, 'posts', id), {
@@ -55,8 +54,7 @@ export const eliminarPost = async (id) => {
 
 export const toLike = (id) => {
   const user = auth.currentUser;
-  console.log('una persona de internet', user.email);
-  console.log(' este es el id del post', id);
+
   updateDoc(doc(db, 'posts', id), {
     likes: arrayUnion(user.email),
   });
@@ -64,7 +62,7 @@ export const toLike = (id) => {
 
 export const toDislike = (id) => {
   const user = auth.currentUser;
-  console.log('una persona de internet', user);
+
   updateDoc(doc(db, 'posts', id), {
     likes: arrayRemove(user.email),
   });
