@@ -1,5 +1,4 @@
 /* ---------------------------------------- Vista home ---------------------------------------- */
-@import url('https://fonts.googleapis.com/css2?family=Bitter:wght@200&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bitter:wght@200&family=Nunito+Sans:wght@300&display=swap');
 
 * {
@@ -13,24 +12,8 @@
     align-items: center;
 }
 
-.like, .dislike{
-  height: 20px;
-  background-color: transparent;
-}
-.btnLike {
-  border: none;
-  background-color: transparent;
-}
-.likesCount {
-  background-color: transparent;
-  display: flex;
-  align-items: center;
-  margin-left: 10px;
-  color: #001858;
-}
-
 .title-flora {
-    font-family: 'Bitter';
+    /* font-family: 'Bitter'; */
     font-size: 32px;
     color: #263238;
     text-align: center;
@@ -111,7 +94,13 @@ margin: 5px;
 padding: 10px;
 }
 
-/* --------------------------------- Botones e inputs timeline --------------------------------- */
+/* --------------------------------- Timeline --------------------------------- */
+
+.titles {
+  font-size: 25px;
+  color: #263238;
+  text-align: center;
+}
 
 .divPost{
     width: 302px;
@@ -160,6 +149,7 @@ padding: 10px;
     cursor: pointer;
     justify-items: left;
   }
+
   .btnEdit {
     font-family: sans-serif;
     background: rgba(217, 217, 217, 0.26);
@@ -197,20 +187,6 @@ padding: 10px;
     justify-content: flex-end;
 }
 
-/* ---------------------------------------- Textos errores ---------------------------------------- */
-
-.titles {
-    font-size: 25px;
-    color: #263238;
-    text-align: center;
-}
-
-.error-message {
-    color: #F96645;
-    font-size: 14px;
-    margin-top: 5px;
-  }
-
 .usuariopublicacion{
   margin-top: 15px;
   margin-left: 33px;
@@ -219,17 +195,18 @@ padding: 10px;
   font-weight: bold;
 }
 
-.iconoUsuario{
-  margin-left: 3px;
-  position: absolute;
-}
-
 .fotoUsuario {
   width: 30px;
   height: 30px;
   border-radius: 50%;
   position: absolute;
 }
+
+.iconoUsuario{
+  margin-left: 3px;
+  position: absolute;
+}
+
 
 .contadorlike{
   margin-top: auto;
@@ -256,4 +233,14 @@ padding: 10px;
   position: absolute;
   margin-top: -10px;
   margin-left: -10px;
+  background-color: transparent;
 }
+
+/* ---------------------------------------- Textos errores ---------------------------------------- */
+
+.error-message {
+    color: #F96645;
+    font-size: 14px;
+    margin-top: 5px;
+  }
+
