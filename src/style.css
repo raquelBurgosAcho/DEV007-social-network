@@ -1,43 +1,83 @@
-/* ---------------------------------------- Vista home ---------------------------------------- */
+/* --------------------- Estilos generales --------------------- */
 @import url('https://fonts.googleapis.com/css2?family=Bitter:wght@200&family=Nunito+Sans:wght@300&display=swap');
-
 * {
-    font-family: 'Nunito Sans', sans-serif;
+  font-family: 'Nunito Sans', sans-serif;
 }
 
+/*  Textos errores */
+.error-message {
+  color: #F96645;
+  font-size: 14px;
+  margin: 5px;
+}
+
+/* ---------------------------------------- Vista home ---------------------------------------- */
+
 .home-div {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 5fr;
+  justify-items: center;
+  margin: 20px;
+  background-color: fuchsia;
 }
 
 .title-flora {
-    /* font-family: 'Bitter'; */
+    font-family: 'Bitter', sans-serif;
     font-size: 32px;
     color: #263238;
     text-align: center;
-    margin: 20px;
 }
 
 .logo-flora {
     color: #263238;
     text-align: center;
     font-size: 13px;
-    row-gap: 50px;
+    grid-row-gap: 50px;
+    background-color: greenyellow;
 }
 
 .container-img-home {
-    max-width: 80%;
+    max-width: 110%;
     align-items: center;
-    margin-top: 30px;
-    margin-bottom: 30px;
+    margin-bottom: 50px;
+    background-color: aqua;
 }
+
+.button-register {
+  justify-self: center;
+  align-self: start;
+  background-color: #263238;
+  transition: background-color .5s;
+  color: #E0EDA5;
+  border-radius: 25px;
+  border: hidden;
+  margin: 5px;
+  padding: 15px;
+  font-size: 12px;
+  width: 230px;
+  height: 44px;
+  cursor: pointer;
+}
+
+.button-login {
+  background-color: #263238;
+  transition: background-color .5s;
+  color: #E0EDA5;
+  border-radius: 25px;
+  border: hidden;
+  margin: 5px;
+  padding: 15px;
+  font-size: 12px;
+  width: 230px;
+  height: 44px;
+  cursor: pointer;
+} 
+
 
 /* ---------------------------- Botones e inputs home/login/register ---------------------------- */
 
 .button {
-    font-family: sans-serif;
     background-color: #263238;
     transition: background-color .5s;
     color: #E0EDA5;
@@ -56,7 +96,6 @@
   }
 
 .button-google {
-    font-family: sans-serif;
     background: rgba(217, 217, 217, 0.26);
     color: #263238;
     border-radius: 25px;
@@ -135,7 +174,6 @@ padding: 10px;
 }
 
   .btnDelete {
-    font-family: sans-serif;
     background: rgba(217, 217, 217, 0.26);
     transition: background-color .5s;
     color: gray;
@@ -151,7 +189,6 @@ padding: 10px;
   }
 
   .btnEdit {
-    font-family: sans-serif;
     background: rgba(217, 217, 217, 0.26);
     transition: background-color .5s;
     color: gray;
@@ -236,11 +273,5 @@ padding: 10px;
   background-color: transparent;
 }
 
-/* ---------------------------------------- Textos errores ---------------------------------------- */
 
-.error-message {
-    color: #F96645;
-    font-size: 14px;
-    margin-top: 5px;
-  }
 
