@@ -1,5 +1,15 @@
 // funciones/métodos firebase-firestore
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import {
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from 'firebase/auth';
+
+import {
+  updateDoc,
+  arrayUnion,
+} from 'firebase/firestore';
 
 // funciones index.js
 import {
@@ -13,22 +23,31 @@ import {
   toEdit,
   toLike,
 } from '../src/lib';
+import { auth } from '../src/firebase.js';
 
-// import { auth } from '../src/app/firebase';
-
+// mock a la dependencia de firebase
 jest.mock('firebase/auth');
 jest.mock('firebase/firestore');
 
-// beforeEach(() => {
-//   signInWithEmailAndPassword.mockClear();
-// });
-
+// ------------------------------------------------------------------------------------------------
 describe('crearUsuarioConCorreoYContraseña', () => {
   it('Debería ser una función', () => {
     expect(typeof crearUsuarioConCorreoYContraseña).toBe('function');
   });
-});
 
+  it('Debería llamar a la función crearUsuarioConCorreoYContraseña  cuando es ejecutada', async () => {
+    await crearUsuarioConCorreoYContraseña('arturovh@hotmail.com', '1234567');
+    expect(createUserWithEmailAndPassword).toHaveBeenCalled();
+  });
+
+  it('Debería devolver un objeto', async () => {
+    createUserWithEmailAndPassword.mockReturnValueOnce({ user: { email: 'arturovh@hotmail.com' } });
+    const response = await crearUsuarioConCorreoYContraseña('arturovh@hotmail.com', '1234567');
+    // console.log(response);
+    expect(response.user.email).toBe('arturovh@hotmail.com');
+  });
+});
+// ------------------------------------------------------------------------------------------------
 describe('iniciarSesionConUsuarioYContraseña', () => {
   it('Debería ser una función', () => {
     expect(typeof iniciarSesionConUsuarioYContraseña).toBe('function');
@@ -39,57 +58,76 @@ describe('iniciarSesionConUsuarioYContraseña', () => {
     expect(signInWithEmailAndPassword).toHaveBeenCalled();
   });
 
-  // este no nos pasa, porque no lee el objeto user de la línea 30 (y creemos que la 27 tampoco)
   it('Debería devolver un objeto', async () => {
     signInWithEmailAndPassword.mockReturnValueOnce({ user: { email: 'arturovh@hotmail.com' } });
     const response = await iniciarSesionConUsuarioYContraseña('arturovh@hotmail.com', '1234567');
-    // console.log(response)
-    expect(response.user.email).toBe('object');
+    // console.log(response);
+    expect(response.user.email).toBe('arturovh@hotmail.com');
   });
 });
-
+// ------------------------------------------------------------------------------------------------
 describe('iniciarSesionConGoogle', () => {
   it('Debería ser una función', () => {
     expect(typeof iniciarSesionConGoogle).toBe('function');
   });
 
-  // investigar cómo hacer test a la función de inicio de sesion con google
-  // it('Debería llamar a la función sign signInWithPopup y provider cuando son ejecutadas',
-  // async () => {
-  //   await iniciarSesionConGoogle('posadalcarolina@gmail.com');
-  // });
+  it('Deberia llamar a singInWithPopUp cuando es ejecutada', async () => {
+    await iniciarSesionConGoogle(GoogleAuthProvider);
+    expect(signInWithPopup).toHaveBeenCalled();
+  });
 });
-
+// -----------------------------------------------------------------------------------------------
 describe('crearPost', () => {
   it('Debería ser una función', () => {
     expect(typeof crearPost).toBe('function');
   });
 });
-
+// ----------------------------------------------------------------------------------------------
 describe('mostrarTodosLosPost', () => {
   it('Debería ser una función', () => {
     expect(typeof mostrarTodosLosPost).toBe('function');
   });
 });
-
+// ----------------------------------------------------------------------------------------------
 describe('toEdit', () => {
   it('Debería ser una función', () => {
     expect(typeof toEdit).toBe('function');
   });
 });
-
+// ----------------------------------------------------------------------------------------------
 describe('eliminarPost', () => {
   it('Debería ser una función', () => {
     expect(typeof eliminarPost).toBe('function');
   });
 });
-
+// ------------------------------------------------------------------------------------------------
 describe('toLike', () => {
   it('Debería ser una función', () => {
     expect(typeof toLike).toBe('function');
   });
-});
 
+  it('Debería llamar a updateDoc cuando es ejecutada', async () => {
+    // Crear una función mockc para auth.currentUser
+    const currentUserMock = jest.fn();
+    auth.currentUser = currentUserMock;
+    console.log(auth.currentUser);
+
+    await toLike('12345', 'newLike');
+    expect(updateDoc).toHaveBeenCalled();
+  });
+
+  it('debería llamar a arrayUnion', async () => {
+    const currentUserMock = jest.fn();
+    auth.currentUser = currentUserMock;
+
+    const arrayUnionMock = jest.fn();
+    arrayUnion.mockImplementationOnce(arrayUnionMock);
+
+    await toLike();
+    expect(arrayUnionMock).toHaveBeenCalled();
+  });
+});
+// ------------------------------------------------------------------------------------------------
 describe('toDislike', () => {
   it('Debería ser una función', () => {
     expect(typeof toDislike).toBe('function');

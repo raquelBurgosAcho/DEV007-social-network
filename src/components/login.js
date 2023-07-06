@@ -56,7 +56,7 @@ export const Login = (onNavigate) => {
       } else {
         await iniciarSesionConUsuarioYContraseña(inputCorreo.value, inputContraseña.value);
         onNavigate('/timeline');
-        alert(`¡ Hola ${inputCorreo.value} te has registrado con éxito!`);
+        alert(`¡ Hola ${inputCorreo.value} has iniciado sesión con éxito!`);
       }
     } catch (error) {
       if (error.code === 'auth/wrong-password') {

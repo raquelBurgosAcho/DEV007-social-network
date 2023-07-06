@@ -4,7 +4,6 @@ import {
   collection,
   deleteDoc,
   doc,
-  // getDocs,
   updateDoc,
   arrayUnion,
   arrayRemove,
@@ -16,16 +15,14 @@ import {
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth, db, provider } from '../firebase';
 
-export const crearUsuarioConCorreoYContraseña = async (email, contraseña) => {
-  await createUserWithEmailAndPassword(auth, email, contraseña);
-};
+// eslint-disable-next-line max-len
+export const crearUsuarioConCorreoYContraseña = (email, contraseña) => createUserWithEmailAndPassword(auth, email, contraseña);
 
-export const iniciarSesionConUsuarioYContraseña = async (email, contraseña) => {
-  await signInWithEmailAndPassword(auth, email, contraseña);
-};
+// eslint-disable-next-line max-len
+export const iniciarSesionConUsuarioYContraseña = async (email, contraseña) => signInWithEmailAndPassword(auth, email, contraseña);
 
-export const iniciarSesionConGoogle = () => {
-  signInWithPopup(auth, provider);
+export const iniciarSesionConGoogle = async () => {
+  await signInWithPopup(auth, provider);
 };
 
 export const crearPost = async (texto) => {
