@@ -78,7 +78,6 @@ export const Timeline = (onNavigate) => {
 
   // EVENTO BOTON PARA CREAR UNA PUBLICACION------------------------------------------------------
   newPost.addEventListener('click', async () => {
-    const user = auth.currentUser;
     const contenidoPost = textArea.value;
 
     if (contenidoPost === '') {

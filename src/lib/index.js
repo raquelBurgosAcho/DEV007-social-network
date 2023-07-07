@@ -13,19 +13,25 @@ import {
   orderBy,
 } from 'firebase/firestore';
 
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import { auth, db, provider } from '../firebase';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from 'firebase/auth';
+import { auth, db } from '../firebase';
 
-export const crearUsuarioConCorreoYContraseña = async (email, contraseña) => {
-  await createUserWithEmailAndPassword(auth, email, contraseña);
+export const crearUsuarioConCorreoYContraseña = (email, contraseña) => {
+  createUserWithEmailAndPassword(auth, email, contraseña);
 };
 
-export const iniciarSesionConUsuarioYContraseña = async (email, contraseña) => {
-  await signInWithEmailAndPassword(auth, email, contraseña);
+export const iniciarSesionConUsuarioYContraseña = (email, contraseña) => {
+  signInWithEmailAndPassword(auth, email, contraseña);
 };
 
-export const iniciarSesionConGoogle = () => {
-  signInWithPopup(auth, provider);
+export const iniciarSesionConGoogle = async () => {
+  const provider = new GoogleAuthProvider();
+  await signInWithPopup(auth, provider);
 };
 
 export const crearPost = async (texto) => {
