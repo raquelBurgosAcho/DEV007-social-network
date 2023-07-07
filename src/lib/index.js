@@ -13,8 +13,14 @@ import {
   orderBy,
 } from 'firebase/firestore';
 
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import { auth, db, provider } from '../firebase';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from 'firebase/auth';
+
+import { auth, db } from '../firebase';
 
 // eslint-disable-next-line max-len
 export const crearUsuarioConCorreoYContraseña = (email, contraseña) => createUserWithEmailAndPassword(auth, email, contraseña);
@@ -23,6 +29,7 @@ export const crearUsuarioConCorreoYContraseña = (email, contraseña) => createU
 export const iniciarSesionConUsuarioYContraseña = (email, contraseña) => signInWithEmailAndPassword(auth, email, contraseña);
 
 export const iniciarSesionConGoogle = async () => {
+  const provider = new GoogleAuthProvider();
   await signInWithPopup(auth, provider);
 };
 

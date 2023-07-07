@@ -19,7 +19,7 @@
   grid-template-rows: 5fr;
   justify-items: center;
   margin: 20px;
-  background-color: fuchsia;
+  /* background-color: fuchsia; */
 }
 
 .title-flora {
@@ -34,14 +34,14 @@
     text-align: center;
     font-size: 13px;
     grid-row-gap: 50px;
-    background-color: greenyellow;
+    /* background-color: greenyellow; */
 }
 
 .container-img-home {
     max-width: 110%;
     align-items: center;
     margin-bottom: 50px;
-    background-color: aqua;
+    /* background-color: aqua; */
 }
 
 .button-register {

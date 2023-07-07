@@ -1,7 +1,20 @@
 // funciones o métodos Firebase Firestore
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
-import { addDoc, collection } from 'firebase/firestore';
-import { db } from '../src/firebase';
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from 'firebase/auth';
+
+import {
+  addDoc,
+  collection,
+  updateDoc,
+  arrayUnion,
+} from 'firebase/firestore';
+
+import { db, auth } from '../src/firebase.js';
+
 // funciones index.js
 import {
   crearPost,
@@ -22,6 +35,16 @@ jest.mock('firebase/auth');
 //   collection: jest.fn(),
 // }));
 jest.mock('firebase/firestore');
+
+jest.mock('../src/firebase.js', () => ({
+  auth: {
+    currentUser: {
+    },
+
+    signInWithPopup: jest.fn(),
+    GoogleAuthProvider: jest.fn(),
+  },
+}));
 
 // -------- Función crear post -------- CAROLINA
 describe('crearPost', () => {
@@ -103,6 +126,14 @@ describe('iniciarSesionConGoogle', () => {
   it('Debería ser una función', () => {
     expect(typeof iniciarSesionConGoogle).toBe('function');
   });
+  it('debería llamar a la función signInWithPopup con el provider correcto', async () => {
+    const mockGoogleAuthProvider = new GoogleAuthProvider();
+    auth.GoogleAuthProvider.mockReturnValueOnce(mockGoogleAuthProvider);
+
+    await iniciarSesionConGoogle();
+
+    expect(signInWithPopup).toHaveBeenCalledWith(auth, mockGoogleAuthProvider);
+  });
 });
 
 // -------- Función crear post -------- CAROLINA
@@ -132,6 +163,26 @@ describe('eliminarPost', () => {
 describe('toLike', () => {
   it('Debería ser una función', () => {
     expect(typeof toLike).toBe('function');
+  });
+  it('Debería llamar a updateDoc cuando es ejecutada', async () => {
+    // Crear una función mockc para auth.currentUser
+    const currentUserMock = jest.fn();
+    auth.currentUser = currentUserMock;
+    console.log(auth.currentUser);
+
+    await toLike('12345', 'newLike');
+    expect(updateDoc).toHaveBeenCalled();
+  });
+
+  it('debería llamar a arrayUnion', async () => {
+    const currentUserMock = jest.fn();
+    auth.currentUser = currentUserMock;
+
+    const arrayUnionMock = jest.fn();
+    arrayUnion.mockImplementationOnce(arrayUnionMock);
+
+    await toLike();
+    expect(arrayUnionMock).toHaveBeenCalled();
   });
 });
 
