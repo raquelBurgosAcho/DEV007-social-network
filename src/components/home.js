@@ -17,8 +17,8 @@ export const Home = (onNavigate) => {
   titleFlora.setAttribute('class', 'title-flora');
   logoFlora.setAttribute('class', 'logo-flora');
   imgFlora.setAttribute('class', 'container-img-home');
-  buttonRegister.setAttribute('class', 'button');
-  buttonLogin.setAttribute('class', 'button');
+  buttonRegister.setAttribute('class', 'button-register');
+  buttonLogin.setAttribute('class', 'button-login');
 
   buttonRegister.addEventListener('click', () => onNavigate('/register'));
   buttonLogin.addEventListener('click', () => onNavigate('/login'));

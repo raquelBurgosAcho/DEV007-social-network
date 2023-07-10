@@ -13,23 +13,28 @@ import {
   orderBy,
 } from 'firebase/firestore';
 
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import { auth, db, provider } from '../firebase';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from 'firebase/auth';
 
-export const crearUsuarioConCorreoYContraseña = async (email, contraseña) => {
-  await createUserWithEmailAndPassword(auth, email, contraseña);
+import { auth, db } from '../firebase';
+
+// eslint-disable-next-line max-len
+export const crearUsuarioConCorreoYContraseña = (email, contraseña) => createUserWithEmailAndPassword(auth, email, contraseña);
+
+// eslint-disable-next-line max-len
+export const iniciarSesionConUsuarioYContraseña = (email, contraseña) => signInWithEmailAndPassword(auth, email, contraseña);
+
+export const iniciarSesionConGoogle = async () => {
+  const provider = new GoogleAuthProvider();
+  await signInWithPopup(auth, provider);
 };
 
-export const iniciarSesionConUsuarioYContraseña = async (email, contraseña) => {
-  await signInWithEmailAndPassword(auth, email, contraseña);
-};
-
-export const iniciarSesionConGoogle = () => {
-  signInWithPopup(auth, provider);
-};
-
-export const crearPost = async (texto) => {
-  await addDoc(collection(db, 'posts'), {
+export const crearPost = (texto) => {
+  addDoc(collection(db, 'posts'), {
     contenido: texto,
     likes: [],
     usuario: auth.currentUser.email,
