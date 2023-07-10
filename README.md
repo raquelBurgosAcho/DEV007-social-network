@@ -11,6 +11,8 @@ Flora es una red social pensada para los aficionados de la jardinería, que dese
 
 Esta aplicación permite a cualquier usuario crear una cuenta e iniciar sesión con correo y contraseña o vinculando su cuenta de Google, como también publicar un texto, editarlo después de publicado, eliminarlo y “likear” publicaciones de otros usuarios.
 
+https://flora-social-network.web.app/
+
 ## 2. Historias de usuario
 ### Historia de usuario 1
 Yo, como usuario, quiero registrar una cuenta con mi correo electrónico y una contraseña o tener la opción de registrarme con mi cuenta de Google.
