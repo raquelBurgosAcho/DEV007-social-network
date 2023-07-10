@@ -1,3 +1,84 @@
+# Red social: Flora
+
+## Índice
+
+* [1. Descripción del proyecto](#1-descripción-del-proyecto)
+* [2. Historias de usuario](#2-historias-de-usuario)
+* [3. Prototipo](#3-prototipo)
+
+## 1. Descripción del proyecto
+Flora es una red social pensada para los aficionados de la jardinería, que desean compartir su experiencia en el cultivo y cuidado de las plantas y a su vez aprender de la experiencia de los demás. 
+
+Esta aplicación permite a cualquier usuario crear una cuenta e iniciar sesión con correo y contraseña o vinculando su cuenta de Google, como también publicar un texto, editarlo después de publicado, eliminarlo y “likear” publicaciones de otros usuarios.
+
+## 2. Historias de usuario
+### Historia de usuario 1
+Yo, como usuario, quiero registrar una cuenta con mi correo electrónico y una contraseña o tener la opción de registrarme con mi cuenta de Google.
+
+**Criterios de aceptación**
+- [ ] Quiero tener la opción de registrarme con mi correo electrónico.
+- [ ] Quiero tener la opción de registrarme con mi cuenta de google.
+
+**Definición de terminado**
+- [ ] Solamente se permite el acceso a usuarios con cuentas válidas.
+- [ ] No pueden haber usuarios repetidos.
+- [ ] La cuenta de usuario debe ser un correo electrónico válido.
+- [ ] Lo que se escriba en el campo (input) de contraseña debe ser secreto.
+- [ ] Al enviarse el formulario de registro o inicio de sesión, debe validarse.
+- [ ] Si hay errores, se deben mostrar mensajes descriptivos para ayudar al usuario a corregirlo.
+
+### Historia de usuario 2
+Yo, como usuario, quiero postear un mensaje.
+
+**Criterios de aceptación**
+- [ ] Quiero publicar un post de tipo texto.
+- [ ] Quiero cerrar sesión desde el muro.
+- [ ] Quiero ver los posts en orden de fecha de publicación.
+
+**Definición de terminado**
+- [ ] Poder publicar un post.
+- [ ] Crear una ruta de registro al timeline/muro
+- [ ] Ver posts ordenados por fecha de publicación.
+- [ ] Usar el valor de la propiedad "email" para identificar la publicación de cada usuario.
+- [ ] Mostrar despliegue de posts después de volver a iniciar sesión.
+- [ ] Al publicar, se debe validar que exista contenido en el input/textarea.
+
+### Historia de usuario 3
+Yo, como usuario, quiero editar y eliminar mi post.
+
+**Criterios de aceptación**
+- [ ] Quiero eliminar y editar un post que yo haya publicado.
+
+**Definición de terminado**
+- [ ] Poder eliminar solo el post del usuario.
+- [ ] Poder editar solo el post del usuario.
+- [ ] Al dar *click* para editar un *post*, debe cambiar el texto por un *input* que permita editar el texto y luego guardar los cambios.
+- [ ] Al guardar los cambios debe cambiar de vuelta a un texto normal pero con la información editada.
+- [ ] Al recargar la página debo de pode ver los textos editados.
+
+### Historia de usuario 4
+Yo, como usuario, quiero dar y quitar like a publicaciones de otros usuarios.
+
+**Criterios de aceptación**
+- [ ] Quiero poder dar like a los posts de los demás usuarios.
+      
+**Definición de terminado**
+- [ ] Poder dar y quitar *like* a una publicación. Máximo uno por usuario
+- [ ] Que el botón like cambie cuando se dé click. (Pasar de corazón vacío a corazón pintado)
+
+### Historia de usuario 5
+Yo, como usuario, quiero ver el conteo de likes de una publicación
+
+**Criterios de aceptación**
+- [ ] Quiero ver un conteo de los *likes* por cada publicación. 
+
+**Definición de terminado**
+- [ ] Visualizar el conteo de los likes en cada publicación.
+
+## 3. Prototipo
+![prototipo](https://github.com/raquelBurgosAcho/DEV007-social-network/assets/128743743/502f68d2-4b69-49db-8158-be95ff7eaddd)
+
+
 # Creando una Red Social
 
 ## Índice
